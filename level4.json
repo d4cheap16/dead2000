@@ -8,14 +8,22 @@
     "word_selection_rules": {
       "source": "教育部國中參考字彙表 (2000字)",
       "filter_logic": "Speech-First Strategy",
-      "exclude": ["Simple CVC words", "Words easily confused with common short words"],
-      "include": ["Words with suffixes (-tion, -ment, -ful, -less, -able)", "Compound words", "3-5 syllable words"]
+      "exclude": [
+        "Simple CVC words",
+        "Words easily confused with common short words",
+        "Pure numbers (e.g., two, one hundred) - STT often converts these to digits (2, 100) causing match failures"
+      ],
+      "include": [
+        "Words with suffixes (-tion, -ment, -ful, -less, -able)",
+        "Compound words",
+        "3-5 syllable words"
+      ]
     },
     "sentence_writing_rules": {
       "difficulty": "CEFR B1",
       "style": "Compound & Complex Sentences (If/When/Because/Although)",
       "formatting": "Sentence Case (Sentences MUST start with a Capital Letter)",
-      "note": "Sentences should require sustained pronunciation flow (10-15 words)."
+      "note": "Sentences should require sustained pronunciation flow (10-15 words) without inducing digit output."
     }
   },
   "L1": {
@@ -141,7 +149,7 @@
         "It is important to recycle paper and plastic bottles",
         "She practiced playing the piano for the big concert",
         "The postman delivered a heavy package to my house",
-        "They arrived at the airport two hours before the flight",
+        "They arrived at the airport several hours before the flight",
         "We should try to avoid making the same mistake again",
         "The doctor examined the patient carefully in the clinic",
         "He invented a machine that can clean the floor automatically"
@@ -160,17 +168,17 @@
       ],
       "2": [
         "Draw a circle and a square on the piece of paper",
-        "The distance between the two cities is one hundred kilometers",
-        "A triangle has three sides and three angles",
+        "The distance between the cities is many kilometers",
+        "A triangle is a shape with sharp angles",
         "Please measure the length of the table in centimeters",
-        "The total cost of the meal was five hundred dollars",
+        "The total cost of the meal was very expensive",
         "He ate a quarter of the pizza for lunch",
-        "The maximum speed on this highway is one hundred",
+        "Drivers must not go over the maximum speed limit",
         "What is the average temperature in summer here",
         "She bought a dozen eggs from the supermarket",
         "The shape of the window is a large rectangle",
-        "My weight has increased by two kilograms this month",
-        "Five plus three equals eight and ten minus two is eight"
+        "My weight has increased by a few kilograms this month",
+        "Use a plus sign to add the numbers together"
       ]
     }
   },
@@ -186,7 +194,7 @@
       ],
       "2": [
         "Please show your passport before you get on the plane",
-        "The train will arrive at platform number three shortly",
+        "The train will arrive at the correct platform shortly",
         "Many passengers are waiting for the bus at the station",
         "We visited an ancient temple in the mountains yesterday",
         "My luggage is too heavy for me to carry alone",
