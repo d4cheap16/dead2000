@@ -1,0 +1,229 @@
+{
+  "_design_notes": {
+    "project_name": "Dead Don't Talk (Junior High 2000 Words Ver.)",
+    "target_audience": "台灣國中生 (CEFR A1-A2+)",
+    "core_mechanism": "Voice Recognition (Speech-to-Text)",
+    "level": 2,
+    "difficulty_focus": "Multi-syllable words (3+ syllables), Adverbs, Emotions, Jobs",
+    "word_selection_rules": {
+      "source": "教育部國中參考字彙表 (2000字)",
+      "filter_logic": "Speech-First Strategy",
+      "exclude": [
+        "Monosyllabic verbs (e.g., run, sit)",
+        "Simple adjectives (e.g., hot, big)"
+      ],
+      "include": [
+        "Compound words (e.g., motorcycle)",
+        "Words with specific stress (e.g., delicious)",
+        "Adverbs of frequency"
+      ]
+    },
+    "sentence_writing_rules": {
+      "difficulty": "CEFR A2",
+      "style": "Contextual & Descriptive",
+      "formatting": "Sentence Case (Sentences MUST start with a Capital Letter)",
+      "note": "Ensure sentences are natural to speak and contain target vocabulary."
+    }
+  },
+  "L1": {
+    "title": "City & Transport",
+    "stages": {
+      "1": [
+        "traffic", "station", "subway", "scooter", "motorcycle", "bicycle", "airplane", "helicopter",
+        "ambulance", "apartment", "department", "sidewalk", "market", "bridge", "tunnel",
+        "address", "capital", "corner", "block", "straight", "north", "south", "east", "west",
+        "convenient", "crowded", "modern", "public", "central", "local"
+      ],
+      "2": [
+        "The ambulance is driving very fast down the street",
+        "It is convenient to take the subway in the city",
+        "Please wait for the traffic light to turn green",
+        "My apartment is near a big department store",
+        "Riding a motorcycle without a helmet is dangerous",
+        "The capital city is always crowded with people",
+        "Turn left at the corner and go straight",
+        "We crossed the bridge to get to the other side",
+        "Public transportation saves us a lot of money",
+        "The helicopter landed on top of the building",
+        "Walk on the sidewalk to stay safe from cars",
+        "Write your home address on this envelope"
+      ]
+    }
+  },
+  "L2": {
+    "title": "Jobs & Roles",
+    "stages": {
+      "1": [
+        "police", "officer", "soldier", "lawyer", "dentist", "scientist", "engineer", "secretary",
+        "waiter", "waitress", "actor", "actress", "artist", "musician", "reporter",
+        "postman", "mailman", "fisherman", "business", "manager", "boss", "leader", "captain",
+        "president", "servant", "customer", "partner", "assistant", "housewife", "soldier"
+      ],
+      "2": [
+        "The police officer is directing the traffic",
+        "My father is an engineer in a computer company",
+        "The dentist told me to brush my teeth often",
+        "She wants to be a famous actress in the future",
+        "The reporter is asking questions about the news",
+        "A good leader listens to other people's ideas",
+        "The waiter brought us the menu and some water",
+        "Scientists are trying to solve the problem",
+        "He works as a manager in a large hotel",
+        "The soldier is fighting to protect the country",
+        "Musicians practice playing instruments every day",
+        "Customers are waiting in line to buy tickets"
+      ]
+    }
+  },
+  "L3": {
+    "title": "Feelings & Traits",
+    "stages": {
+      "1": [
+        "happy", "unhappy", "angry", "lonely", "nervous", "excited", "scared", "afraid",
+        "bored", "boring", "proud", "shy", "polite", "impolite", "honest", "dishonest",
+        "friendly", "serious", "lazy", "diligent", "stupid", "smart", "clever", "wise",
+        "active", "brave", "funny", "lovely", "lucky", "careless"
+      ],
+      "2": [
+        "She was very nervous before the big test",
+        "It is polite to say thank you to others",
+        "He felt lonely because his friends were not there",
+        "We are so excited about the school trip",
+        "Be honest and do not tell lies to anyone",
+        "The story was boring so I fell asleep",
+        "My parents are proud of my good grades",
+        "Do not be afraid to make mistakes when learning",
+        "A lazy student will not get good results",
+        "He is a serious person who works very hard",
+        "It was careless of you to lose your wallet",
+        "Everyone likes him because he is friendly"
+      ]
+    }
+  },
+  "L4": {
+    "title": "Action & Movement",
+    "stages": {
+      "1": [
+        "practice", "collect", "borrow", "decide", "invite", "prepare", "repeat", "remember",
+        "understand", "finish", "happen", "believe", "follow", "create", "design",
+        "enjoy", "worry", "change", "check", "clean", "climb", "count", "cover",
+        "cross", "enter", "visit", "travel", "control", "attack", "protect"
+      ],
+      "2": [
+        "Please remember to bring your homework tomorrow",
+        "I do not understand the meaning of this word",
+        "We decided to visit our grandmother this weekend",
+        "Can you repeat the question one more time",
+        "He collects stamps from many different countries",
+        "Prepare your bags before we go on the trip",
+        "I believe that we can finish the work today",
+        "Follow the rules and listen to your teacher",
+        "What happened to your leg yesterday morning",
+        "She invited all her friends to the party",
+        "We practice playing basketball after school",
+        "Enjoy your meal and have a good time"
+      ]
+    }
+  },
+  "L5": {
+    "title": "Clothing & Style",
+    "stages": {
+      "1": [
+        "umbrella", "sweater", "jacket", "trousers", "pajamas", "shorts", "uniform",
+        "slipper", "sneaker", "handkerchief", "necklace", "earring", "bracelet", "glasses",
+        "pocket", "button", "zipper", "cotton", "leather", "plastic", "glove", "scarf",
+        "fashion", "style", "wear", "match", "size", "medium", "large"
+      ],
+      "2": [
+        "She wore a beautiful necklace to the party",
+        "Put on your sweater because it is cold outside",
+        "Do not forget your umbrella on a rainy day",
+        "He keeps his wallet in his back pocket",
+        "Students must wear a clean uniform to school",
+        "I need to buy a pair of new sneakers",
+        "This jacket is too large for me to wear",
+        "Where did you buy those colorful earrings",
+        "Please use a handkerchief to wipe your face",
+        "These trousers are made of soft cotton",
+        "Wearing pajamas is very comfortable at home",
+        "Button up your coat before you go out"
+      ]
+    }
+  },
+  "L6": {
+    "title": "Sports & Hobbies",
+    "stages": {
+      "1": [
+        "basketball", "baseball", "badminton", "tennis", "soccer", "volleyball", "dodgeball",
+        "picnic", "camping", "hiking", "fishing", "shopping", "swimming", "dancing",
+        "guitar", "piano", "violin", "flute", "drum", "trumpet", "music", "movie",
+        "cartoon", "hobby", "game", "toy", "doll", "robot", "puzzle"
+      ],
+      "2": [
+        "Playing basketball is a good way to exercise",
+        "We are going camping in the mountains tomorrow",
+        "My hobby is playing the guitar and singing",
+        "Watching cartoons is fun for young children",
+        "They played a game of soccer after school",
+        "She practices the piano for two hours daily",
+        "Let us go for a picnic in the park",
+        "He is very good at playing tennis",
+        "Hiking is a healthy activity for everyone",
+        "I like listening to music when I study",
+        "Do you want to see a movie this weekend",
+        "Badminton is a popular sport in our school"
+      ]
+    }
+  },
+  "L7": {
+    "title": "Time & Frequency",
+    "stages": {
+      "1": [
+        "usually", "sometimes", "seldom", "never", "always", "often", "already",
+        "finally", "recently", "during", "period", "calendar", "future", "past",
+        "present", "century", "moment", "while", "until", "since", "once", "twice",
+        "january", "february", "march", "april", "may", "june",
+        "july", "august", "september", "october", "november", "december"
+      ],
+      "2": [
+        "I usually wake up at six in the morning",
+        "We sometimes go to the movies on Sundays",
+        "He has never been to a foreign country",
+        "Please wait for a moment while I check",
+        "She has already finished her homework today",
+        "Finally we arrived at the beautiful beach",
+        "During the summer vacation we went swimming",
+        "February is usually the shortest month of the year",
+        "I have lived here since I was born",
+        "We practice playing the piano twice a week",
+        "In the future robots might do all the work",
+        "Seldom do we see snow in this city"
+      ]
+    }
+  },
+  "L8": {
+    "title": "Level 2 Challenge",
+    "stages": {
+      "1": [
+        "experience", "knowledge", "attention", "position", "question", "example",
+        "language", "sentence", "history", "geography", "science", "biology", "chemistry",
+        "computer", "internet", "machine", "robot", "energy", "power", "system",
+        "program", "festival", "holiday", "vacation", "celebration", "invitation"
+      ],
+      "2": [
+        "Learning a foreign language takes a lot of time",
+        "Please pay attention to what the teacher says",
+        "History teaches us about the past events",
+        "Science helps us understand how the world works",
+        "Can you give me an example of this word",
+        "Using the internet is convenient for finding information",
+        "We had a wonderful celebration for his birthday",
+        "Knowledge is power so keep learning every day",
+        "She has a lot of experience in teaching",
+        "The computer system is working very well today",
+        "Write a complete sentence using the new word",
+        "Geography is the study of places and people"
+      ]
+    }
+  }
+}
