@@ -954,7 +954,7 @@
 
     function initUI() {
         document.getElementById('book-grid').innerHTML = [1,2,3,4,5].map(i => 
-            `<button onclick="selectBook(${i})" class="btn book-btn ${i===1?'book-active':''}" id="b${i}">${['I','II','III','IV','V'][i-1]}</button>`).join('');
+            `<button onclick="selectBook(${i})" class="btn book-btn ${i===1?'book-active':''}" id="b${i}">LV ${i}</button>`).join('');
         
         loadBookData(1);
         
@@ -998,12 +998,12 @@
         selectedBook = n;
         try {
             const timestamp = new Date().getTime();
-            const res = await fetch(`book${n}.json?t=${timestamp}`);
+            const res = await fetch(`level${n}.json?t=${timestamp}`);
             
             if (!res.ok) throw new Error("File not found");
             
             currentBookData = await res.json();
-            console.log(`Loaded Book ${n} successfully`);
+            console.log(`Loaded Level ${n} successfully`);
             
             refreshLessonGrid();
             checkMissionValid();
@@ -1029,7 +1029,7 @@
 
         try {
             const { db, appId, collection, getDocs } = window.fbase;
-            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores'));
+            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores_2K'));
             let records = [];
             snap.forEach(d => {
                 const data = d.data();
@@ -1124,7 +1124,7 @@
         
         try {
             const { db, appId, collection, getDocs } = window.fbase;
-            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores'));
+            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores_2K'));
             let res = []; 
             snap.forEach(d => {
                 const data = d.data();
@@ -1241,8 +1241,8 @@
         }
         const { db, appId, collection, getDocs, deleteDoc, doc } = window.fbase;
         try {
-            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores'));
-            for(let d of snap.docs) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores', d.id));
+            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores_2K'));
+            for(let d of snap.docs) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores_2K', d.id));
             clearConfirm = false; showAdmin();
         } catch (e) { btn.innerText = "ERROR"; }
     };
@@ -1981,7 +1981,7 @@
         try {
             const { db, appId, setDoc, doc, serverTimestamp } = window.fbase;
             const rid = `${state.player.class}_${state.player.no}_${Date.now()}`;
-            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores', rid), {
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores_2K', rid), {
                 ...state.player, score: Math.floor(state.score), difficulty: state.difficultyMode, book: selectedBook, lesson: selectedLesson, timestamp: serverTimestamp()
             });
         } catch(e){}
@@ -1996,7 +1996,7 @@
         if (currentBookData && currentBookData[`L${selectedLesson}`]) { title = currentBookData[`L${selectedLesson}`].title; }
         el.innerHTML = `
             <div class="grid grid-cols-[35%_65%] gap-1 text-[9px] uppercase tracking-wider font-bold text-left">
-                <div class="text-zinc-500">MISSION</div><div class="text-blue-400">Book ${selectedBook} - ${title}</div>
+                <div class="text-zinc-500">MISSION</div><div class="text-blue-400">LEVEL ${selectedBook} - ${title}</div>
                 <div class="text-zinc-500">LEVEL</div><div class="text-red-400">${state.difficultyMode}</div>
                 <div class="text-zinc-500">UNIT</div><div class="text-white">${state.player.class}</div>
                 <div class="text-zinc-500">AGENT</div><div class="text-white">${state.player.no}. ${state.player.name}</div>
