@@ -1,1 +1,229 @@
-
+{
+  "_design_notes": {
+    "project_name": "Dead Don't Talk (Junior High 2000 Words Ver.)",
+    "target_audience": "台灣國中生 (CEFR B1)",
+    "core_mechanism": "Voice Recognition (Speech-to-Text)",
+    "level": 4,
+    "difficulty_focus": "Complex Adjectives, Advanced Verbs, Abstract Nouns (-tion/-ment)",
+    "word_selection_rules": {
+      "source": "教育部國中參考字彙表 (2000字)",
+      "filter_logic": "Speech-First Strategy",
+      "exclude": ["Simple CVC words", "Words easily confused with common short words"],
+      "include": ["Words with suffixes (-tion, -ment, -ful, -less, -able)", "Compound words", "3-5 syllable words"]
+    },
+    "sentence_writing_rules": {
+      "difficulty": "CEFR B1",
+      "style": "Compound & Complex Sentences (If/When/Because/Although)",
+      "formatting": "Sentence Case (Sentences MUST start with a Capital Letter)",
+      "note": "Sentences should require sustained pronunciation flow (10-15 words)."
+    }
+  },
+  "L1": {
+    "title": "Roles & Careers",
+    "stages": {
+      "1": [
+        "president", "principal", "professor", "secretary", "assistant", "manager",
+        "engineer", "officer", "soldier", "musician", "magician", "fisherman",
+        "businessman", "salesman", "mailman", "waiter", "waitress", "police",
+        "lawyer", "dentist", "scientist", "artist", "reporter", "writer",
+        "servant", "master", "leader", "partner", "member", "neighbor"
+      ],
+      "2": [
+        "The president is giving a speech to the whole nation",
+        "Our principal announced the new school rules this morning",
+        "She works as a secretary in a large international company",
+        "The scientist is doing an important experiment in the lab",
+        "Musicians practice playing their instruments for many hours",
+        "My brother wants to be a successful businessman in the future",
+        "The police officer helped the old lady cross the street",
+        "A good manager must listen to the opinions of the staff",
+        "The waiter served us delicious food at the restaurant",
+        "Soldiers are trained to protect their country from danger",
+        "He is a famous writer who has written many popular books",
+        "The assistant helped the professor prepare for the class"
+      ]
+    }
+  },
+  "L2": {
+    "title": "Traits & Personality",
+    "stages": {
+      "1": [
+        "diligent", "generous", "energetic", "humorous", "talkative", "confident",
+        "intelligent", "independent", "responsible", "considerate", "polite",
+        "impolite", "dishonest", "careless", "selfish", "greedy", "humble",
+        "gentle", "cruel", "foolish", "childish", "active", "brave", "lovely",
+        "successful", "skillful", "useful", "fearful", "helpful", "careful"
+      ],
+      "2": [
+        "If you want to be successful you must be very diligent",
+        "It is impolite to talk loudly in the library",
+        "He is a humorous person who always makes us laugh",
+        "She is confident that she will pass the exam",
+        "A responsible student always finishes homework on time",
+        "Do not be selfish and learn to share with others",
+        "It was careless of you to lose your wallet again",
+        "We should be considerate of other people's feelings",
+        "The brave soldier saved the child from the burning house",
+        "He is intelligent enough to solve this difficult problem",
+        "Being honest is more important than getting a high score",
+        "She is an energetic girl who loves to play sports"
+      ]
+    }
+  },
+  "L3": {
+    "title": "House & Living",
+    "stages": {
+      "1": [
+        "furniture", "refrigerator", "microwave", "apartment", "balcony", "ceiling",
+        "curtain", "blanket", "pillow", "towel", "toothbrush", "toothpaste",
+        "shampoo", "envelope", "calendar", "machine", "camera", "telephone",
+        "computer", "radio", "television", "heater", "faucet", "cupboard",
+        "drawer", "closet", "mirror", "basket", "bucket", "candle"
+      ],
+      "2": [
+        "Please put the milk back in the refrigerator immediately",
+        "I need to buy some new furniture for my apartment",
+        "She is standing on the balcony watching the sunset",
+        "Remember to brush your teeth with toothpaste every day",
+        "The microwave is very convenient for heating up food",
+        "He hung a beautiful painting on the wall near the ceiling",
+        "It is cold tonight so please give me an extra blanket",
+        "Check the calendar to see when the holiday starts",
+        "She washed her hair with a new bottle of shampoo",
+        "The computer on the desk is used for doing homework",
+        "Please put the dirty clothes in the laundry basket",
+        "Turn off the faucet tightly to save precious water"
+      ]
+    }
+  },
+  "L4": {
+    "title": "Social Verbs",
+    "stages": {
+      "1": [
+        "appreciate", "apologize", "celebrate", "congratulate", "encourage",
+        "experience", "introduce", "invite", "recognize", "remember",
+        "understand", "volunteer", "welcome", "suggest", "advise", "agree",
+        "refuse", "accept", "promise", "expect", "imagine", "believe",
+        "bother", "disturb", "interrupt", "respect", "admire", "envy"
+      ],
+      "2": [
+        "I appreciate your help with my difficult math homework",
+        "He apologized to the teacher for being late to class",
+        "We are going to celebrate his birthday this weekend",
+        "Let me introduce my best friend to you all",
+        "I encourage you to try your best in the competition",
+        "She invited all her classmates to the graduation party",
+        "Do you recognize the man standing over there",
+        "Please remember to bring your passport when you travel",
+        "I promise that I will finish the work by tomorrow",
+        "We should respect older people and be polite to them",
+        "He refused to accept the money from the stranger",
+        "I cannot imagine living in a world without internet"
+      ]
+    }
+  },
+  "L5": {
+    "title": "Action Verbs",
+    "stages": {
+      "1": [
+        "broadcast", "collect", "decorate", "deliver", "develop", "discover",
+        "discuss", "examine", "improve", "invent", "pollute", "protect",
+        "recycle", "repair", "repeat", "review", "revise", "receive",
+        "produce", "provide", "prepare", "practice", "perform", "prefer",
+        "arrange", "arrive", "attack", "attend", "avoid", "achieve"
+      ],
+      "2": [
+        "They decorated the room with colorful balloons and flowers",
+        "The scientist discovered a new species of rare bird",
+        "We need to discuss the plan for the school trip",
+        "Reading English books can improve your reading skills",
+        "The factory pollutes the river with dangerous chemicals",
+        "It is important to recycle paper and plastic bottles",
+        "She practiced playing the piano for the big concert",
+        "The postman delivered a heavy package to my house",
+        "They arrived at the airport two hours before the flight",
+        "We should try to avoid making the same mistake again",
+        "The doctor examined the patient carefully in the clinic",
+        "He invented a machine that can clean the floor automatically"
+      ]
+    }
+  },
+  "L6": {
+    "title": "Math & Shapes",
+    "stages": {
+      "1": [
+        "centimeter", "kilogram", "kilometer", "quarter", "triangle", "rectangle",
+        "circle", "square", "diamond", "minus", "plus", "total",
+        "average", "maximum", "minimum", "degree", "dozen", "couple",
+        "amount", "number", "figure", "height", "weight", "width",
+        "length", "distance", "volume", "center", "corner", "angle"
+      ],
+      "2": [
+        "Draw a circle and a square on the piece of paper",
+        "The distance between the two cities is one hundred kilometers",
+        "A triangle has three sides and three angles",
+        "Please measure the length of the table in centimeters",
+        "The total cost of the meal was five hundred dollars",
+        "He ate a quarter of the pizza for lunch",
+        "The maximum speed on this highway is one hundred",
+        "What is the average temperature in summer here",
+        "She bought a dozen eggs from the supermarket",
+        "The shape of the window is a large rectangle",
+        "My weight has increased by two kilograms this month",
+        "Five plus three equals eight and ten minus two is eight"
+      ]
+    }
+  },
+  "L7": {
+    "title": "Travel & Places",
+    "stages": {
+      "1": [
+        "airport", "station", "platform", "passenger", "luggage", "passport",
+        "museum", "temple", "church", "hospital", "restaurant", "department",
+        "university", "theater", "stadium", "factory", "bakery", "cafeteria",
+        "capital", "village", "market", "bridge", "tunnel", "subway",
+        "hotel", "motel", "palace", "castle", "tower", "harbor"
+      ],
+      "2": [
+        "Please show your passport before you get on the plane",
+        "The train will arrive at platform number three shortly",
+        "Many passengers are waiting for the bus at the station",
+        "We visited an ancient temple in the mountains yesterday",
+        "My luggage is too heavy for me to carry alone",
+        "The capital city is famous for its beautiful museums",
+        "They are building a new bridge across the river",
+        "We stayed in a comfortable hotel near the beach",
+        "The university has a very large library for students",
+        "Let us go to the department store to buy some clothes",
+        "The subway is the most convenient way to travel here",
+        "He works in a large factory outside the city"
+      ]
+    }
+  },
+  "L8": {
+    "title": "Level 4 Challenge",
+    "stages": {
+      "1": [
+        "education", "information", "situation", "population", "tradition",
+        "competition", "conversation", "discussion", "preparation", "introduction",
+        "invitation", "celebration", "operation", "position", "direction",
+        "attention", "decision", "relation", "vacation", "action",
+        "question", "mention", "nation", "station", "section", "portion"
+      ],
+      "2": [
+        "Education is very important for the future of the country",
+        "Can you give me some information about the tour",
+        "The population of the city has increased very fast",
+        "We had a serious discussion about our future plans",
+        "She received an invitation to the wedding ceremony",
+        "Please pay attention to what the teacher is saying",
+        "Making a decision is sometimes very difficult to do",
+        "They are making preparations for the big festival",
+        "The competition will take place at the national stadium",
+        "He gave a brief introduction about himself to the class",
+        "It is a tradition to eat mooncakes during the festival",
+        "The situation is becoming more dangerous every day"
+      ]
+    }
+  }
+}
