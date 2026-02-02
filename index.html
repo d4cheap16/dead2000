@@ -189,6 +189,18 @@
             box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
         }
 
+        /* ★★★ Special Style for Unit 9 (Final Exam) ★★★ */
+        .lesson-final {
+            border-color: #b45309 !important; /* Dark Amber */
+            color: #fbbf24 !important; /* Amber-400 */
+        }
+        .lesson-final.lesson-active {
+            background-color: #f59e0b !important; /* Amber-500 */
+            color: #000 !important;
+            border-color: #fbbf24 !important;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+        }
+
         /* Boss UI 基礎樣式 - 手機版改到上方 */
         #boss-ui {
             position: absolute; 
@@ -983,10 +995,21 @@
     function refreshLessonGrid() {
         const grid = document.getElementById('lesson-grid');
         grid.innerHTML = [1,2,3,4,5,6,7,8,9].map(i => {
-            const hasData = currentBookData && currentBookData[`L${i}`];
+            let hasData = currentBookData && currentBookData[`L${i}`];
+            
+            // Unit 9 logic: available if book has content
+            if (i === 9 && currentBookData && Object.keys(currentBookData).length > 0) {
+                hasData = true;
+            }
+
             const activeClass = i === selectedLesson ? 'lesson-active' : '';
             const emptyClass = !hasData ? 'btn-empty' : '';
-            return `<button onclick="selectLesson(${i})" class="btn lesson-btn ${activeClass} ${emptyClass}" id="l${i}">${i}</button>`;
+            
+            // Special styling for Unit 9
+            const finalClass = i === 9 ? 'lesson-final' : '';
+            const btnText = i === 9 ? "ALL" : i;
+
+            return `<button onclick="selectLesson(${i})" class="btn lesson-btn ${finalClass} ${activeClass} ${emptyClass}" id="l${i}">${btnText}</button>`;
         }).join('');
     }
 
@@ -1045,6 +1068,34 @@
     window.selectLesson = (n) => {
         if (!currentBookData) return;
         
+        // --- AUTO-GENERATE UNIT 9 ---
+        if (n === 9) {
+            let allWords = [];
+            let allSentences = [];
+            
+            for (let i = 1; i <= 8; i++) {
+                if (currentBookData[`L${i}`] && currentBookData[`L${i}`].stages) {
+                    if (currentBookData[`L${i}`].stages["1"]) {
+                        allWords = allWords.concat(currentBookData[`L${i}`].stages["1"]);
+                    }
+                    if (currentBookData[`L${i}`].stages["2"]) {
+                        allSentences = allSentences.concat(currentBookData[`L${i}`].stages["2"]);
+                    }
+                }
+            }
+
+            if (allWords.length > 0) {
+                currentBookData[`L9`] = {
+                    title: "SECTOR FINAL EXAM",
+                    stages: {
+                        "1": allWords,
+                        "2": allSentences
+                    }
+                };
+            }
+        }
+        // -----------------------------
+
         const data = currentBookData[`L${n}`];
         const targetDisplay = document.getElementById('mission-target-display');
         
@@ -1053,11 +1104,13 @@
             targetDisplay.classList.remove('text-green-400');
             targetDisplay.classList.add('text-red-500');
             document.getElementById('leaderboard-preview').classList.add('hidden');
+            document.getElementById('confirm-mission-btn').disabled = true;
             return;
         }
         selectedLesson = n;
         document.querySelectorAll('.lesson-btn').forEach(b => b.classList.remove('lesson-active'));
         document.getElementById(`l${n}`).classList.add('lesson-active');
+        
         checkMissionValid();
         fetchLessonRankings(n);
     };
