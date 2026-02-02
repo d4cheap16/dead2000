@@ -1,0 +1,248 @@
+{
+  "_design_notes": {
+    "project_name": "Dead Don't Talk (Junior High 2000 Words Ver.)",
+    "target_audience": "台灣國中生 (CEFR A1-A2+)",
+    "core_mechanism": "Voice Recognition (Speech-to-Text)",
+    "level_structure": {
+      "total_levels": 5,
+      "units_per_level": 8,
+      "unit_structure": "Units 1-7: Thematic Topics, Unit 8: Level Challenge (Boss Rush)"
+    },
+    "word_selection_rules": {
+      "source": "教育部國中參考字彙表 (2000字)",
+      "filter_logic": "Speech-First Strategy (語音優先策略)",
+      "exclude": [
+        "單音節且易混淆字 (e.g., pen, bus, cat, one, two)",
+        "發音特徵不明顯的短字 (e.g., at, it, of, in)",
+        "同音異義字干擾強的字 (e.g., meat/meet, see/sea)"
+      ],
+      "include": [
+        "多音節單字 (e.g., eleven, beautiful, tomato)",
+        "發音響亮、清晰的雙音節字 (e.g., shoulder, tiger, market)",
+        "長度較長但結構簡單的字 (e.g., afternoon, basketball)"
+      ],
+      "difficulty_progression": "Level 越高，單字音節越長、重音變化越複雜、詞意越抽象。"
+    },
+    "sentence_writing_rules": {
+      "difficulty": "CEFR A2 ~ B1",
+      "style": "Contextual & Descriptive (具體情境描述)",
+      "avoid": [
+        "過於簡單的 S+V+O (e.g., I like apples.)",
+        "無意義的文法例句"
+      ],
+      "encourage": [
+        "使用連接詞 (because, but, so, while)",
+        "加入時間/地點/頻率副詞 (in the morning, usually, carefully)",
+        "使用複合句或修飾子句 (that...)",
+        "長度控制在 8 ~ 15 個單字，適合一口氣唸完的節奏"
+      ]
+    }
+  },
+  "L1": {
+    "title": "Clear Numbers & Time",
+    "stages": {
+      "1": [
+        "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen",
+        "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety",
+        "hundred", "thousand", "zero", "minus",
+        "morning", "afternoon", "evening", "tonight", "yesterday", "tomorrow", "weekend",
+        "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday",
+        "calendar", "minute", "season", "winter", "summer"
+      ],
+      "2": [
+        "there are seven days in a week",
+        "i wake up early in the morning",
+        "please wait for fifteen minutes",
+        "tomorrow will be a sunny day",
+        "we usually rest on the weekend",
+        "can you count from one to one hundred",
+        "let us meet on friday evening",
+        "summer is hot and winter is cold",
+        "check the calendar for the date",
+        "he has twenty dollars in his pocket",
+        "yesterday was my birthday party",
+        "it is eleven o'clock right now"
+      ]
+    }
+  },
+  "L2": {
+    "title": "Family & People",
+    "stages": {
+      "1": [
+        "father", "mother", "brother", "sister", "grandfather", "grandmother",
+        "parent", "daughter", "uncle", "cousin", "nephew", "niece",
+        "family", "person", "people", "woman", "women", "children",
+        "teacher", "student", "doctor", "nurse", "farmer", "worker", "driver",
+        "singer", "writer", "player", "neighbor", "friend", "stranger"
+      ],
+      "2": [
+        "my grandmother tells good stories",
+        "she wants to be a famous singer",
+        "students should listen to the teacher",
+        "my brother is taller than my father",
+        "the doctor helped the sick people",
+        "we are good friends with our neighbors",
+        "farmers work hard in the fields",
+        "do not talk to that stranger",
+        "my uncle lives in a big city",
+        "family is very important to me",
+        "the driver drives the bus carefully",
+        "she has a beautiful daughter"
+      ]
+    }
+  },
+  "L3": {
+    "title": "Body & Clothes",
+    "stages": {
+      "1": [
+        "shoulder", "stomach", "finger", "throat", "mouth", "tongue", "tooth", "teeth",
+        "heart", "ankle", "beard", "chin", "eyebrow", "waist", "wrist",
+        "jacket", "sweater", "pocket", "button", "cotton", "glove", "glasses",
+        "umbrella", "wallet", "shorts", "skirt", "dress", "uniform", "slipper", "sneakers"
+      ],
+      "2": [
+        "put your hand on your shoulder",
+        "my stomach hurts after eating too much",
+        "brush your teeth every morning and night",
+        "she is wearing a beautiful red dress",
+        "remember to bring your umbrella today",
+        "he put the money in his pocket",
+        "do not forget to wear your glasses",
+        "these sneakers are very comfortable",
+        "cover your mouth when you cough",
+        "i need to buy a new winter jacket",
+        "students must wear a uniform to school",
+        "wash your face and hands properly"
+      ]
+    }
+  },
+  "L4": {
+    "title": "Delicious Food",
+    "stages": {
+      "1": [
+        "hamburger", "sandwich", "noodle", "dumpling", "spaghetti", "pizza",
+        "vegetable", "tomato", "potato", "onion", "carrot", "lettuce", "cabbage",
+        "banana", "papaya", "orange", "lemon", "strawberry", "watermelon",
+        "chicken", "biscuit", "cookie", "candy", "chocolate", "popcorn",
+        "breakfast", "dinner", "supper", "thirsty", "hungry", "delicious"
+      ],
+      "2": [
+        "i want to eat a hamburger for lunch",
+        "vegetables are good for your health",
+        "do you like strawberry or chocolate",
+        "we had chicken and noodles for dinner",
+        "this watermelon is very sweet and juicy",
+        "i am so hungry i could eat a horse",
+        "please buy some potatoes and carrots",
+        "breakfast is the most important meal",
+        "she made a delicious sandwich for me",
+        "would you like some popcorn with the movie",
+        "drinking lemon juice is refreshing",
+        "do not eat too much candy and cookies"
+      ]
+    }
+  },
+  "L5": {
+    "title": "Home & Objects",
+    "stages": {
+      "1": [
+        "kitchen", "bathroom", "bedroom", "balcony", "basement", "garden",
+        "window", "ceiling", "table", "computer", "telephone", "television",
+        "radio", "camera", "machine", "refrigerator", "heater", "microwave",
+        "blanket", "pillow", "towel", "basket", "bottle", "bucket", "mirror",
+        "toothbrush", "toothpaste", "soap", "shampoo", "candle"
+      ],
+      "2": [
+        "please clean your bedroom today",
+        "there is a mirror in the bathroom",
+        "turn on the television to watch news",
+        "put the milk in the refrigerator",
+        "we sat around the table for dinner",
+        "wash your face with soap and water",
+        "the computer is on the desk",
+        "open the window to let fresh air in",
+        "she took a picture with her camera",
+        "do not forget to bring a towel",
+        "the garden is full of beautiful flowers",
+        "he is sleeping on a soft pillow"
+      ]
+    }
+  },
+  "L6": {
+    "title": "School & Places",
+    "stages": {
+      "1": [
+        "blackboard", "classroom", "playground", "library", "gym", "office",
+        "pencil", "eraser", "ruler", "marker", "notebook", "dictionary", "envelope",
+        "hospital", "museum", "restaurant", "supermarket", "bakery", "factory",
+        "station", "airport", "bridge", "street", "village", "temple", "church"
+      ],
+      "2": [
+        "students are playing on the playground",
+        "please write your name in the notebook",
+        "we can borrow books from the library",
+        "the hospital is near the station",
+        "let us go to the restaurant for lunch",
+        "use an eraser to correct your mistake",
+        "the teacher is writing on the blackboard",
+        "my father works in a big factory",
+        "we bought bread at the bakery",
+        "cross the street carefully at the light",
+        "the museum has many old things",
+        "she bought a pencil and a ruler"
+      ]
+    }
+  },
+  "L7": {
+    "title": "Nature & Animals",
+    "stages": {
+      "1": [
+        "mountain", "river", "ocean", "island", "forest", "weather",
+        "sunny", "rainy", "cloudy", "windy", "rainbow", "thunder", "lightning",
+        "elephant", "monkey", "tiger", "lion", "zebra", "rabbit", "donkey",
+        "spider", "butterfly", "mosquito", "cockroach", "dinosaur", "dragon",
+        "animal", "turkey", "turtle", "dolphin", "whale", "panda"
+      ],
+      "2": [
+        "the weather is sunny and warm today",
+        "monkeys like to climb trees",
+        "elephants are the largest land animals",
+        "we saw a beautiful rainbow in the sky",
+        "tigers and lions are wild animals",
+        "rivers flow down from the mountains",
+        "be careful of the mosquitoes in summer",
+        "the ocean is deep and blue",
+        "pandas are black and white animals",
+        "do not be afraid of the thunder",
+        "butterflies have colorful wings",
+        "rabbits have long ears and short tails"
+      ]
+    }
+  },
+  "L8": {
+    "title": "Level 1 Challenge",
+    "stages": {
+      "1": [
+        "different", "difficult", "important", "popular", "beautiful", "wonderful",
+        "careful", "dangerous", "expensive", "comfortable", "interesting",
+        "remember", "understand", "practice", "prepare", "celebrate", "decide",
+        "problem", "question", "accident", "mistake", "present", "vacation",
+        "favorite", "special", "together", "because", "however"
+      ],
+      "2": [
+        "it is important to practice every day",
+        "this question is very difficult to answer",
+        "we are planning a summer vacation together",
+        "please be careful when you drive a car",
+        "she prepared a special dinner for us",
+        "i do not understand what you mean",
+        "chocolate is my favorite flavor",
+        "it is dangerous to swim alone in the river",
+        "everyone wants to be happy and successful",
+        "remember to bring your homework tomorrow",
+        "the view from the mountain is beautiful",
+        "we decided to celebrate his birthday"
+      ]
+    }
+  }
+}
