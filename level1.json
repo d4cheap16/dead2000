@@ -11,12 +11,14 @@
       "exclude": [
         "單音節且易混淆字 (e.g., pen, bus, cat, one, two)",
         "發音特徵不明顯的短字 (e.g., at, it, of, in)",
-        "同音異義字干擾強的字 (e.g., meat/meet, see/sea)"
+        "同音異義字干擾強的字 (e.g., meat/meet, see/sea)",
+        "純數字 (e.g., eleven, thirty) - 因語音辨識常轉為阿拉伯數字 (11, 30) 導致字串比對失敗"
       ],
       "include": [
-        "多音節單字 (e.g., eleven, beautiful, tomato)",
+        "多音節單字 (e.g., beautiful, tomato, vacation)",
         "發音響亮、清晰的雙音節字 (e.g., shoulder, tiger, market)",
-        "長度較長但結構簡單的字 (e.g., afternoon, basketball)"
+        "長度較長但結構簡單的字 (e.g., afternoon, basketball)",
+        "時間與頻率相關單字 (e.g., clock, future) - 替代數字以提升辨識率"
       ],
       "difficulty_progression": "Level 越高，單字音節越長、重音變化越複雜、詞意越抽象。"
     },
@@ -28,29 +30,28 @@
     }
   },
   "L1": {
-    "title": "Clear Numbers & Time",
+    "title": "Time & Frequency",
     "stages": {
       "1": [
-        "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen",
-        "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety",
-        "hundred", "thousand", "zero", "minus",
         "morning", "afternoon", "evening", "tonight", "yesterday", "tomorrow", "weekend",
         "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday",
-        "calendar", "minute", "season", "winter", "summer"
+        "calendar", "minute", "season", "winter", "summer",
+        "clock", "watch", "time", "hour", "date", "year", "month", "week",
+        "early", "late", "later", "future", "past", "now", "often", "always", "never"
       ],
       "2": [
-        "There are seven days in a week",
         "I wake up early in the morning",
-        "Please wait for fifteen minutes",
+        "Please wait for a few minutes",
         "Tomorrow will be a sunny day",
         "We usually rest on the weekend",
-        "Can you count from one to one hundred",
+        "Do you have time right now",
         "Let us meet on Friday evening",
         "Summer is hot and winter is cold",
         "Check the calendar for the date",
-        "He has twenty dollars in his pocket",
+        "I will always remember you",
         "Yesterday was my birthday party",
-        "It is eleven o'clock right now"
+        "Look at the clock on the wall",
+        "She is often late for school"
       ]
     }
   },
