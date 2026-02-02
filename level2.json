@@ -7,10 +7,11 @@
     "difficulty_focus": "Multi-syllable words (3+ syllables), Adverbs, Emotions, Jobs",
     "word_selection_rules": {
       "source": "教育部國中參考字彙表 (2000字)",
-      "filter_logic": "Speech-First Strategy",
+      "filter_logic": "Speech-First Strategy (語音優先策略)",
       "exclude": [
         "Monosyllabic verbs (e.g., run, sit)",
-        "Simple adjectives (e.g., hot, big)"
+        "Simple adjectives (e.g., hot, big)",
+        "Pure numbers (e.g., one, two, six) - STT often converts these to digits (1, 2, 6) causing match failures"
       ],
       "include": [
         "Compound words (e.g., motorcycle)",
@@ -22,7 +23,7 @@
       "difficulty": "CEFR A2",
       "style": "Contextual & Descriptive",
       "formatting": "Sentence Case (Sentences MUST start with a Capital Letter)",
-      "note": "Ensure sentences are natural to speak and contain target vocabulary."
+      "note": "Ensure sentences are natural to speak and contain target vocabulary without inducing digit output."
     }
   },
   "L1": {
@@ -113,7 +114,7 @@
         "Please remember to bring your homework tomorrow",
         "I do not understand the meaning of this word",
         "We decided to visit our grandmother this weekend",
-        "Can you repeat the question one more time",
+        "Can you please repeat the question",
         "He collects stamps from many different countries",
         "Prepare your bags before we go on the trip",
         "I believe that we can finish the work today",
@@ -165,7 +166,7 @@
         "My hobby is playing the guitar and singing",
         "Watching cartoons is fun for young children",
         "They played a game of soccer after school",
-        "She practices the piano for two hours daily",
+        "She practices the piano every single day",
         "Let us go for a picnic in the park",
         "He is very good at playing tennis",
         "Hiking is a healthy activity for everyone",
@@ -186,7 +187,7 @@
         "july", "august", "september", "october", "november", "december"
       ],
       "2": [
-        "I usually wake up at six in the morning",
+        "I usually wake up early in the morning",
         "We sometimes go to the movies on Sundays",
         "He has never been to a foreign country",
         "Please wait for a moment while I check",
