@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <link rel="icon" href="https://d4cheap16.github.io/tddt/zombie.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Dead Don't Talk</title>
+    <meta name="description" content="Want to Survive? Speak!">
+    <meta property="og:title" content="Dead don't talk, but you do.">
+    <meta property="og:description" content="Speak, or become one of them...">
+    <meta property="og:image" content="https://d4cheap16.github.io/tddt/opentag.png">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --horror-red: #8b0000;
+            --horror-green: #00ff00;
+            --horror-yellow: #ffff00;
+        }
+
+        body {
+            background-color: #050505;
+            color: #ccc;
+            font-family: 'Press Start 2P', 'Noto Sans TC', sans-serif;
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center;
+            height: 100dvh; overflow: hidden;
+            user-select: none; touch-action: manipulation;
+        }
+
+        ::-webkit-scrollbar { width: 6px; background: #050505; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        * { scrollbar-width: thin; scrollbar-color: #333 #000; }
+
+        .crt::before {
+            content: " ";
+            display: block; position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+            z-index: 100; background-size: 100% 3px;
+            pointer-events: none; opacity: 0.2;
+        }
+
+        /* --- 基礎樣式區 (Base Styles) --- */
+
+        .game-wrapper {
+            position: relative;
+            width: 100%; 
+            max-width: 500px; /* 手機版預設寬度 */
+            height: 100dvh;
+            background: #000; 
+            display: flex; 
+            flex-direction: column;
+            overflow: hidden; 
+            border: 2px solid #222;
+            will-change: transform;
+        }
+
+        .canvas-container {
+            width: 100%; 
+            height: 65%;
+            position: relative; 
+            border-bottom: 2px solid var(--horror-red);
+            overflow: hidden;
+            background-color: #050505;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease-in-out;
+            image-rendering: pixelated; 
+        }
+
+        .canvas-container::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        #game-canvas { 
+            position: relative;
+            z-index: 10;
+            image-rendering: pixelated; 
+            width: 100%; height: 100%; 
+            background: transparent;
+        }
+
+        #weapon-layer {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 20; 
+            display: flex; align-items: flex-end; justify-content: center; overflow: hidden;
+        }
+
+        #weapon-img {
+            image-rendering: pixelated; 
+            transition: transform 0.05s ease-out; 
+            transform-origin: bottom center;
+        }
+
+        .recoil-kick { transform: translateY(25%) scale(1.05) !important; }
+        .recoil-heavy { transform: translateY(20%) scale(1.1) !important; }
+        .recoil-critical { transform: translateY(15%) scale(1.15) rotate(-5deg) !important; }
+
+        .ui-panel {
+            height: 35%;
+            width: 100%; 
+            background: #050505;
+            padding: 10px 15px; 
+            display: grid; 
+            grid-template-rows: auto 1fr auto; 
+            gap: 8px; 
+            z-index: 50; 
+            box-sizing: border-box;
+            position: relative; 
+        }
+
+        /* 輸入框基礎樣式 (針對手機優化) */
+        select, input {
+            background: #0d0d0d !important;
+            border: 1px solid #333 !important;
+            color: #0f0 !important;
+            padding: 12px !important;
+            font-size: 16px !important; 
+            transform: scale(0.8); 
+            transform-origin: left center;
+            width: 125% !important; 
+            margin: 4px 0 !important;
+            border-radius: 4px !important;
+            font-family: 'Press Start 2P', 'Noto Sans TC', sans-serif !important;
+            outline: none;
+            box-sizing: border-box;
+        }
+        select:focus, input:focus { border-color: #0f0 !important; }
+
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+
+        .btn {
+            background: #111; border: 1px solid #444; color: #ccc;
+            padding: 10px; cursor: pointer; font-size: 9px;
+            font-family: 'Press Start 2P', cursive;
+            transition: 0.1s; border-radius: 6px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .btn:active { background: #555; color: #fff; transform: scale(0.95); }
+
+        .btn-empty { color: #444 !important; border-style: dashed !important; cursor: not-allowed; background: #050505 !important; }
+
+        /* Banner & Overlay */
+        .overlay-screen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
+            z-index: 200; text-align: center; padding: 20px;
+        }
+
+        .banner-box {
+            width: 100%; max-width: 400px; aspect-ratio: 1480 / 450;
+            background: #000; margin-bottom: 15px; border: 1px solid #333;
+            overflow: hidden; display: flex; align-items: center; justify-content: center;
+        }
+        .banner-box img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+
+        /* Difficulty Buttons */
+        .diff-rookie.active-diff { background: #063d19 !important; border-color: #0f0 !important; color: #0f0 !important; box-shadow: 0 0 15px rgba(0, 255, 0, 0.3); }
+        .diff-veteran.active-diff { background: #002244 !important; border-color: #0af !important; color: #0af !important; box-shadow: 0 0 15px rgba(0, 170, 255, 0.3); }
+        .diff-nightmare.active-diff { background: #330044 !important; border-color: #f0f !important; color: #f0f !important; box-shadow: 0 0 15px rgba(255, 0, 255, 0.3); }
+        .diff-nohope.active-diff { background: #440000 !important; border-color: #f0f !important; color: #f00 !important; box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
+        
+        .book-btn { border: 1px solid #333; }
+        .book-active {
+            background-color: #d4d4d8 !important; color: #000 !important;
+            border-color: #fff !important; font-weight: bold;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .lesson-btn { border: 1px solid #333; }
+        .lesson-active {
+            background-color: #16a34a !important; color: #000 !important;
+            border-color: #4ade80 !important; font-weight: bold;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
+        }
+
+        /* Boss UI 基礎樣式 - 手機版改到上方 */
+        #boss-ui {
+            position: absolute; 
+            /* ★★★ FIX: 手機版改為靠上方顯示，避免遮擋中央戰鬥 ★★★ */
+            top: 15px; 
+            bottom: auto;
+            
+            left: 0; width: 100%;
+            display: flex; flex-direction: column; align-items: center;
+            pointer-events: none; transition: opacity 0.5s; opacity: 0;
+            z-index: 150;
+            padding-bottom: 2px;
+        }
+        .boss-word-active { color: #0f0; text-shadow: 0 0 10px #0f0; transform: scale(1.05); display: inline-block;}
+
+        #reward-toast {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            width: auto;
+            white-space: nowrap;
+            text-align: center;
+            pointer-events: none; 
+            z-index: 300;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            font-size: 18px;
+            font-weight: 700; 
+            color: #fff; 
+            font-family: 'Press Start 2P', cursive;
+            line-height: 1.5;
+            text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+        
+        .toast-active { 
+            opacity: 1; 
+            transform: translate(-50%, -50%) scale(1.2) !important; 
+        }
+
+        .admin-table-container {
+            width: 100%; max-height: 250px; overflow-y: auto; font-size: 9px;
+            border: 1px solid #333; margin-top: 10px; background: #050505;
+        }
+        .admin-table-container th { padding: 8px; font-size: 8px; color: #666; text-transform: uppercase; }
+        .admin-table-container td { padding: 6px 8px; border-bottom: 1px solid #111; vertical-align: top; }
+
+        #leaderboard-preview { width: 100%; margin-top: 10px; border-top: 1px solid #222; padding-top: 10px; }
+
+        @keyframes flicker { 
+            0% { opacity: 1; } 25% { opacity: 0.8; } 50% { opacity: 1; } 75% { opacity: 0.6; } 100% { opacity: 1; }
+        }
+        .flicker { animation: flicker 0.15s infinite; }
+        
+        @keyframes shine { 
+            0% { transform: scale(1); text-shadow: 0 0 10px gold; } 
+            50% { transform: scale(1.1); text-shadow: 0 0 30px yellow, 0 0 50px orange; } 
+            100% { transform: scale(1); text-shadow: 0 0 10px gold; } 
+        }
+        .perfect-badge {
+            color: #FFD700; animation: shine 1.5s infinite ease-in-out;
+            border: 2px solid #FFD700; padding: 10px; border-radius: 8px;
+            background: rgba(255, 215, 0, 0.1); margin-bottom: 20px; display: none;
+        }
+
+        .ecg-container {
+            width: 100%; height: 30px; background: #000; border: 1px solid #222;
+            position: relative; overflow: hidden; display: flex; align-items: center; border-radius: 4px;
+        }
+        .ecg-svg { width: 100%; height: 100%; }
+        .ecg-line {
+            fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+            stroke-dasharray: 200; stroke-dashoffset: 200; animation: dash 2s linear infinite;
+        }
+        @keyframes dash { to { stroke-dashoffset: 0; } }
+
+        .game-credits {
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 200;
+            pointer-events: none; 
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+            transition: opacity 0.3s; 
+        }
+        .game-credits p {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 7px;
+            color: #ffffff;
+            margin: 0;
+            text-transform: uppercase;
+            text-shadow: 0 0 2px #000;
+        }
+        .game-credits img {
+            width: 20px;
+            height: auto;
+            gap: 6px;
+            filter: drop-shadow(0 0 2px #000);
+        }
+        
+        /* ★★★ FIX 3: 調整目標單字樣式 (防止長字溢出) ★★★ */
+        /* 修改字體為 Noto Sans TC 以節省空間並提高可讀性 */
+        #current-word-ui {
+            font-family: 'Noto Sans TC', sans-serif !important;
+            font-weight: 700; /* 使用粗體增加辨識度 */
+            letter-spacing: 0.5px; /* 稍微增加字距 */
+            
+            font-size: 26px !important; /* 稍微調整大小 */
+            line-height: 1.3;
+            margin-top: 10px;
+            
+            display: flex !important;
+            flex-wrap: wrap !important;
+            
+            /* ★★★ 修改這裡：預設為一般戰鬥，使用置中對齊 ★★★ */
+            justify-content: center !important; 
+            text-align: center !important; 
+            
+            white-space: normal !important;        /* 允許換行 */
+            overflow-wrap: break-word !important;  /* 長單字太長時可切斷 */
+            word-break: keep-all !important;       /* 盡量保持單字完整 */
+            
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* ★★★ 新增：BOSS 戰專用樣式 (靠左對齊) ★★★ */
+        #current-word-ui.boss-mode-layout {
+            justify-content: flex-start !important; /* 靠左開始 */
+            text-align: left !important;            /* 文字靠左 */
+        }
+
+        /* ★★★ UNIT NAME FONT SIZE - 單位名稱字體大小控制 ★★★ */
+        #mission-target-display {
+            font-size: 12px; /* 調整首頁選單中的標題大小 (原為 text-sm: 14px) */
+        }
+        #selected-mission-title {
+            font-size: 11px; /* 調整登入畫面中的標題大小 (原為 text-[11px]: 11px) */
+        }
+
+        /* =========================================
+           ★★★ 媒體查詢 (Media Queries) - 請保持在最下方 ★★★
+           ========================================= */
+
+        /* --- 橫向模式通則 (Mobile & Desktop) --- */
+        @media (orientation: landscape) {
+            /* 修正輸入框寬度：移除手機版的縮放 Hack，回歸 100% 寬度 */
+            select, input {
+                transform: none !important;
+                width: 100% !important;
+                font-size: 14px !important;
+                margin: 5px 0 !important;
+            }
+            .overlay-screen .max-w-sm {
+                max-width: 480px; 
+            }
+        }
+
+        /* --- 電腦/大平板橫向模式 (Desktop/Tablet) --- */
+        @media (min-width: 768px) and (orientation: landscape) {
+            .game-wrapper {
+                flex-direction: row;
+                max-width: none;
+                width: auto;
+                height: 90vh;
+                border: 8px solid #333;
+                border-radius: 12px;
+                box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(50, 50, 50, 0.5);
+            }
+
+            .canvas-container {
+                height: 100%;
+                width: auto;
+                aspect-ratio: 4 / 3;
+                border-bottom: none;
+                border-right: 4px solid var(--horror-red);
+                flex-shrink: 0;
+            }
+
+            .ui-panel {
+                height: 100%;
+                width: 320px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+                text-align: center;
+                padding-bottom: 20px !important;
+            }
+            
+            .stats-grid > div {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .score-label-desktop {
+                text-align: center;
+            }
+
+            .vital-info-container {
+                flex-direction: column !important; /* 改為垂直 */
+                align-items: center !important;
+                gap: 8px !important; /* 增加間距 */
+                margin-top: 10px !important;
+            }
+
+            #status-label {
+                font-size: 14px !important; /* 放大生命狀態文字 */
+            }
+
+            #combo-display {
+                font-size: 14px !important; /* 放大 Combo 文字 */
+                margin-top: 4px;
+            }
+
+            /* Desktop override specifically handled above, but ensuring consistency */
+            #current-word-ui {
+                font-size: 28px !important; /* 在大螢幕上可以稍微再大一點 */
+            }
+
+            .btn { font-size: 10px; padding: 15px; }
+            .banner-box { max-width: 100%; }
+
+            #boss-ui {
+                position: absolute;
+                /* ★★★ FIX: 橫向/電腦模式恢復到底部 ★★★ */
+                top: auto !important; 
+                bottom: 20px !important;
+                
+                left: 0 !important;
+                width: 100% !important;
+                padding: 0 40px;
+                z-index: 150;
+            }
+        }
+    </style>
+</head>
+<body class="crt">
+
+<div class="game-wrapper" id="main-container">
+    <div id="flash-overlay" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-[120]"></div>
+    
+    <div id="warning-screen" class="overlay-screen hidden z-[160]" style="background: rgba(139, 0, 0, 0.8);">
+        <div class="border-4 border-red-500 p-6 bg-black">
+            <h1 class="text-red-500 text-4xl font-bold flicker tracking-widest mb-4">WARNING</h1>
+            <p class="text-white text-xs animate-pulse tracking-widest uppercase">MASSIVE THREAT DETECTED</p>
+        </div>
+    </div>
+
+    <!-- Mission Screen: Split Layout for Landscape -->
+    <div id="mission-screen" class="overlay-screen">
+        <div class="flex flex-col w-full max-w-sm landscape:max-w-4xl landscape:flex-row landscape:items-center landscape:justify-center landscape:gap-8 h-full landscape:h-auto">
+            <!-- Left: Visuals (Banner + Title) -->
+            <div class="w-full landscape:w-2/5 flex flex-col items-center justify-center shrink-0">
+                <div class="banner-box landscape:aspect-video landscape:w-full">
+                    <img src="https://d4cheap16.github.io/tddt/indexbanner.png" alt="Index Banner" onerror="this.style.display='none'">
+                </div>
+                <h1 class="text-md mb-6 landscape:mb-0 landscape:mt-4 text-red-600 tracking-tighter flicker uppercase">Dead Don't Talk</h1>
+            </div>
+            
+            <!-- Right: Controls (Menu Box) -->
+            <div class="bg-black p-5 border border-zinc-800 w-full rounded-lg shadow-2xl overflow-y-auto max-h-[75%] landscape:max-h-full landscape:w-3/5">
+                <p class="text-[8px] text-zinc-500 mb-2 uppercase text-left font-bold">Sector Access</p>
+                <div class="grid grid-cols-5 gap-1 mb-6" id="book-grid"></div>
+                
+                <p class="text-[8px] text-zinc-500 mb-2 uppercase text-left font-bold">Unit Module</p>
+                <div class="grid grid-cols-3 gap-1 mb-6" id="lesson-grid"></div>
+                
+                <div class="bg-zinc-900 border border-zinc-800 p-4 mb-4 text-center rounded">
+                    <div id="mission-target-display" class="text-sm font-bold text-green-400 uppercase tracking-wider">SYSTEM READY</div>
+                </div>
+                
+                <div id="leaderboard-preview" class="hidden bg-zinc-900/50 p-2 rounded">
+                    <p class="text-[7px] text-blue-500 mb-2 uppercase text-center font-bold tracking-widest">Sector Top Survivors</p>
+                    <div id="top-records-list" class="text-[8px] text-zinc-400 space-y-1 text-left px-2"></div>
+                </div>
+
+                <button onclick="confirmMission()" id="confirm-mission-btn" class="btn w-full py-5 text-white bg-blue-900 border-slate-500 hover:bg-blue-800 hover:border-slate-300 mt-4 uppercase shadow-lg transition-all" disabled>Enter Mission</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Screen: Split Layout for Landscape -->
+    <div id="login-screen" class="overlay-screen hidden">
+        <div class="flex flex-col w-full max-w-sm landscape:max-w-4xl landscape:flex-row landscape:items-center landscape:justify-center landscape:gap-8 h-full landscape:h-auto">
+            <!-- Left: Visuals -->
+            <div class="w-full landscape:w-2/5 flex flex-col items-center justify-center shrink-0">
+                <div class="banner-box landscape:aspect-video landscape:w-full">
+                    <img src="https://d4cheap16.github.io/tddt/missionbanner.png" alt="Mission Banner" onerror="this.style.display='none'">
+                </div>
+                <h2 id="selected-mission-title" class="text-blue-500 mb-6 landscape:mb-0 landscape:mt-4 text-[11px] uppercase tracking-widest">MISSION ID</h2>
+            </div>
+
+            <!-- Right: Controls -->
+            <div class="bg-black p-5 border border-zinc-800 w-full space-y-4 rounded-lg text-left landscape:w-3/5">
+                <p class="text-[8px] text-zinc-600 mb-1 uppercase px-1">Registration</p>
+                <div class="flex gap-2">
+                    <select id="select-grade">
+                        <option value="G10">10</option><option value="G11">11</option><option value="G12">12</option>
+                    </select>
+                    <select id="select-class">
+                        <option value="知足">知足</option><option value="感恩">感恩</option><option value="善解">善解</option><option value="包容">包容</option>
+                        <option value="大愛">大愛</option><option value="外校">外校</option>
+                    </select>
+                </div>
+                <input type="number" id="input-no" placeholder="NUMBER" class="input-retro">
+                <input type="text" id="input-name" placeholder="NAME" class="input-retro">
+                <p class="text-[8px] text-zinc-600 mt-4 mb-1 uppercase px-1">Challenge Level</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="setDifficulty(0.7, 'Rookie')" class="btn diff-btn diff-rookie" id="diff-rookie">Rookie</button>
+                    <button onclick="setDifficulty(1.0, 'Veteran')" class="btn diff-btn diff-veteran active-diff" id="diff-veteran">Veteran</button>
+                    <button onclick="setDifficulty(1.5, 'Nightmare')" class="btn diff-btn diff-nightmare" id="diff-nightmare">Nightmare</button>
+                    <button onclick="setDifficulty(2.5, 'NoHope')" class="btn diff-btn diff-nohope text-red-600" id="diff-nohope">NO HOPE</button>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="backToMission()" class="btn w-1/3 text-[8px] uppercase bg-zinc-900 border-zinc-700 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300">Back</button>
+                    <button id="start-btn" onclick="handleAuth()" class="btn w-2/3 py-5 bg-green-950 border-green-700 text-green-500 hover:bg-green-900 hover:text-green-400 uppercase font-bold tracking-wider">Initiate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-screen" class="overlay-screen hidden">
+        <h2 class="text-blue-600 mb-4 uppercase">Archive Terminal</h2>
+        <div class="admin-table-container">
+            <table class="w-full text-left">
+                <thead class="bg-zinc-900 sticky top-0">
+                    <tr><th>USER</th><th class="text-center">MSN</th><th>RESULT</th><th class="text-right">TIME</th></tr>
+                </thead>
+                <tbody id="records-body" class="text-zinc-300"></tbody>
+            </table>
+        </div>
+        <div class="grid grid-cols-2 gap-2 w-full max-w-sm mt-6">
+            <button onclick="exportToCSV()" class="btn py-4 bg-blue-900 border-blue-600 text-white uppercase col-span-2">Export CSV Data</button>
+            <button onclick="startGodMode()" class="btn py-4 bg-green-900 border-green-600 text-green-400 uppercase font-bold col-span-2">GOD MODE</button>
+            
+            <button onclick="handleClearData()" id="clear-data-btn" class="btn py-4 bg-red-950 border-red-700 text-red-500 uppercase">Clear All</button>
+            <button onclick="location.reload()" class="btn py-4 bg-zinc-900 uppercase">Logout</button>
+        </div>
+    </div>
+
+    <div id="pause-screen" class="overlay-screen hidden">
+        <h2 class="text-zinc-500 text-[10px] mb-8 uppercase tracking-widest">Training Mode (Paused)</h2>
+        <div class="bg-zinc-900 border border-zinc-700 p-8 rounded-lg w-full max-w-xs mb-8 text-center">
+            <p class="text-[8px] text-zinc-600 mb-4 uppercase tracking-tighter">Target Practice</p>
+            <div id="pause-target-word" class="text-white text-[16px] font-bold mb-8 tracking-widest">---</div>
+            <button onclick="speakTarget()" class="btn w-full bg-blue-900 text-white mb-3 py-4 font-bold uppercase">Play Voice</button>
+            <button onclick="togglePause()" class="btn w-full bg-green-950 text-white py-4 font-bold uppercase">Resume</button>
+        </div>
+        <p class="text-[7px] text-zinc-700">Practice your pronunciation here.</p>
+    </div>
+
+    <div id="win-screen" class="overlay-screen hidden">
+        <h1 class="text-green-500 text-2xl mb-4 flicker uppercase">Mission Complete</h1>
+        <div id="perfect-badge" class="perfect-badge">
+            <div class="text-[12px] font-bold">PERFECT SURVIVOR</div>
+            <div class="text-[8px]">NO DAMAGE TAKEN</div>
+        </div>
+        <p id="win-score-display" class="text-yellow-500 text-5xl mb-4 uppercase">0</p>
+        <div id="win-details" class="w-full max-w-xs bg-zinc-900/80 border border-zinc-700 p-3 mb-4 rounded"></div>
+        <div class="flex flex-col gap-3 w-full max-w-xs">
+            <button id="next-level-btn" onclick="challengeNextLevel()" class="btn py-5 bg-blue-900 text-white border-blue-500 uppercase hidden">Challenge Next Level</button>
+            <button onclick="location.reload()" class="btn py-4 uppercase">Return Base</button>
+        </div>
+    </div>
+
+    <div id="game-over-screen" class="overlay-screen hidden">
+        <h1 class="text-red-700 text-2xl mb-6 flicker uppercase">You are dead</h1>
+        <p id="fail-score-display" class="text-yellow-500 text-5xl mb-4 uppercase">0</p>
+        <div id="fail-details" class="w-full max-w-xs bg-zinc-900/80 border border-zinc-700 p-3 mb-4 rounded"></div>
+        <div class="flex flex-col gap-3 w-full max-w-xs">
+            <button onclick="restartGame()" class="btn py-5 bg-red-950 text-white border-red-700 uppercase">Retry Mission</button>
+            <button onclick="location.reload()" class="btn py-4 text-zinc-500 uppercase">Return Home</button>
+        </div>
+    </div>
+
+    <div class="canvas-container" id="canvas-holder">
+        <canvas id="game-canvas"></canvas>
+        
+        <div id="reward-toast" class="pixel-font">REWARD LOADED</div>
+
+        <div id="boss-ui" class="px-5 w-full">
+            <div id="boss-phase-display" class="text-center text-[8px] text-red-500 font-bold mb-1 tracking-widest">THREAT LEVEL MAX</div>
+            <div class="w-full bg-zinc-900 h-3 border-2 border-white mb-2 overflow-hidden rounded-full">
+                <div id="boss-hp-bar" class="h-full bg-red-600 transition-all duration-300" style="width: 100%"></div>
+            </div>
+        </div>
+
+        <div id="weapon-layer">
+            <img id="weapon-img" 
+                 src="https://d4cheap16.github.io/tddt/gun01.png" 
+                 alt="Weapon"
+                 style="width: 60%; transform: translateY(30%);">
+        </div>
+    </div>
+
+    <div class="ui-panel">
+        <div class="grid grid-cols-[30%_70%] gap-2 items-center border-b border-zinc-800 pb-2 stats-grid">
+            <div class="score-label-desktop">
+                <div id="score-display" class="text-[18px] text-yellow-400 pixel-font mt-1 tracking-widest font-bold" style="text-shadow: 0 0 5px orange;">00000</div>
+                <div class="text-[6px] text-zinc-600 uppercase">Score</div>
+            </div>
+            <div>
+                <div class="ecg-container">
+                    <svg class="ecg-svg" viewBox="0 0 100 20" preserveAspectRatio="none">
+                        <path id="ecg-path" class="ecg-line" d="M0,10 L10,10 L15,0 L20,20 L25,10 L100,10" stroke="lime" />
+                    </svg>
+                </div>
+                <div class="flex justify-between mt-1 vital-info-container">
+                    <div id="status-label" class="pixel-font text-green-500 text-[8px] font-bold">VITAL: STABLE</div>
+                    <div id="combo-display" class="pixel-font text-yellow-500 text-[8px] opacity-0 font-bold">0 COMBO</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center justify-center bg-zinc-900/40 rounded-lg border border-zinc-800 p-2 relative h-full">
+            <div id="current-word-ui" class="text-[12px] text-center text-white font-bold tracking-wider flex flex-wrap justify-center gap-1 w-full overflow-hidden">AWAITING SIGNAL...</div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 mt-1">
+            <button onclick="togglePause()" class="btn py-4 font-bold uppercase bg-blue-950 border-blue-800 text-blue-400 hover:bg-blue-900 hover:text-blue-300">Pause</button>
+            <button onclick="location.reload()" class="btn py-4 uppercase bg-zinc-800 border-zinc-500 text-zinc-300 hover:bg-zinc-700 hover:text-white hover:border-white">Retreat</button>
+        </div>
+    </div>
+
+    <div id="game-footer" class="game-credits">
+        <p>Designed by CHENWEI with Gemini</p>
+        <img src="https://d4cheap16.github.io/tddt/Gemini.png" alt="Google Gemini Logo">
+    </div>
+
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDocs, collection, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBKiz17S_mjAEcat-oT0EDVnvKxhTzxQe8",
+        authDomain: "voiceofthedead.firebaseapp.com",
+        projectId: "voiceofthedead",
+        storageBucket: "voiceofthedead.firebasestorage.app",
+        messagingSenderId: "757378314086",
+        appId: "1:757378314086:web:aa598f79e28e3cb6a122a7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    window.fbase = { db, setDoc, doc, collection, getDocs, serverTimestamp, deleteDoc, appId: 'voice-reborn-101' };
+    signInAnonymously(auth);
+</script>
+
+<script>
+    const ADMIN_KEY = atob("QWRhV29uZw==");
+    
+    function escapeHtml(text) {
+        if (!text) return text;
+        return String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    const DAMAGE_SHAKE_CONFIG = {
+        'Rookie':    { intensity: 20, decay: 0.85 }, 
+        'Veteran':   { intensity: 30, decay: 0.88 }, 
+        'Nightmare': { intensity: 45, decay: 0.90 }, 
+        'NoHope':    { intensity: 60, decay: 0.92 }  
+    };
+
+    const BGS = [
+        "https://d4cheap16.github.io/tddt/BG01.png", 
+        "https://d4cheap16.github.io/tddt/BG02.png", 
+        "https://d4cheap16.github.io/tddt/BG03.png", 
+        "https://d4cheap16.github.io/tddt/BG04.png", 
+        "https://d4cheap16.github.io/tddt/BG05.png"
+    ];
+
+    const GUN_ASSETS = {
+        idle: "https://d4cheap16.github.io/tddt/gun01.png",
+        fire: "https://d4cheap16.github.io/tddt/gun02.png",
+        flash: "https://d4cheap16.github.io/tddt/flash.png",
+        shotgun: "https://d4cheap16.github.io/tddt/shotgun.png",
+        critical: "https://d4cheap16.github.io/tddt/minigun.png",
+        timer: null
+    };
+
+    const BOSS_CONFIG_DATA = {
+        'Rookie':    { startZ: 0.10, speed: 0.0015, sentencesRequired: 2 },
+        'Veteran':   { startZ: 0.10, speed: 0.0016, sentencesRequired: 3 },
+        'Nightmare': { startZ: 0.10, speed: 0.0019, sentencesRequired: 4 },
+        'NoHope':    { startZ: 0.40, speed: 0.0006, sentencesRequired: 5 } 
+    };
+
+    const BOSS_PHYSICS_CONFIG = {
+        'Rookie':    { hit: 0.05,  crit: 0.15, phase: 0.40, attackReset: 0.30 },
+        'Veteran':   { hit: 0.04,  crit: 0.12, phase: 0.35, attackReset: 0.25 },
+        'Nightmare': { hit: 0.03,  crit: 0.10, phase: 0.30, attackReset: 0.20 },
+        'NoHope':    { hit: 0.002, crit: 0.05, phase: 0.10, attackReset: 0.04 } 
+    };
+
+    const BOSS_SHAKE_CONFIG = {
+        'Rookie':    { startZ: 0.5, intensity: 10, axis: 'Y' },
+        'Veteran':   { startZ: 0.4, intensity: 20, axis: 'Y' },
+        'Nightmare': { startZ: 0.3, intensity: 40, axis: 'XY' },
+        'NoHope':    { startZ: 0.2, intensity: 90, axis: 'XY' }
+    };
+
+    const BOSS_BEHAVIOR = { 
+        sprintZ: 0.50, 
+        sprintMultiplier: 1.2 
+    };
+    
+    const BOSS_BATTLE_CONFIG = {
+        'Rookie':    { criticalChance: 0.05, stunDuration: 50,  scoreMult: 2.0 },
+        'Veteran':   { criticalChance: 0.04, stunDuration: 40,  scoreMult: 2.0 },
+        'Nightmare': { criticalChance: 0.03, stunDuration: 35,  scoreMult: 2.5 },
+        'NoHope':    { criticalChance: 0.01, stunDuration: 30,  scoreMult: 3.0 }
+    };
+
+    const ENEMY_SPEEDS = {
+        'Rookie':   { min: 0.0010, max: 0.0015 },
+        'Veteran':  { min: 0.0015, max: 0.0020 },
+        'Nightmare':{ min: 0.0020, max: 0.0025 },
+        'NoHope':   { min: 0.0025, max: 0.0030 }
+    };
+    
+    const ENEMY_BEHAVIOR = { sprintZ: 0.75, sprintMultiplier: 1.4 };
+
+    const GAME_BALANCE = {
+        SPAWN_RATES: { 'Rookie': 2200, 'Veteran': 2000, 'Nightmare': 1800, 'NoHope': 1600 },
+        COMBO: {
+            'Rookie':    { rewardThreshold: 6, criticalChance: 0.05, baseScore: 50, comboMultiplier: 5 },
+            'Veteran':   { rewardThreshold: 7, criticalChance: 0.04, baseScore: 100, comboMultiplier: 10 },
+            'Nightmare': { rewardThreshold: 10, criticalChance: 0.03, baseScore: 150, comboMultiplier: 15 },
+            'NoHope':    { rewardThreshold: 12, criticalChance: 0.01, baseScore: 200, comboMultiplier: 20 }
+        },
+        BOSS_COMBO: {
+            'Rookie':    { rewardThreshold: 10, shotgunPush: 0.20, flashDuration: 300 },
+            'Veteran':   { rewardThreshold: 15, shotgunPush: 0.15, flashDuration: 180 },
+            'Nightmare': { rewardThreshold: 20, shotgunPush: 0.10, flashDuration: 120 },
+            'NoHope':    { rewardThreshold: 30, shotgunPush: 0.005, flashDuration: 60 }
+        },
+        SURVIVAL: {
+            'Rookie':    { maxHP: 6 },
+            'Veteran':   { maxHP: 5 },
+            'Nightmare': { maxHP: 4 },
+            'NoHope':    { maxHP: 3 }
+        },
+        THRESHOLDS: {
+            'Rookie':    { deathZ: 0.85 },
+            'Veteran':   { deathZ: 0.85 },
+            'Nightmare': { deathZ: 0.85 },
+            'NoHope':    { deathZ: 0.85 }
+        }
+    };
+
+    const REWARD_CONFIG = {
+        'RECOVER': {
+            text: "LET ME HELP YOU!", textColor: "#6ee7b7", borderColor: "#6ee7b7", boxShadow: "none", 
+            overlayColor: "rgba(110, 231, 183, 0.4)", overlayDuration: 300, 
+            effect: (state) => { 
+                const maxHP = GAME_BALANCE.SURVIVAL[state.difficultyMode].maxHP; 
+                state.hp = Math.min(maxHP, state.hp + 1); 
+            }
+        },
+        'FLASH': {
+            text: "PRESENT FOR YOU!", textColor: "#67e8f9", boxShadow: "none", overlayColor: "rgba(255, 255, 255, 0.6)", overlayDuration: 1200, 
+            effect: (state) => { 
+                let duration = 180;
+                if (state.bossMode) {
+                    const bossComboConfig = GAME_BALANCE.BOSS_COMBO[state.difficultyMode] || GAME_BALANCE.BOSS_COMBO['Veteran'];
+                    duration = bossComboConfig.flashDuration;
+                }
+                
+                state.freezeTimer = duration; 
+                state.shake = 50;
+                triggerSpecialAction('flash'); 
+            } 
+        },
+        'SHOTGUN': {
+            text: "STAY BACK!", textColor: "#fbbf24", boxShadow: "none", overlayColor: "rgba(255, 200, 50, 0.6)", overlayDuration: 250, 
+            effect: (state) => { 
+                state.enemies.forEach(e => { 
+                    if (!e.isDying) {
+                        let pushDist = 0.4;
+                        if (e.isBoss) {
+                            const bossComboConfig = GAME_BALANCE.BOSS_COMBO[state.difficultyMode] || GAME_BALANCE.BOSS_COMBO['Veteran'];
+                            pushDist = bossComboConfig.shotgunPush;
+                        }
+                        e.z = Math.max(0, e.z - pushDist); 
+                    }
+                }); 
+                state.shake = 60; 
+                state.freezeTimer = 60;
+                triggerSpecialAction('shotgun'); 
+            }
+        },
+        'CRITICAL': {
+            text: "I NEVER MISS!", textColor: "#d946ef", boxShadow: "none", overlayColor: "rgba(217, 70, 239, 0.6)", overlayDuration: 700,
+            effect: (state) => { 
+                const maxHP = GAME_BALANCE.SURVIVAL[state.difficultyMode].maxHP; 
+                state.hp = maxHP; 
+                state.shake = 60; 
+                triggerSpecialAction('critical'); 
+            } 
+        }
+    };
+    
+    const BOSS_TRIGGER_KILLS = { 'Rookie': 10, 'Veteran': 13, 'Nightmare': 15, 'NoHope': 20 };
+
+    const sfx = {
+        ctx: null,
+        init() { if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+        play(freq, type, duration, vol, ramp = true) {
+            try {
+                this.init();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+                if(ramp) gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + duration);
+            } catch(e) {}
+        },
+        kill() { this.play(440, 'square', 0.1, 0.05); },
+        damage() { this.play(120, 'sawtooth', 0.3, 0.15); },
+        reward() { this.play(660, 'sine', 0.4, 0.05); setTimeout(() => this.play(880, 'sine', 0.4, 0.05), 100); },
+        perfect() { 
+             this.play(523.25, 'sine', 0.1, 0.2); setTimeout(() => this.play(659.25, 'sine', 0.1, 0.2), 100); 
+             setTimeout(() => this.play(783.99, 'sine', 0.2, 0.2), 200); setTimeout(() => this.play(1046.50, 'sine', 0.4, 0.2), 300); 
+        },
+        boss() { this.play(80, 'triangle', 0.8, 0.2, false); },
+        alarm() {
+            this.play(800, 'square', 0.1, 0.1);
+            setTimeout(() => this.play(0, 'square', 0.1, 0), 100);
+            setTimeout(() => this.play(800, 'square', 0.1, 0.1), 200);
+            setTimeout(() => this.play(0, 'square', 0.1, 0), 300);
+            setTimeout(() => this.play(800, 'square', 0.1, 0.1), 400);
+        }
+    };
+
+    let state = {
+        score: 0, hp: 5, gameActive: false, isPaused: false,
+        level: 1, kills: 0, combo: 0,
+        difficulty: 1.0, difficultyMode: 'Veteran',
+        bossSentencesCleared: 0, 
+        bossSentencesRequired: 1,
+        freezeTimer: 0,
+        enemies: [], particles: [],
+        bgStars: [], 
+        shake: 0, shakeDecay: 0.88, 
+        bossMode: false, bossData: null, bossWordIndex: 0,
+        spawnTimer: 0, player: { name: "", no: "", class: "" },
+        wordPool: [],
+        sentencePool: [],
+        damageAlpha: 0,
+        damageTaken: 0,
+        isBossStarting: false 
+    };
+
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    let currentBookData = {};
+    let selectedLesson = 1;
+    let selectedBook = 1; 
+    let wakeLock = null;
+    let clearConfirm = false; 
+
+    function randomizeBackground() {
+        if (!BGS || BGS.length === 0) return; 
+        const randomBg = BGS[Math.floor(Math.random() * BGS.length)];
+        const holder = document.getElementById('canvas-holder');
+        if (holder) holder.style.backgroundImage = `url('${randomBg}')`;
+    }
+    
+    function preloadImages() {
+        if (BGS) {
+            BGS.forEach(src => { const img = new Image(); img.src = src; });
+        }
+        new Image().src = GUN_ASSETS.idle;
+        new Image().src = GUN_ASSETS.fire;
+        new Image().src = GUN_ASSETS.flash;
+        new Image().src = GUN_ASSETS.shotgun;
+        if(GUN_ASSETS.critical) new Image().src = GUN_ASSETS.critical;
+    }
+
+    function triggerGunFire() {
+        const weaponImg = document.getElementById('weapon-img');
+        if (!weaponImg) return;
+
+        if (GUN_ASSETS.timer) {
+            clearTimeout(GUN_ASSETS.timer);
+            GUN_ASSETS.timer = null;
+        }
+
+        weaponImg.src = GUN_ASSETS.fire;
+        
+        weaponImg.classList.remove('recoil-heavy'); 
+        weaponImg.classList.remove('recoil-critical');
+        weaponImg.classList.add('recoil-kick');
+
+        GUN_ASSETS.timer = setTimeout(() => {
+            weaponImg.src = GUN_ASSETS.idle;
+            weaponImg.classList.remove('recoil-kick');
+            GUN_ASSETS.timer = null;
+        }, 150); 
+    }
+
+    function triggerSpecialAction(type) {
+        const weaponImg = document.getElementById('weapon-img');
+        const asset = GUN_ASSETS[type];
+        if (!weaponImg || !asset) return;
+
+        if (GUN_ASSETS.timer) {
+            clearTimeout(GUN_ASSETS.timer);
+            GUN_ASSETS.timer = null;
+        }
+
+        weaponImg.src = asset;
+        
+        weaponImg.classList.remove('recoil-kick');
+        weaponImg.classList.remove('recoil-heavy');
+        weaponImg.classList.remove('recoil-critical');
+        
+        if (type === 'shotgun') {
+            weaponImg.classList.add('recoil-heavy'); 
+        } else if (type === 'critical') {
+            weaponImg.classList.add('recoil-critical'); 
+        } else {
+            weaponImg.classList.add('recoil-kick'); 
+        }
+
+        GUN_ASSETS.timer = setTimeout(() => {
+            weaponImg.src = GUN_ASSETS.idle;
+            weaponImg.classList.remove('recoil-kick');
+            weaponImg.classList.remove('recoil-heavy');
+            weaponImg.classList.remove('recoil-critical');
+            GUN_ASSETS.timer = null;
+        }, 600); 
+    }
+
+    function initUI() {
+        document.getElementById('book-grid').innerHTML = [1,2,3,4,5].map(i => 
+            `<button onclick="selectBook(${i})" class="btn book-btn ${i===1?'book-active':''}" id="b${i}">${['I','II','III','IV','V'][i-1]}</button>`).join('');
+        
+        loadBookData(1);
+        
+        loadSavedProfile();
+        randomizeBackground(); 
+        preloadImages(); 
+        state.bgStars = [];
+        for(let i=0; i<40; i++) {
+            state.bgStars.push({ x: (Math.random() - 0.5) * 600, y: (Math.random() - 0.5) * 400, z: Math.random(), s: Math.random() * 1.5 });
+        }
+    }
+
+    function loadSavedProfile() {
+        const saved = localStorage.getItem('vofd_profile');
+        if (saved) {
+            try {
+                const profile = JSON.parse(saved);
+                if (profile.grade) document.getElementById('select-grade').value = profile.grade;
+                if (profile.className) document.getElementById('select-class').value = profile.className;
+                if (profile.no) document.getElementById('input-no').value = profile.no;
+                if (profile.name) document.getElementById('input-name').value = profile.name;
+            } catch (e) {}
+        }
+    }
+
+    function refreshLessonGrid() {
+        const grid = document.getElementById('lesson-grid');
+        grid.innerHTML = [1,2,3,4,5,6,7,8,9].map(i => {
+            const hasData = currentBookData && currentBookData[`L${i}`];
+            const activeClass = i === selectedLesson ? 'lesson-active' : '';
+            const emptyClass = !hasData ? 'btn-empty' : '';
+            return `<button onclick="selectLesson(${i})" class="btn lesson-btn ${activeClass} ${emptyClass}" id="l${i}">${i}</button>`;
+        }).join('');
+    }
+
+    async function requestWakeLock() {
+        try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch(e) {}
+    }
+
+    async function loadBookData(n) {
+        selectedBook = n;
+        try {
+            const timestamp = new Date().getTime();
+            const res = await fetch(`book${n}.json?t=${timestamp}`);
+            
+            if (!res.ok) throw new Error("File not found");
+            
+            currentBookData = await res.json();
+            console.log(`Loaded Book ${n} successfully`);
+            
+            refreshLessonGrid();
+            checkMissionValid();
+        } catch(e) { 
+            console.error("Load failed, file might not exist yet:", e);
+            currentBookData = {}; 
+            refreshLessonGrid(); 
+            checkMissionValid();
+        }
+    }
+
+    window.selectBook = (n) => {
+        document.querySelectorAll('.book-btn').forEach(b => b.classList.remove('book-active'));
+        document.getElementById(`b${n}`).classList.add('book-active');
+        loadBookData(n);
+    };
+
+    async function fetchLessonRankings(lessonId) {
+        const preview = document.getElementById('leaderboard-preview');
+        const list = document.getElementById('top-records-list');
+        list.innerHTML = "SEARCHING RECORDS...";
+        preview.classList.remove('hidden');
+
+        try {
+            const { db, appId, collection, getDocs } = window.fbase;
+            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores'));
+            let records = [];
+            snap.forEach(d => {
+                const data = d.data();
+                if(data.book == selectedBook && data.lesson == lessonId && data.name !== ADMIN_KEY) records.push(data);
+            });
+            records.sort((a, b) => b.score - a.score);
+            const top3 = records.slice(0, 3);
+            if(top3.length === 0) list.innerHTML = "NO RECORDS IN THIS SECTOR";
+            else list.innerHTML = top3.map((r, i) => `<div class="flex justify-between"><span>#${i+1} ${r.name}</span> <span class="text-green-500 font-bold">${r.score}</span></div>`).join('');
+        } catch (e) { list.innerHTML = "UNABLE TO LOAD RECORDS"; }
+    }
+
+    window.selectLesson = (n) => {
+        if (!currentBookData) return;
+        
+        const data = currentBookData[`L${n}`];
+        const targetDisplay = document.getElementById('mission-target-display');
+        
+        if (!data) {
+            targetDisplay.innerText = "BLOCKED"; 
+            targetDisplay.classList.remove('text-green-400');
+            targetDisplay.classList.add('text-red-500');
+            document.getElementById('leaderboard-preview').classList.add('hidden');
+            return;
+        }
+        selectedLesson = n;
+        document.querySelectorAll('.lesson-btn').forEach(b => b.classList.remove('lesson-active'));
+        document.getElementById(`l${n}`).classList.add('lesson-active');
+        checkMissionValid();
+        fetchLessonRankings(n);
+    };
+
+    function checkMissionValid() {
+        const btn = document.getElementById('confirm-mission-btn');
+        const targetDisplay = document.getElementById('mission-target-display');
+        
+        if (!currentBookData) {
+            btn.disabled = true;
+            return;
+        }
+
+        const data = currentBookData[`L${selectedLesson}`];
+        targetDisplay.classList.remove('text-red-500');
+        targetDisplay.classList.add('text-green-400');
+
+        if (data) {
+            btn.disabled = false;
+            targetDisplay.innerText = data.title.toUpperCase();
+        } else { 
+            btn.disabled = true;
+            targetDisplay.innerText = "BLOCKED"; 
+            targetDisplay.classList.remove('text-green-400');
+            targetDisplay.classList.add('text-red-500');
+        }
+    }
+
+    initUI();
+
+    window.confirmMission = () => {
+        document.getElementById('mission-screen').classList.add('hidden');
+        document.getElementById('login-screen').classList.remove('hidden');
+        document.getElementById('selected-mission-title').innerText = currentBookData[`L${selectedLesson}`].title.toUpperCase();
+    };
+    window.backToMission = () => {
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('mission-screen').classList.remove('hidden');
+    };
+
+    window.handleAuth = async () => {
+        const nameInput = document.getElementById('input-name').value.trim();
+        if(nameInput === ADMIN_KEY) {
+            document.getElementById('login-screen').classList.add('hidden');
+            showAdmin();
+            return;
+        }
+        const grade = document.getElementById('select-grade').value;
+        const className = document.getElementById('select-class').value;
+        const no = document.getElementById('input-no').value.trim();
+        if(!nameInput || !no) return;
+        localStorage.setItem('vofd_profile', JSON.stringify({ grade, className, no, name: nameInput }));
+        state.player = { name: nameInput, no, class: grade + className };
+        document.getElementById('login-screen').classList.add('hidden');
+        startGame();
+    };
+
+    let cachedAdminData = [];
+
+    async function showAdmin() {
+        document.getElementById('admin-screen').classList.remove('hidden');
+        const body = document.getElementById('records-body');
+        body.innerHTML = "<tr><td colspan='5' class='p-4 text-center'>FETCHING ARCHIVE...</td></tr>";
+        
+        try {
+            const { db, appId, collection, getDocs } = window.fbase;
+            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores'));
+            let res = []; 
+            snap.forEach(d => {
+                const data = d.data();
+                if (data.name !== ADMIN_KEY) res.push(data);
+            });
+            res.sort((a, b) => {
+                const timeA = a.timestamp ? a.timestamp.seconds : 0;
+                const timeB = b.timestamp ? b.timestamp.seconds : 0;
+                return timeB - timeA;
+            });
+            cachedAdminData = res; 
+
+            body.innerHTML = res.map(d => {
+                let timeStr = "";
+                let dateStr = "N/A";
+                if (d.timestamp && d.timestamp.seconds) {
+                    const date = new Date(d.timestamp.seconds * 1000);
+                    dateStr = `${(date.getMonth()+1).toString().padStart(2,'0')}/${date.getDate().toString().padStart(2,'0')}`;
+                    timeStr = `${date.getHours().toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}`;
+                }
+                const missionStr = `B${d.book || '?'}-L${d.lesson || '?'}`;
+                return `
+                <tr>
+                    <td class="align-top">
+                        <div class="text-blue-400 font-bold leading-tight">${d.class}<span class="text-white ml-1">${d.no}</span></div>
+                        <div class="text-zinc-500 text-[8px] truncate max-w-[80px]">${d.name}</div>
+                    </td>
+                    <td class="align-top text-center text-zinc-300 font-bold tracking-tighter pt-2">${missionStr}</td>
+                    <td class="align-top">
+                        <div class="text-green-500 font-bold leading-tight">${d.score}</div>
+                        <div class="text-[7px] text-red-400 uppercase tracking-wider">${d.difficulty || '-'}</div>
+                    </td>
+                    <td class="align-top text-right text-[8px] text-zinc-500">
+                        <div>${dateStr}</div>
+                        <div>${timeStr}</div>
+                    </td>
+                </tr>`;
+            }).join('');
+        } catch(e) { 
+            console.error(e);
+            body.innerHTML = "SYSTEM ERROR"; 
+        }
+    }
+    
+    window.exportToCSV = () => {
+        if (!cachedAdminData || cachedAdminData.length === 0) { alert("No data to export"); return; }
+        const headers = ["Class", "No", "Name", "Score", "Difficulty", "Book", "Lesson", "Date", "Time"];
+        const rows = cachedAdminData.map(d => {
+            let dateStr = "", timeStr = "";
+            if (d.timestamp && d.timestamp.seconds) {
+                const date = new Date(d.timestamp.seconds * 1000);
+                dateStr = `${date.getFullYear()}/${(date.getMonth()+1).toString().padStart(2,'0')}/${date.getDate().toString().padStart(2,'0')}`;
+                timeStr = `${date.getHours().toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}`;
+            }
+            const safeName = d.name.replace(/,/g, " "); 
+            return [d.class, d.no, safeName, d.score, d.difficulty, d.book, d.lesson, dateStr, timeStr].join(",");
+        });
+        const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + headers.join(",") + "\n" + rows.join("\n");
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `dead_dont_talk_report_${Date.now()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    window.startGodMode = () => {
+        document.getElementById('admin-screen').classList.add('hidden');
+        state.player = { name: ADMIN_KEY, no: "00", class: "GOD MODE" };
+        startGame();
+    };
+
+    function executeReward(key) {
+        const conf = REWARD_CONFIG[key];
+        if (!conf) return;
+        sfx.reward();
+        const toast = document.getElementById('reward-toast');
+        const overlay = document.getElementById('flash-overlay');
+        toast.innerText = conf.text;
+        toast.style.color = conf.textColor;
+        toast.style.borderColor = 'transparent'; 
+        toast.style.boxShadow = 'none';
+        toast.style.textShadow = `0 0 20px ${conf.textColor}`; 
+        toast.classList.add('toast-active');
+        toast.classList.add('flicker'); 
+        overlay.style.transition = `opacity ${conf.overlayDuration < 500 ? '0.1s' : '0.5s'} ease-out`;
+        overlay.style.backgroundColor = conf.overlayColor;
+        overlay.style.opacity = key === 'FLASH' ? "1" : "0.8"; 
+        if (conf.effect) conf.effect(state);
+        setTimeout(() => { overlay.style.opacity = "0"; }, conf.overlayDuration);
+        
+        setTimeout(() => {
+            toast.classList.remove('toast-active'); toast.classList.remove('flicker');
+            setTimeout(() => { toast.style.color = '#fff'; toast.style.textShadow = '0 0 10px #000'; overlay.style.backgroundColor = 'white'; }, 500);
+        }, 3000);
+    }
+
+    function triggerCriticalWipe() {
+        executeReward('CRITICAL');
+        state.enemies.forEach((e, i) => {
+            if (!e.isDying && !e.isBoss) {
+                killEnemy(i, false);
+            }
+        });
+    }
+
+    window.handleClearData = async () => {
+        const btn = document.getElementById('clear-data-btn');
+        if (!clearConfirm) {
+            clearConfirm = true; btn.innerText = "ARE YOU SURE?"; btn.classList.add('bg-red-600');
+            setTimeout(() => { if(clearConfirm) { clearConfirm = false; btn.innerText = "Clear All"; btn.classList.remove('bg-red-600'); } }, 3000);
+            return;
+        }
+        const { db, appId, collection, getDocs, deleteDoc, doc } = window.fbase;
+        try {
+            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores'));
+            for(let d of snap.docs) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores', d.id));
+            clearConfirm = false; showAdmin();
+        } catch (e) { btn.innerText = "ERROR"; }
+    };
+
+    window.setDifficulty = (val, mode) => {
+        state.difficulty = val; state.difficultyMode = mode;
+        document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active-diff'));
+        document.getElementById(`diff-${mode.toLowerCase().replace(" ", "")}`).classList.add('active-diff');
+    };
+
+    window.challengeNextLevel = () => {
+        const diffMap = {
+            'Rookie': { val: 1.0, mode: 'Veteran' },
+            'Veteran': { val: 1.5, mode: 'Nightmare' },
+            'Nightmare': { val: 2.5, mode: 'NoHope' }
+        };
+        const next = diffMap[state.difficultyMode];
+        if (next) {
+            setDifficulty(next.val, next.mode);
+            document.getElementById('win-screen').classList.add('hidden');
+            startGame(true);
+        }
+    };
+
+    class Particle {
+        constructor(x, y, color) {
+            this.x = x; this.y = y; this.color = color;
+            this.vx = (Math.random() - 0.5) * 8; this.vy = (Math.random() - 0.5) * 8;
+            this.alpha = 1; this.size = Math.random() * 3 + 1;
+        }
+        update() { this.x += this.vx; this.y += this.vy; this.alpha -= 0.05; return this.alpha > 0; }
+        draw(ctx) { ctx.save(); ctx.globalAlpha = this.alpha; ctx.fillStyle = this.color; ctx.fillRect(this.x, this.y, this.size, this.size); ctx.restore(); }
+    }
+
+    class Enemy {
+        constructor(word, isBoss = false) {
+            this.word = word; this.isBoss = isBoss; 
+            this.z = (state.difficultyMode === 'Rookie' && !isBoss) ? 0.25 : 0;
+            this.x = (Math.random() - 0.5) * 380; this.y = (Math.random() - 0.5) * 30;
+            
+            if (!isBoss) {
+                const settings = ENEMY_SPEEDS[state.difficultyMode] || ENEMY_SPEEDS['Veteran'];
+                this.speed = settings.min + Math.random() * (settings.max - settings.min);
+            } else {
+                const bConfig = BOSS_CONFIG_DATA[state.difficultyMode] || BOSS_CONFIG_DATA['Veteran'];
+                this.speed = bConfig.speed; 
+            }
+
+            this.isDying = false; this.opacity = 1; this.wobbleSeed = Math.random() * 1000;
+            const greens = [100, 120, 140, 160];
+            this.skinHue = greens[Math.floor(Math.random() * greens.length)];
+            this.clothesHue = Math.random() * 360;
+            if (isBoss) { this.skinHue = 280; this.clothesHue = 0; }
+        }
+        update() {
+            if (this.isDying) { this.opacity -= 0.2; return this.opacity <= 0; }
+            if (state.freezeTimer <= 0) {
+                if (state.bossMode && this.isBoss) {
+                    let s = this.speed; 
+                    if (this.z > BOSS_BEHAVIOR.sprintZ) s *= BOSS_BEHAVIOR.sprintMultiplier; 
+                    this.z += s; 
+                }
+                else if (!state.bossMode) {
+                     let s = this.speed;
+                     if (this.z > ENEMY_BEHAVIOR.sprintZ) s *= ENEMY_BEHAVIOR.sprintMultiplier;
+                     this.z += s;
+                }
+            }
+            const thresholds = GAME_BALANCE.THRESHOLDS[state.difficultyMode] || GAME_BALANCE.THRESHOLDS['Veteran'];
+            return this.z >= thresholds.deathZ;
+        }
+        draw(ctx, w, h, isClosest) {
+            const wobbleX = Math.sin(Date.now() * 0.004 + this.wobbleSeed) * 10 * this.z;
+            const walkBounce = Math.abs(Math.sin(Date.now() * 0.008 + this.wobbleSeed)) * 20 * this.z;
+            const screenX = w/2 + (this.x * this.z) + wobbleX;
+            const screenY = h/2 + (this.y * this.z) + (this.z * h * 0.4) - walkBounce;
+
+            if (this.isBoss) {
+                const drawRect = (x, y, w, h, color) => { ctx.fillStyle = color; ctx.fillRect(x, y, w, h); };
+                const drawRot = (x, y, w, h, density, c1, c2, baseS) => {
+                    for(let i=0; i<density; i++) {
+                        ctx.fillStyle = Math.random()>0.5 ? (c1||"#000") : (c2||"#300");
+                        const s = baseS * 0.02;
+                        ctx.fillRect(x + Math.random()*w, y + Math.random()*h, s, s);
+                    }
+                };
+                const vibrate = (mag, size) => (Math.random() - 0.5) * size * mag;
+
+                ctx.save();
+                ctx.translate(screenX, screenY);
+                ctx.globalAlpha = this.opacity;
+
+                if (state.difficultyMode === 'Rookie') {
+                    const scale = 2.2; 
+                    const size = Math.min(w * 0.65, (20 + Math.pow(this.z, 2) * 320) * scale);
+                    const twitch = (Math.random() - 0.5) * size * 0.02;
+                    ctx.translate(twitch, 0); 
+
+                    const PALETTE = { skin: "#b0c4de", shadow: "#6c7a89", gown: "#4a6fa5", gShadow: "#2c3e50", strap: "#dcdcdc", sShadow: "#999", metal: "#555" };
+                    
+                    const drawStrap = (x, y, len, wid, offset) => {
+                        const segs=5, segLen=len/segs; let cX=x, cY=y;
+                        ctx.fillStyle = PALETTE.strap;
+                        for(let i=0; i<segs; i++) {
+                            const wav = Math.sin(Date.now()*0.005+offset+i*0.5)*(i*size*0.05);
+                            const nX=cX+wav, nY=cY+segLen;
+                            ctx.beginPath(); ctx.moveTo(cX-wid/2,cY); ctx.lineTo(cX+wid/2,cY); ctx.lineTo(nX+wid/2,nY); ctx.lineTo(nX-wid/2,nY); ctx.fill();
+                            ctx.fillStyle = PALETTE.sShadow; ctx.fillRect(cX-wid/4, cY, wid/2, segLen); ctx.fillStyle = PALETTE.strap;
+                            cX=nX; cY=nY;
+                        }
+                    };
+
+                    drawRect(-size*0.5, -size*1.1, size, size*2.2, "#05080a");
+                    drawRect(-size*0.3, size*0.6, size*0.25, size*0.9, PALETTE.gShadow);
+                    drawRect(size*0.05, size*0.6, size*0.25, size*0.9, PALETTE.gShadow);
+                    drawStrap(-size*0.4, size*0.2, size*1.2, size*0.08, 0);
+                    drawStrap(size*0.4, size*0.2, size*1.2, size*0.08, 2);
+                    drawRect(-size*0.4, -size*0.8, size*0.8, size*1.4, PALETTE.gown);
+                    ctx.fillStyle=PALETTE.sShadow; ctx.fillRect(-size*0.4, -size*0.3, size*0.8, size*0.15); ctx.fillRect(-size*0.4, 0, size*0.8, size*0.15);
+                    ctx.save(); ctx.translate(-size*0.45, -size*0.7); ctx.rotate(0.1+Math.sin(Date.now()*0.003)*0.1);
+                    drawRect(-size*0.1, 0, size*0.2, size*1.2, PALETTE.gown); drawStrap(0, size*1.1, size*0.6, size*0.08, 1);
+                    ctx.restore();
+                    ctx.save(); ctx.translate(size*0.45, -size*0.7); ctx.rotate(-0.1+Math.sin(Date.now()*0.004)*0.1);
+                    drawRect(-size*0.1, 0, size*0.2, size*1.2, PALETTE.gown); drawStrap(0, size*1.1, size*0.6, size*0.08, 3);
+                    ctx.restore();
+                    ctx.save(); ctx.translate(0, -size*0.9); ctx.rotate(Math.sin(Date.now()*0.02)*0.05);
+                    const hW=size*0.35, hH=size*0.45;
+                    drawRect(-hW/2, -hH*0.9, hW, hH, "#dcdcdc"); 
+                    ctx.fillStyle="#0ff"; ctx.shadowBlur=5; ctx.shadowColor="#0ff";
+                    if(Math.random()>0.1) ctx.fillRect(-hW*0.32, -hH*0.53, size*0.04, size*0.04); 
+                    ctx.shadowBlur=0;
+                    ctx.fillStyle=PALETTE.metal; ctx.fillRect(-hW*0.55, -hH*0.3, hW*1.1, hH*0.35); 
+                    ctx.restore();
+
+                } else if (state.difficultyMode === 'Veteran') {
+                    const scale = 2.3; 
+                    const size = Math.min(w * 0.65, (20 + Math.pow(this.z, 2) * 320) * scale);
+                    const PALETTE = { skin: "#757a75", shirt: "#262626", apron: "#3f3f3f", pants: "#000", blood: "#8a0b0b", blade: "#888", rust: "#5d4037" };
+
+                    drawRect(-size*0.7, -size*1.3, size*1.4, size*2.5, "#0a0a0a");
+                    drawRect(-size*0.35, size*0.5, size*0.3, size*0.85, PALETTE.pants);
+                    drawRect(size*0.05, size*0.5, size*0.3, size*0.85, PALETTE.pants);
+                    drawRect(-size*0.4, -size*0.8, size*0.8, size*1.4, PALETTE.shirt);
+                    const aW=size*0.7, aH=size*1.0;
+                    drawRect(-aW/2, -size*0.3, aW, aH, PALETTE.apron);
+                    drawRot(-aW/2, -size*0.2, aW, aH, 20, PALETTE.blood, "#3a0000", size);
+                    ctx.save(); ctx.translate(0, -size*0.85); ctx.rotate(Math.PI/9);
+                    const hW=size*0.38, hH=size*0.5;
+                    drawRect(-hW/2, -hH, hW, hH, PALETTE.skin);
+                    ctx.fillStyle="#111"; ctx.fillRect(-hW*0.35, -hH*0.6, hW*0.3, hH*0.18); 
+                    ctx.fillStyle="#f00"; ctx.fillRect(hW*0.18, -hH*0.54, size*0.02, size*0.02); 
+                    ctx.restore();
+                    const armW=size*0.24, armL=size*0.9;
+                    ctx.save(); ctx.translate(-size*0.5, -size*0.7); ctx.rotate(0.1+Math.sin(Date.now()*0.002)*0.05);
+                    drawRect(-armW/2, 0, armW, armL, PALETTE.shirt); drawRect(-armW/2, armL*0.85, armW, size*0.3, PALETTE.skin);
+                    ctx.restore();
+                    ctx.save(); ctx.translate(size*0.48, -size*0.7); 
+                    const aRot = -0.8 + Math.sin(Date.now()*0.003)*0.1; ctx.rotate(aRot);
+                    drawRect(-armW/2, 0, armW, armL, PALETTE.shirt); drawRect(-armW/2, armL*0.85, armW, size*0.3, PALETTE.skin);
+                    ctx.translate(0, armL*1.1); ctx.rotate(-aRot - 0.2); 
+                    drawRect(-size*0.04, -size*0.17, size*0.08, size*0.35, "#3e2723"); 
+                    ctx.fillStyle=PALETTE.blade; ctx.fillRect(-size*0.04, -size*0.17-size*0.55, size*0.45, size*0.55); 
+                    ctx.fillStyle=PALETTE.rust; ctx.fillRect(size*0.1, -size*0.4, size*0.1, size*0.1); 
+                    ctx.fillStyle=PALETTE.blood; ctx.fillRect(-size*0.04+size*0.37, -size*0.5, size*0.05, size*0.3); 
+                    ctx.restore();
+
+                } else if (state.difficultyMode === 'Nightmare') {
+                    const scale = 2.4; 
+                    const size = Math.min(w * 0.65, (20 + Math.pow(this.z, 2) * 320) * scale);
+                    const PALETTE = { shirt: "#d7ccc8", pants: "#3e2723", mask: "#5d4037", saw: "#f57c00", blood: "#aa0000" };
+
+                    drawRect(-size*0.8, -size*1.3, size*1.6, size*2.6, "#0c0500");
+                    drawRect(-size*0.38, size*0.5, size*0.32, size*0.85, PALETTE.pants);
+                    drawRect(size*0.06, size*0.5, size*0.32, size*0.85, PALETTE.pants);
+                    drawRect(-size*0.45, -size*0.8, size*0.9, size*1.4, PALETTE.shirt);
+                    ctx.fillStyle="#2e2e2e"; ctx.fillRect(size*0.2, -size*0.8, size*0.12, size*1.4);
+                    drawRot(-size*0.45, -size*0.8, size*0.9, size*1.2, 30, PALETTE.blood, "#2a0000", size);
+                    ctx.save(); ctx.translate(0, -size*0.9); ctx.rotate(Math.PI/8);
+                    const hW=size*0.45, hH=size*0.6;
+                    drawRect(-hW/2, -hH*0.85, hW, hH, PALETTE.mask); 
+                    ctx.fillStyle="#000"; ctx.fillRect(-hW*0.35, -hH*0.45, size*0.12, size*0.12); ctx.fillRect(hW*0.15, -hH*0.45, size*0.14, size*0.12); 
+                    ctx.restore();
+                    const armW=size*0.25;
+                    ctx.save(); ctx.translate(size*0.4, -size*0.7); ctx.rotate(0.5); 
+                    drawRect(-armW/2, 0, armW, size*0.8, PALETTE.shirt); drawRect(-armW/2, size*0.8, armW, size*0.25, "#a18e72");
+                    ctx.restore();
+                    ctx.save(); ctx.translate(-size*0.4, -size*0.7); ctx.rotate(-0.5); 
+                    drawRect(-armW/2, 0, armW, size*0.8, PALETTE.shirt); drawRect(-armW/2, size*0.8, armW, size*0.25, "#a18e72");
+                    ctx.restore();
+                    ctx.save();
+                    const vX = vibrate(0.08, size); const vY = vibrate(0.08, size);
+                    ctx.translate(vX, -size*0.1+vY); ctx.rotate(-Math.PI/6);
+                    const sW=size*0.8, sH=size*0.5;
+                    drawRect(-sW*0.6, -sH/2, sW, sH, PALETTE.saw); 
+                    drawRot(-sW*0.6, -sH/2, sW, sH, 15, PALETTE.blood, "#2a0000", size);
+                    ctx.translate(sW*0.35, 0); ctx.rotate(0.05); 
+                    const bL=size*1.6, bH=size*0.3;
+                    drawRect(0, -bH/2, bL, bH, "#546e7a");
+                    drawRot(bL*0.5, -bH/2, bL*0.5, bH, 20, "#ff0000", "#aa0000", size); 
+                    ctx.fillStyle="#cfd8dc"; const off = (Date.now()/15)%(size*0.2);
+                    for(let i=0; i<bL; i+=size*0.15) { ctx.fillRect(i-off, -bH/2-size*0.06, size*0.1, size*0.06); ctx.fillRect(i+off, bH/2, size*0.1, size*0.06); }
+                    ctx.restore();
+
+                } else {
+                    const scale = 3.2; 
+                    const size = Math.min(w * 0.55, (15 + Math.pow(this.z, 2) * 280));
+                    const PALETTE = { skin: "#6d6459", shadow: "#3e3630", dirt: "#1f1c18", pants: "#2b2825", blood: "#660000", dried: "#2a0505", scar: "#3e2723" };
+                    const breathe = Math.sin(Date.now()*0.0015)*0.05;
+
+                    const drawStatic = (x, y, w, h, den, seedOffset, type) => {
+                        for(let i=0; i<den; i++) {
+                            const r = Math.sin(this.wobbleSeed + i * 132.1 + seedOffset) * 10000; const rv = r - Math.floor(r);
+                            const r2 = Math.sin(this.wobbleSeed + i * 54.3 + seedOffset) * 10000; const rv2 = r2 - Math.floor(r2);
+                            let col = type==='blood' ? (rv>0.6?PALETTE.blood:PALETTE.dried) : (rv>0.4?PALETTE.dirt:PALETTE.shadow);
+                            if(type==='scar') col = PALETTE.scar;
+                            const s = size * (type==='scar'?0.06:0.02);
+                            const sy = size * (type==='scar'?0.015:0.02);
+                            ctx.fillStyle = col; ctx.fillRect(x + rv*w, y + rv2*h, s, sy);
+                        }
+                    };
+
+                    drawRect(-size*1.0, -size*1.2, size*2.0, size*2.5, "#050403");
+                    const lW=size*0.4, lH=size*0.7;
+                    drawRect(-size*0.45, size*0.6, lW, lH, PALETTE.skin); drawStatic(-size*0.45, size*0.6, lW, lH, 20, 100, 'dirt');
+                    drawRect(-size*0.45, size*0.8, lW, lH*0.6, PALETTE.pants);
+                    drawRect(size*0.05, size*0.6, lW, lH, PALETTE.skin); drawStatic(size*0.05, size*0.6, lW, lH, 20, 200, 'dirt');
+                    drawRect(size*0.05, size*0.8, lW, lH*0.6, PALETTE.pants);
+                    ctx.fillStyle=PALETTE.pants; ctx.fillRect(-size*0.25, size*0.5, size*0.5, size*0.5); 
+                    const bW = size*0.9+breathe*size*0.1;
+                    drawRect(-bW/2, -size*0.2, bW, size*0.9, PALETTE.shadow); 
+                    drawStatic(-bW/2, -size*0.2, bW, size*0.5, 15, 300, 'blood');
+                    const cW = size*1.2+breathe*size*0.05;
+                    drawRect(-cW/2, -size*0.8, cW, size*0.8, PALETTE.skin); 
+                    drawStatic(-cW/2, -size*0.8, cW, size*0.8, 40, 400, 'dirt');
+                    drawStatic(-cW/2, -size*0.8, cW, size*0.6, 10, 500, 'scar');
+                    drawStatic(-cW/4, -size*0.7, cW/2, size*0.4, 20, 600, 'blood');
+                    ctx.fillStyle=PALETTE.skin; ctx.beginPath();
+                    const tH = -size*1.1+breathe*size*0.05;
+                    ctx.moveTo(-size*0.9, -size*0.5); ctx.lineTo(-size*0.3, tH); ctx.lineTo(size*0.3, tH); ctx.lineTo(size*0.9, -size*0.5); ctx.fill();
+                    const hW=size*0.25, hH=size*0.3, hY=tH+size*0.15;
+                    drawRect(-hW/2, hY, hW, hH, PALETTE.shadow);
+                    ctx.fillStyle="#1a0505"; ctx.fillRect(-hW*0.3, hY+hH*0.5, hW*0.6, hH*0.35); 
+                    ctx.fillStyle="#ffeb3b"; ctx.fillRect(-hW*0.2, hY+hH*0.25, size*0.02, size*0.02); ctx.fillRect(hW*0.15, hY+hH*0.25, size*0.02, size*0.02); 
+                    const aW=size*0.35;
+                    ctx.save(); ctx.translate(-size*0.8, -size*0.5); ctx.rotate(0.15+Math.sin(Date.now()*0.001)*0.05);
+                    drawRect(-aW/2, 0, aW, size*1.3, PALETTE.skin); drawStatic(-aW/2, 0, aW, size*1.3, 20, 700, 'dirt'); drawStatic(-aW/2, 0, aW, size*1.0, 5, 750, 'scar');
+                    ctx.fillStyle="#455a64"; ctx.fillRect(-aW*0.6, size*1.1, aW*1.2, size*0.15); 
+                    ctx.fillStyle=PALETTE.shadow; ctx.fillRect(-aW*0.6, size*1.3, aW*1.2, size*0.45); 
+                    drawStatic(-aW*0.6, size*1.3, aW*1.2, size*0.45, 15, 800, 'blood');
+                    ctx.restore();
+                    ctx.save(); ctx.translate(size*0.8, -size*0.5); ctx.rotate(-0.15-Math.sin(Date.now()*0.001)*0.05);
+                    drawRect(-aW/2, 0, aW, size*1.3, PALETTE.skin); drawStatic(-aW/2, 0, aW, size*1.3, 20, 900, 'dirt');
+                    ctx.fillStyle="#455a64"; ctx.fillRect(-aW*0.6, size*1.1, aW*1.2, size*0.15);
+                    ctx.fillStyle=PALETTE.shadow; ctx.fillRect(-aW*0.6, size*1.3, aW*1.2, size*0.45);
+                    drawStatic(-aW*0.6, size*1.3, aW*1.2, size*0.45, 15, 1000, 'blood');
+                    ctx.restore();
+                }
+
+                if (state.player.name === ADMIN_KEY) {
+                    ctx.font = `8px monospace`; ctx.fillStyle = "#0f0"; ctx.textAlign = "center";
+                    ctx.fillText(`GOD MODE: ON`, 0, -size * 1.6);
+                }
+                ctx.restore();
+                return; 
+            }
+
+            const size = Math.min(w * 0.55, (15 + Math.pow(this.z, 2) * 280));
+            ctx.save(); ctx.globalAlpha = this.opacity; ctx.translate(screenX, screenY);
+            ctx.fillStyle = `hsl(${this.clothesHue}, 40%, 35%)`;
+            ctx.fillRect(-size/3, -size/2.5, size/1.5, size/1.2); 
+            ctx.fillStyle = `hsl(210, 30%, 20%)`;
+            ctx.fillRect(-size/3, size/4, size/1.5, size/4); 
+            ctx.fillStyle = `hsl(${this.skinHue}, 45%, 50%)`;
+            ctx.fillRect(-size/3.5, -size*0.9, size/1.75, size/2.2); 
+            ctx.fillRect(-size/2, -size/3, size/6, size/3); ctx.fillRect(size/3, -size/3, size/6, size/3); 
+            ctx.fillStyle = "#000"; 
+            const eyeS = size/10; ctx.fillRect(-size/6, -size*0.75, eyeS, eyeS); ctx.fillRect(size/15, -size*0.75, eyeS, eyeS); ctx.fillRect(-size/15, -size*0.6, size/7.5, eyeS/2); 
+            if (isClosest) { ctx.strokeStyle = '#f00'; ctx.lineWidth = 3; ctx.strokeRect(-size/2 - 5, -size - 5, size + 10, size + 10); }
+            ctx.font = `bold ${Math.max(8, size/7.5)}px 'Press Start 2P'`; ctx.fillStyle = isClosest ? '#fff' : '#444'; ctx.textAlign = 'center'; ctx.shadowBlur = 4; ctx.shadowColor = "#000"; 
+            ctx.fillText(this.word, 0, -size * 1.05);
+            ctx.restore();
+        }
+    }
+
+    function triggerReward() {
+        const rewards = ["RECOVER", "FLASH", "SHOTGUN"];
+        const roll = Math.floor(Math.random() * rewards.length);
+        executeReward(rewards[roll]);
+    }
+
+    function getNextWord() {
+        const fallbackWords = ["test", "debug", "run", "code", "fix"];
+        if (!currentBookData || !currentBookData[`L${selectedLesson}`] || !currentBookData[`L${selectedLesson}`].stages) {
+             if (state.wordPool.length === 0) state.wordPool = [...fallbackWords].sort(() => Math.random() - 0.5);
+             return state.wordPool.pop();
+        }
+        if (state.wordPool.length === 0) {
+            const list = currentBookData[`L${selectedLesson}`].stages["1"] || fallbackWords;
+            state.wordPool = [...list].sort(() => Math.random() - 0.5);
+        }
+        return state.wordPool.pop();
+    }
+
+    function getNextSentence() {
+        const fallbackSentences = ["SYSTEM ERROR", "DEBUG MODE", "TEST SENTENCE"];
+        if (!currentBookData || !currentBookData[`L${selectedLesson}`] || !currentBookData[`L${selectedLesson}`].stages) {
+             if (state.sentencePool.length === 0) state.sentencePool = [...fallbackSentences].sort(() => Math.random() - 0.5);
+             return state.sentencePool.pop();
+        }
+        if (state.sentencePool.length === 0) {
+            const list = currentBookData[`L${selectedLesson}`].stages["2"] || fallbackSentences;
+            state.sentencePool = [...list].sort(() => Math.random() - 0.5);
+        }
+        return state.sentencePool.pop();
+    }
+
+    function startGame(keepScore = false) {
+        randomizeBackground(); 
+        state.gameActive = true; 
+        state.hp = GAME_BALANCE.SURVIVAL[state.difficultyMode].maxHP;
+        if (!keepScore) state.score = 0; 
+        state.kills = 0; 
+        state.bossSentencesCleared = 0;
+        state.combo = 0; state.freezeTimer = 0;
+        state.enemies = []; state.particles = []; 
+        state.wordPool = []; state.sentencePool = []; state.bossMode = false;
+        state.damageAlpha = 0; state.damageTaken = 0; 
+        document.getElementById('boss-ui').style.opacity = '0';
+        document.getElementById('perfect-badge').style.display = 'none';
+        document.getElementById('game-footer').classList.add('hidden');
+        
+        // ★★★ FIX: 重置對齊方式 ★★★
+        document.getElementById('current-word-ui').classList.remove('boss-mode-layout');
+        
+        updateUIPanel();
+        requestWakeLock(); handleResize(); initSpeech(); requestAnimationFrame(gameLoop);
+        sfx.init();
+    }
+
+    window.restartGame = () => { document.getElementById('game-over-screen').classList.add('hidden'); startGame(); };
+
+    function handleResize() {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width * dpr; canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+    }
+
+    let recognition;
+    function initSpeech() {
+        const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!Speech) return;
+        if (recognition) try { recognition.stop(); } catch(e) {}
+        recognition = new Speech(); 
+        recognition.continuous = true; 
+        recognition.interimResults = true; 
+        recognition.lang = 'en-US';
+        
+        recognition.onresult = (e) => {
+            if(!state.gameActive || state.isPaused) return;
+            let finalTranscript = "";
+            let interimTranscript = "";
+            for (let i = e.resultIndex; i < e.results.length; i++) {
+                if (e.results[i].isFinal) finalTranscript += e.results[i][0].transcript.toLowerCase();
+                else interimTranscript += e.results[i][0].transcript.toLowerCase();
+            }
+            if(finalTranscript) processCommand(finalTranscript);
+            else if(interimTranscript.length > 2) processCommand(interimTranscript);
+        };
+
+        recognition.onend = () => { 
+            if(state.gameActive && !state.isPaused) {
+                setTimeout(() => {
+                    try { recognition.start(); } catch(e){} 
+                }, 300); 
+            }
+        };
+        
+        try { recognition.start(); } catch(e){}
+    }
+
+    let lastMatchedWord = "";
+    let lastMatchTime = 0; 
+    const REPEAT_COOLDOWN = 250; 
+
+    function processCommand(text) {
+        const clean = (s) => s.replace(/[.,!?]/g, "").trim().toLowerCase();
+        const input = clean(text);
+        
+        const now = Date.now();
+        const isSameWord = (input === lastMatchedWord);
+        const isCoolingDown = (now - lastMatchTime < REPEAT_COOLDOWN);
+        
+        if (!input || (isSameWord && isCoolingDown)) return;
+
+        if (state.bossMode && state.bossData && state.bossData.words) {
+            const target = clean(state.bossData.words[state.bossWordIndex]);
+            const regex = new RegExp(`(^|\\s)${target}($|\\s)`);
+            if (regex.test(input) || input.includes(target)) { 
+                lastMatchedWord = input; 
+                lastMatchTime = now; 
+                hitBoss(); 
+            }
+        } else {
+            const matchedEnemies = state.enemies.filter(e => {
+                if (e.isDying) return false;
+                const target = clean(e.word);
+                const regex = new RegExp(`(^|\\s)${target}($|\\s)`);
+                return regex.test(input) || input === target;
+            });
+
+            if (matchedEnemies.length > 0) {
+                matchedEnemies.sort((a,b) => b.z - a.z);
+                
+                const killedWords = new Set();
+                
+                matchedEnemies.forEach(target => {
+                    const wordKey = clean(target.word);
+                    if (!killedWords.has(wordKey)) {
+                        killEnemy(state.enemies.indexOf(target));
+                        killedWords.add(wordKey);
+                        lastMatchedWord = input; 
+                        lastMatchTime = now;
+                    }
+                });
+            }
+        }
+    }
+
+    function killEnemy(idx, isAuto = false) {
+        const en = state.enemies[idx]; if(!en) return;
+        en.isDying = true; 
+        const requiredKills = BOSS_TRIGGER_KILLS[state.difficultyMode] || 15;
+        const comboConfig = GAME_BALANCE.COMBO[state.difficultyMode];
+        let scoreGain = (comboConfig.baseScore + (state.combo * comboConfig.comboMultiplier)) * state.difficulty;
+        state.score += scoreGain;
+        state.kills++; 
+        if(!isAuto) {
+            triggerGunFire();
+            state.combo++;
+            if(state.combo > 0 && state.combo % comboConfig.rewardThreshold === 0) triggerReward();
+            if (Math.random() < comboConfig.criticalChance && !state.bossMode) triggerCriticalWipe();
+        }
+        createExplosion(en); state.shake = 10; sfx.kill();
+        if (state.kills >= requiredKills && !state.bossMode) startBossBattle();
+    }
+
+    function startBossBattle() {
+        if (state.isBossStarting) return;
+        state.isBossStarting = true;
+
+        state.enemies = [];
+
+        const warningEl = document.getElementById('warning-screen');
+        warningEl.classList.remove('hidden');
+        
+        sfx.alarm();
+
+        setTimeout(() => {
+            warningEl.classList.add('hidden');
+            initiateBossEncounter();
+        }, 2500); 
+    }
+
+    function initiateBossEncounter() {
+        state.isBossStarting = false;
+        
+        state.bossMode = true; 
+        state.bossSentencesCleared = 0; 
+        
+        state.combo = 0;
+
+        const bConfig = BOSS_CONFIG_DATA[state.difficultyMode] || BOSS_CONFIG_DATA['Veteran'];
+        state.bossSentencesRequired = bConfig.sentencesRequired;
+
+        const boss = new Enemy("BOSS", true);
+        boss.z = bConfig.startZ; 
+        state.enemies = [boss];
+        
+        state.freezeTimer = 0;
+
+        state.wordPool = []; 
+        state.sentencePool = [];
+
+        loadNextBossSentence();
+        
+        document.getElementById('boss-ui').style.opacity = '1';
+        
+        // ★★★ FIX: 切換為 BOSS 對齊模式 ★★★
+        document.getElementById('current-word-ui').classList.add('boss-mode-layout');
+        
+        sfx.boss();
+    }
+
+    function loadNextBossSentence() {
+        const full = getNextSentence(); 
+        state.bossData = { full, words: full.split(' ') }; 
+        state.bossWordIndex = 0;
+        
+        const container = document.getElementById('current-word-ui');
+        container.innerHTML = state.bossData.words.map((w, i) => `<span id="bw-${i}" class="boss-word-pending mx-2">${w}</span>`).join('');
+        updateBossUI();
+    }
+
+    function updateBossUI() {
+        state.bossData.words.forEach((_, i) => {
+            const el = document.getElementById(`bw-${i}`);
+            if (el) {
+                el.className = i < state.bossWordIndex ? 'text-zinc-600 line-through mx-2' : (i === state.bossWordIndex ? 'boss-word-active font-bold text-green-400 mx-2' : 'text-white mx-2');
+            }
+        });
+        
+        const totalSegments = state.bossSentencesRequired;
+        const clearedSegments = state.bossSentencesCleared;
+        const currentSegmentProgress = state.bossWordIndex / state.bossData.words.length;
+        
+        const totalProgress = (clearedSegments + currentSegmentProgress) / totalSegments;
+        
+        const hpBarWidth = Math.max(0, (1 - totalProgress) * 100);
+        document.getElementById('boss-hp-bar').style.width = hpBarWidth + '%';
+        
+        const phaseEl = document.getElementById('boss-phase-display');
+        const remaining = state.bossSentencesRequired - state.bossSentencesCleared;
+        phaseEl.innerText = `PHASE: ${state.bossSentencesCleared + 1} / ${state.bossSentencesRequired}`;
+        
+        if (remaining <= 1) {
+            phaseEl.classList.add('text-red-500', 'flicker');
+            phaseEl.innerText += " [FINISH IT!]";
+        } else {
+            phaseEl.classList.remove('text-red-500', 'flicker');
+            phaseEl.classList.add('text-yellow-500');
+        }
+    }
+
+    function hitBoss() {
+        triggerGunFire();
+        
+        state.bossWordIndex++; 
+        
+        state.combo++; 
+        
+        const comboConfig = GAME_BALANCE.BOSS_COMBO[state.difficultyMode] || GAME_BALANCE.BOSS_COMBO['Veteran'];
+        if (state.combo > 0 && state.combo % comboConfig.rewardThreshold === 0) triggerReward();
+        
+        const bossParams = BOSS_BATTLE_CONFIG[state.difficultyMode] || BOSS_BATTLE_CONFIG['Veteran'];
+        const physics = BOSS_PHYSICS_CONFIG[state.difficultyMode] || BOSS_PHYSICS_CONFIG['Veteran'];
+
+        let scoreGain = (GAME_BALANCE.COMBO[state.difficultyMode].baseScore * bossParams.scoreMult + (state.combo * 20)) * state.difficulty;
+        state.score += scoreGain;
+
+        const boss = state.enemies[0];
+
+        if (Math.random() < bossParams.criticalChance) {
+            if (boss) boss.z = Math.max(0.05, boss.z - physics.crit);
+            state.shake = 50; state.freezeTimer = bossParams.stunDuration;
+            const toast = document.getElementById('reward-toast');
+            toast.innerText = "BOSS STUNNED!"; toast.classList.add('toast-active');
+            toast.style.color = '#f0f'; toast.style.textShadow = '0 0 20px #f0f';
+            setTimeout(() => toast.classList.remove('toast-active'), 1000);
+            sfx.reward(); 
+        } else {
+            state.shake = 20; 
+            if (boss) boss.z = Math.max(0.1, boss.z - physics.hit); 
+        }
+        if (boss) createExplosion(boss); 
+        sfx.kill();
+        
+        if (state.bossWordIndex >= state.bossData.words.length) {
+            state.bossSentencesCleared++;
+            
+            if (boss) boss.z = Math.max(0.1, boss.z - physics.phase);
+
+            if (state.bossSentencesCleared >= state.bossSentencesRequired) {
+                if(boss) boss.isDying = true; 
+                winGame();
+            } else {
+                setTimeout(() => {
+                    loadNextBossSentence();
+                }, 500); 
+            }
+        } else {
+            updateBossUI();
+        }
+    }
+
+    function createExplosion(en) {
+        if(!en) return; 
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const x = rect.width/2 + (en.x * en.z);
+        const y = rect.height/2 + (en.y * en.z) + (en.z * rect.height * 0.45);
+        for(let i=0; i<15; i++) state.particles.push(new Particle(x, y, `hsl(${en.skinHue}, 40%, 40%)`));
+    }
+
+    function triggerDamage() {
+        const shakeConf = DAMAGE_SHAKE_CONFIG[state.difficultyMode] || DAMAGE_SHAKE_CONFIG['Veteran'];
+        const physics = BOSS_PHYSICS_CONFIG[state.difficultyMode] || BOSS_PHYSICS_CONFIG['Veteran'];
+        
+        if (state.player.name === ADMIN_KEY) {
+            state.shake = 10;
+            state.shakeDecay = 0.8; 
+            sfx.damage(); 
+            state.damageAlpha = 0.5; 
+            
+            if (state.bossMode && state.enemies[0]) {
+                state.enemies[0].z = Math.max(0.1, state.enemies[0].z - 0.5);
+            }
+            return; 
+        }
+
+        state.hp--; 
+        state.shake = shakeConf.intensity;
+        state.shakeDecay = shakeConf.decay;
+        
+        state.combo = 0; state.damageTaken++; 
+        sfx.damage(); state.damageAlpha = 0.8; 
+        if (state.bossMode && state.enemies[0]) {
+            state.enemies[0].z = Math.max(0.1, state.enemies[0].z - physics.attackReset); 
+        }
+        if (state.hp <= 0) endGame();
+    }
+
+    function gameLoop() {
+        if (!state.gameActive || state.isPaused) return;
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const w = rect.width; const h = rect.height;
+        ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, canvas.width, canvas.height); 
+
+        const container = document.getElementById('main-container');
+        if (state.shake > 0.5) { 
+            const shakeX = (Math.random() - 0.5) * state.shake;
+            const shakeY = (Math.random() - 0.5) * state.shake;
+            container.style.transform = `translate(${shakeX}px, ${shakeY}px)`;
+            
+            state.shake *= state.shakeDecay; 
+        } else {
+            state.shake = 0;
+            container.style.transform = 'none';
+        }
+
+        const boss = state.enemies.find(e => e.isBoss);
+        if (state.bossMode && boss) {
+            const shakeConfig = BOSS_SHAKE_CONFIG[state.difficultyMode] || BOSS_SHAKE_CONFIG['Veteran'];
+            
+            if (boss.z > shakeConfig.startZ) {
+                const proximityIntensity = (boss.z - shakeConfig.startZ) * shakeConfig.intensity;
+                
+                if (shakeConfig.axis === 'XY') {
+                    const shakeX = (Math.random() - 0.5) * proximityIntensity;
+                    const shakeY = (Math.random() - 0.5) * proximityIntensity;
+                    ctx.translate(shakeX, shakeY);
+                } else {
+                    const shakeY = (Math.random() - 0.5) * proximityIntensity;
+                    ctx.translate(0, shakeY);
+                }
+            }
+        }
+
+        if (state.freezeTimer > 0) state.freezeTimer--;
+        ctx.fillStyle = "#222";
+        state.bgStars.forEach(s => {
+            const sx = w/2 + (s.x * s.z); const sy = h/2 + (s.y * s.z);
+            ctx.globalAlpha = 0.4 * s.z; ctx.fillRect(sx, sy, s.s, s.s); ctx.globalAlpha = 1;
+            if (state.freezeTimer <= 0) s.z += 0.003; if (s.z > 1) s.z = 0;
+        });
+        
+        const spawnRate = GAME_BALANCE.SPAWN_RATES[state.difficultyMode] || 2200;
+        if (!state.bossMode && !state.isBossStarting && state.freezeTimer <= 0 && Date.now() - state.spawnTimer > spawnRate) {
+            state.enemies.push(new Enemy(getNextWord())); state.spawnTimer = Date.now();
+        }
+
+        const closest = [...state.enemies].filter(e => !e.isDying).sort((a,b) => b.z - a.z)[0];
+        
+        state.enemies.sort((a,b) => b.z - a.z);
+
+        for (let i = state.enemies.length - 1; i >= 0; i--) {
+            const en = state.enemies[i];
+            if (en.update()) {
+                if (!en.isDying) triggerDamage(); 
+                if (!en.isBoss) state.enemies.splice(i, 1); 
+            } else {
+                en.draw(ctx, w, h, en === closest);
+            }
+        }
+        for (let i = state.particles.length - 1; i >= 0; i--) {
+            if (!state.particles[i].update()) state.particles.splice(i, 1); else state.particles[i].draw(ctx);
+        }
+        if (state.damageAlpha > 0.01) {
+            ctx.setTransform(1, 0, 0, 1, 0, 0); 
+            ctx.fillStyle = `rgba(255, 0, 0, ${state.damageAlpha * 0.4})`;
+            ctx.fillRect(0, 0, canvas.width, canvas.height); 
+            state.damageAlpha *= 0.9; 
+        }
+        updateUIPanel(); requestAnimationFrame(gameLoop);
+    }
+
+    function updateUIPanel() {
+        document.getElementById('score-display').innerText = Math.floor(state.score).toString().padStart(5, '0');
+        const comboEl = document.getElementById('combo-display');
+        comboEl.style.opacity = state.combo > 1 ? '1' : '0'; comboEl.innerText = `${state.combo} COMBO`;
+        const status = document.getElementById('status-label');
+        const ecgPath = document.getElementById('ecg-path');
+        const ecgLine = document.querySelector('.ecg-line');
+        if (state.hp > 3) { 
+            status.innerText = 'STABLE'; status.className = 'pixel-font text-green-500 text-[8px] font-bold'; 
+            ecgPath.setAttribute('stroke', 'lime'); ecgLine.style.animationDuration = "2s";
+        } else if (state.hp > 1) { 
+            status.innerText = 'CAUTION'; status.className = 'pixel-font text-yellow-500 text-[8px] font-bold'; 
+            ecgPath.setAttribute('stroke', 'yellow'); ecgLine.style.animationDuration = "1s"; 
+        } else { 
+            status.innerText = 'DANGER'; status.className = 'pixel-font text-red-600 text-[8px] font-bold flicker'; 
+            ecgPath.setAttribute('stroke', 'red'); ecgLine.style.animationDuration = "0.5s"; 
+        }
+        
+        const labelEl = document.getElementById('targeting-label');
+        const wordEl = document.getElementById('current-word-ui');
+
+        if (state.bossMode) {
+            // labelEl removed
+            // labelEl.innerText = "BOSS SEQUENCE";
+            // labelEl.className = "text-[6px] text-red-500 mb-1 uppercase tracking-widest flicker";
+        } else {
+            // labelEl removed
+            // labelEl.innerText = "TARGETING";
+            // labelEl.className = "text-[6px] text-zinc-600 mb-1 uppercase tracking-widest";
+            
+            const target = [...state.enemies].filter(e => !e.isDying).sort((a,b) => b.z - a.z)[0];
+            let t = "AWAITING...";
+            if (target) t = target.word;
+            wordEl.innerText = t; 
+        }
+    }
+
+    async function syncData() {
+        if (state.player.name === ADMIN_KEY) return;
+
+        try {
+            const { db, appId, setDoc, doc, serverTimestamp } = window.fbase;
+            const rid = `${state.player.class}_${state.player.no}_${Date.now()}`;
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores', rid), {
+                ...state.player, score: Math.floor(state.score), difficulty: state.difficultyMode, book: selectedBook, lesson: selectedLesson, timestamp: serverTimestamp()
+            });
+        } catch(e){}
+    }
+
+    function updateResultDetails(elId) {
+        const el = document.getElementById(elId);
+        if(!el) return;
+        const now = new Date();
+        const dateStr = `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        let title = "UNKNOWN SECTOR";
+        if (currentBookData && currentBookData[`L${selectedLesson}`]) { title = currentBookData[`L${selectedLesson}`].title; }
+        el.innerHTML = `
+            <div class="grid grid-cols-[35%_65%] gap-1 text-[9px] uppercase tracking-wider font-bold text-left">
+                <div class="text-zinc-500">MISSION</div><div class="text-blue-400">Book ${selectedBook} - ${title}</div>
+                <div class="text-zinc-500">LEVEL</div><div class="text-red-400">${state.difficultyMode}</div>
+                <div class="text-zinc-500">UNIT</div><div class="text-white">${state.player.class}</div>
+                <div class="text-zinc-500">AGENT</div><div class="text-white">${state.player.no}. ${state.player.name}</div>
+                <div class="text-zinc-500">DATE</div><div class="text-zinc-400">${dateStr}</div>
+            </div>
+        `;
+    }
+
+    function winGame() { 
+        if (!state.gameActive) return; 
+        state.gameActive = false; if(wakeLock) releaseWakeLock(); 
+        document.getElementById('win-score-display').innerText = Math.floor(state.score); 
+        document.getElementById('win-screen').classList.remove('hidden'); 
+        document.getElementById('game-footer').classList.remove('hidden');
+        updateResultDetails('win-details');
+        if (state.damageTaken === 0) { document.getElementById('perfect-badge').style.display = 'block'; sfx.perfect(); }
+        const btn = document.getElementById('next-level-btn');
+        if (state.difficultyMode !== 'NoHope') {
+            btn.classList.remove('hidden');
+            const nextMode = { 'Rookie': 'Veteran', 'Veteran': 'Nightmare', 'Nightmare': 'NoHope' }[state.difficultyMode];
+            btn.innerText = `CHALLENGE: ${nextMode}`;
+        } else { btn.classList.add('hidden'); }
+        syncData(); 
+    }
+    
+    function endGame() { 
+        if (!state.gameActive) return; 
+        state.gameActive = false; if(wakeLock) releaseWakeLock(); 
+        document.getElementById('fail-score-display').innerText = Math.floor(state.score); 
+        document.getElementById('game-over-screen').classList.remove('hidden'); 
+        document.getElementById('game-footer').classList.remove('hidden');
+        updateResultDetails('fail-details');
+        syncData(); 
+    }
+    function releaseWakeLock() { if (wakeLock !== null) { wakeLock.release(); wakeLock = null; } }
+
+    window.togglePause = () => { 
+        if(!state.gameActive) return;
+        state.isPaused = !state.isPaused; 
+        const ps = document.getElementById('pause-screen');
+        const targetLabel = document.getElementById('pause-target-word');
+        if (state.isPaused) { 
+            ps.classList.remove('hidden');
+            const target = [...state.enemies].filter(e => !e.isDying).sort((a,b) => b.z - a.z)[0];
+            if (state.bossMode && state.bossData) targetLabel.innerText = state.bossData.words[state.bossWordIndex];
+            else if (target) targetLabel.innerText = target.word;
+            else targetLabel.innerText = "NO TARGET";
+            if(recognition) recognition.stop(); releaseWakeLock();
+        } else { ps.classList.add('hidden'); requestAnimationFrame(gameLoop); if(recognition) try{recognition.start();}catch(e){} requestWakeLock(); }
+    };
+
+    window.speakTarget = () => {
+        const text = document.getElementById('pause-target-word').innerText;
+        if(text === "---" || text === "NO TARGET") return;
+        const u = new SpeechSynthesisUtterance(text); u.lang = 'en-US'; speechSynthesis.speak(u);
+    };
+
+    window.addEventListener('resize', handleResize);
+</script>
+</body>
+</html>
