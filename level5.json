@@ -8,14 +8,21 @@
     "word_selection_rules": {
       "source": "教育部國中參考字彙表 (2000字)",
       "filter_logic": "Speech-First Strategy",
-      "exclude": ["Short words"],
-      "include": ["The longest words in the curriculum", "Words with complex stress patterns", "-tion, -ment, -ing suffixes"]
+      "exclude": [
+        "Short words",
+        "Pure numbers (e.g., two, ten) - STT often converts these to digits (2, 10) causing match failures"
+      ],
+      "include": [
+        "The longest words in the curriculum",
+        "Words with complex stress patterns",
+        "-tion, -ment, -ing suffixes"
+      ]
     },
     "sentence_writing_rules": {
       "difficulty": "CEFR B1+",
       "style": "Full Paragraph-like flow, Complex Grammar",
       "formatting": "Sentence Case (Sentences MUST start with a Capital Letter)",
-      "note": "Sentences are designed to be the ultimate test of fluency."
+      "note": "Sentences are designed to be the ultimate test of fluency without inducing digit output."
     }
   },
   "L1": {
@@ -37,7 +44,7 @@
         "The helicopter landed safely on top of the tall building",
         "Can you help me calculate the answer with a calculator",
         "Please put the cold food in the refrigerator immediately",
-        "The microwave oven can heat up your lunch in two minutes",
+        "The microwave oven can heat up your lunch in a few minutes",
         "Modern technology has changed the way we communicate",
         "Scientists are inventing new machines to help people",
         "I took many digital photos with my new camera"
@@ -58,7 +65,7 @@
         "My sister studies at a famous university in the capital city",
         "We are going to the department store to buy some clothes",
         "The supermarket sells fresh vegetables and fruit every day",
-        "Let us meet at the entrance of the museum at ten o'clock",
+        "Let us meet at the entrance of the museum in the morning",
         "The new apartment building has a beautiful garden on the roof",
         "He works as a doctor in a large hospital near the station",
         "We had a delicious dinner at a nice Italian restaurant",
@@ -115,7 +122,7 @@
         "It is dangerous to swim in the river during the storm",
         "The math question was too difficult for me to answer",
         "He is an intelligent and responsible student in our class",
-        "It is impossible to finish all the work in one hour",
+        "It is impossible to finish all the work in a short time",
         "We had a wonderful time visiting the famous museum",
         "This is the most expensive car I have ever seen",
         "Vegetables are necessary for keeping good health"
