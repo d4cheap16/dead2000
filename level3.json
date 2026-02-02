@@ -1,0 +1,237 @@
+{
+  "_design_notes": {
+    "project_name": "Dead Don't Talk (Junior High 2000 Words Ver.)",
+    "target_audience": "台灣國中生 (CEFR A2-B1)",
+    "core_mechanism": "Voice Recognition (Speech-to-Text)",
+    "level": 3,
+    "difficulty_focus": "Abstract Concepts, Social Issues, Advanced Verbs, Adjectives",
+    "word_selection_rules": {
+      "source": "教育部國中參考字彙表 (2000字)",
+      "filter_logic": "Speech-First Strategy",
+      "exclude": [
+        "Common monosyllabic words (e.g., buy, pay, eat)",
+        "Words with weak vowel sounds that are hard to detect"
+      ],
+      "include": [
+        "Words with 3+ syllables (e.g., supermarket, government)",
+        "Words ending in -tion, -ment, -ing (e.g., pollution, meeting)",
+        "Adverbs and abstract nouns"
+      ]
+    },
+    "sentence_writing_rules": {
+      "difficulty": "CEFR A2 ~ B1",
+      "style": "Complex & Compound Sentences",
+      "formatting": "Sentence Case (Sentences MUST start with a Capital Letter)",
+      "note": "Sentences should reflect social interactions or describe abstract situations."
+    }
+  },
+  "L1": {
+    "title": "Health & Safety",
+    "stages": {
+      "1": [
+        "hospital", "medicine", "headache", "toothache", "stomachache", "temperature", "fever",
+        "accident", "ambulance", "emergency", "problem", "recover", "patient", "clinic",
+        "health", "healthy", "exercise", "cancer", "disease", "virus", "symptom",
+        "comfortable", "terrible", "painful", "weak", "strong", "blind", "deaf",
+        "danger", "dangerous", "safety", "protect", "control", "survive"
+      ],
+      "2": [
+        "You should take this medicine three times a day",
+        "The ambulance arrived at the hospital very quickly",
+        "I have a terrible headache and a high fever",
+        "Regular exercise keeps your body strong and healthy",
+        "Please call for help if there is an emergency",
+        "He is recovering slowly from the car accident",
+        "The dentist told him to brush his teeth more often",
+        "It is dangerous to run on the wet floor",
+        "She felt dizzy and weak after not eating lunch",
+        "Wearing a mask helps protect you from the virus",
+        "The patient is waiting for the doctor in the clinic",
+        "Safety is the most important thing in the factory"
+      ]
+    }
+  },
+  "L2": {
+    "title": "Shopping & Money",
+    "stages": {
+      "1": [
+        "business", "company", "manager", "customer", "product", "price", "total",
+        "expensive", "cheap", "convenient", "special", "popular", "modern",
+        "market", "supermarket", "department", "store", "shop", "cashier", "clerk",
+        "money", "wallet", "dollar", "credit", "charge", "change", "cost", "spend",
+        "choice", "choose", "decide", "package", "present", "gift"
+      ],
+      "2": [
+        "This new computer is too expensive for me to buy",
+        "The department store is having a big sale today",
+        "May I pay for these items with a credit card",
+        "The manager is talking to an important customer",
+        "It is convenient to shop at the supermarket nearby",
+        "Please count your change before you leave the shop",
+        "We need to decide which product is the best choice",
+        "He keeps a lot of money in his wallet",
+        "The total price of these books is fifty dollars",
+        "Good service is important for a successful business",
+        "She bought a special gift for her mother's birthday",
+        "Everything in this store is cheap and popular"
+      ]
+    }
+  },
+  "L3": {
+    "title": "Nature & Environment",
+    "stages": {
+      "1": [
+        "environment", "pollution", "garbage", "recycle", "resource", "energy", "power",
+        "planet", "universe", "earth", "world", "continent", "island", "ocean",
+        "mountain", "valley", "river", "lake", "forest", "desert", "garden",
+        "weather", "climate", "temperature", "storm", "typhoon", "hurricane",
+        "natural", "global", "local", "damage", "destroy", "disappear", "save"
+      ],
+      "2": [
+        "We must protect our environment from pollution",
+        "Please recycle bottles and cans to save resources",
+        "The weather in the mountains changes very quickly",
+        "Many animals in the forest are disappearing",
+        "Global warming is a serious problem for the earth",
+        "They are cleaning up the garbage on the beach",
+        "Solar energy is a clean power for the future",
+        "A strong typhoon caused heavy rain and wind",
+        "Water is a precious resource for all living things",
+        "The desert is hot during the day and cold at night",
+        "Humans must learn to live with nature peacefully",
+        "Plastic waste damages the ocean and kills fish"
+      ]
+    }
+  },
+  "L4": {
+    "title": "Communication",
+    "stages": {
+      "1": [
+        "telephone", "computer", "internet", "website", "email", "message", "letter",
+        "conversation", "discussion", "interview", "meeting", "report", "news",
+        "newspaper", "magazine", "program", "cartoon", "movie", "video", "camera",
+        "language", "sentence", "vocabulary", "question", "answer", "meaning",
+        "speak", "listen", "write", "read", "understand", "repeat", "explain"
+      ],
+      "2": [
+        "I sent a message to my friend on the internet",
+        "The reporter interviewed the famous movie star",
+        "Can you explain the meaning of this sentence",
+        "We had a long discussion about the school rules",
+        "Reading English newspapers helps improve your language",
+        "Please turn on the television to watch the news",
+        "She wrote a letter to her parents yesterday",
+        "He uses his computer to do homework every day",
+        "Do you understand what the teacher is saying",
+        "The meeting will start in ten minutes",
+        "Let us continue our conversation after lunch",
+        "Watching cartoons is a fun way to learn English"
+      ]
+    }
+  },
+  "L5": {
+    "title": "Personality & Feelings",
+    "stages": {
+      "1": [
+        "excited", "bored", "interested", "worried", "scared", "nervous", "lonely",
+        "proud", "embarrassed", "confused", "surprise", "pleasure", "anger",
+        "confident", "active", "brave", "honest", "polite", "humble", "gentle",
+        "diligent", "lazy", "selfish", "generous", "humorous", "serious",
+        "friendly", "kind", "cruel", "stupid", "smart", "wise", "intelligent"
+      ],
+      "2": [
+        "She felt embarrassed when she made a mistake",
+        "He is a humorous person who makes everyone laugh",
+        "We are very excited about the coming holiday",
+        "It is polite to say thank you when receiving a gift",
+        "Be confident and believe in yourself",
+        "The brave firefighter saved the child from the fire",
+        "A diligent student always finishes homework on time",
+        "Do not be selfish and share your toys with others",
+        "I was surprised to see him at the party",
+        "She is interested in learning about foreign cultures",
+        "He is honest and never tells a lie",
+        "Feeling lonely is common when you move to a new city"
+      ]
+    }
+  },
+  "L6": {
+    "title": "Thinking & Actions",
+    "stages": {
+      "1": [
+        "believe", "consider", "decide", "expect", "imagine", "notice", "realize",
+        "remember", "forget", "remind", "guess", "suppose", "wonder", "worry",
+        "agree", "refuse", "accept", "promise", "suggest", "advise", "encourage",
+        "introduce", "invite", "welcome", "greet", "control", "manage", "handle",
+        "prepare", "practice", "produce", "provide", "invent", "discover"
+      ],
+      "2": [
+        "I can hardly imagine life without electricity",
+        "Please remind me to call my mother tonight",
+        "He promised to help me with my science project",
+        "We decided to go to the movies this weekend",
+        "The teacher encouraged us to speak English more",
+        "Do you believe that ghosts are real",
+        "She suggested that we should take a bus",
+        "I realized that I left my keys at home",
+        "They refused to accept the expensive gift",
+        "Practice makes perfect so keep trying",
+        "Scientists discover new things about the world",
+        "Let me introduce my best friend to you"
+      ]
+    }
+  },
+  "L7": {
+    "title": "Social & Culture",
+    "stages": {
+      "1": [
+        "society", "culture", "tradition", "custom", "symbol", "history", "future",
+        "government", "president", "leader", "member", "citizen", "foreigner",
+        "festival", "holiday", "vacation", "celebration", "ceremony", "party",
+        "restaurant", "hotel", "museum", "temple", "church", "library",
+        "modern", "ancient", "foreign", "local", "national", "international"
+      ],
+      "2": [
+        "The government makes laws to protect the citizens",
+        "Chinese New Year is an important traditional festival",
+        "We are planning a vacation to a foreign country",
+        "Understanding different cultures is very interesting",
+        "The president gave a speech on television yesterday",
+        "They celebrated their wedding anniversary at a hotel",
+        "Museums keep many ancient and valuable things",
+        "English is an international language used worldwide",
+        "It is a custom to give red envelopes in Taiwan",
+        "Modern technology changes our society very fast",
+        "We invited many friends to the birthday party",
+        "History teaches us lessons from the past"
+      ]
+    }
+  },
+  "L8": {
+    "title": "Level 3 Challenge",
+    "stages": {
+      "1": [
+        "congratulation", "independence", "transportation", "communication",
+        "relationship", "understanding", "entertainment", "advertisement",
+        "environment", "temperature", "refrigerator", "supermarket",
+        "comfortable", "experience", "information", "government", "university",
+        "dictionary", "vegetable", "chocolate", "restaurant", "everything",
+        "badminton", "basketball", "motorcycle", "helicopter", "ambulance"
+      ],
+      "2": [
+        "Congratulations on passing your final exam",
+        "Good communication is the key to a good relationship",
+        "Public transportation in this city is very convenient",
+        "The refrigerator keeps the vegetables and fruit fresh",
+        "University students have to study very hard",
+        "You can find the meaning of the word in a dictionary",
+        "We had a wonderful experience during our trip",
+        "Information on the internet travels very fast",
+        "Eating chocolate makes me feel happy and comfortable",
+        "He rides a motorcycle to the supermarket every day",
+        "The helicopter landed on the top of the building",
+        "Environmental protection is everyone's responsibility"
+      ]
+    }
+  }
+}
