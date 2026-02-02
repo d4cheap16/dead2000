@@ -815,7 +815,7 @@
         }
     };
     
-    const BOSS_TRIGGER_KILLS = { 'Rookie': 10, 'Veteran': 13, 'Nightmare': 15, 'NoHope': 20 };
+    const BOSS_TRIGGER_KILLS = { 'Rookie': 12, 'Veteran': 18, 'Nightmare': 20, 'NoHope': 25 };
 
     const sfx = {
         ctx: null,
@@ -1997,7 +1997,7 @@
         el.innerHTML = `
             <div class="grid grid-cols-[35%_65%] gap-1 text-[9px] uppercase tracking-wider font-bold text-left">
                 <div class="text-zinc-500">MISSION</div><div class="text-blue-400">LEVEL ${selectedBook} - ${title}</div>
-                <div class="text-zinc-500">LEVEL</div><div class="text-red-400">${state.difficultyMode}</div>
+                <div class="text-zinc-500">MODE</div><div class="text-red-400">${state.difficultyMode}</div>
                 <div class="text-zinc-500">UNIT</div><div class="text-white">${state.player.class}</div>
                 <div class="text-zinc-500">AGENT</div><div class="text-white">${state.player.no}. ${state.player.name}</div>
                 <div class="text-zinc-500">DATE</div><div class="text-zinc-400">${dateStr}</div>
