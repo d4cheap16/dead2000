@@ -1,1 +1,226 @@
-
+{
+  "_design_notes": {
+    "project_name": "Dead Don't Talk (Junior High 2000 Words Ver.)",
+    "target_audience": "台灣國中生 (CEFR B1+)",
+    "core_mechanism": "Voice Recognition (Speech-to-Text)",
+    "level": 5,
+    "difficulty_focus": "Max Syllables (4-5+), Compound Words, Longest Nouns/Adjectives",
+    "word_selection_rules": {
+      "source": "教育部國中參考字彙表 (2000字)",
+      "filter_logic": "Speech-First Strategy",
+      "exclude": ["Short words"],
+      "include": ["The longest words in the curriculum", "Words with complex stress patterns", "-tion, -ment, -ing suffixes"]
+    },
+    "sentence_writing_rules": {
+      "difficulty": "CEFR B1+",
+      "style": "Full Paragraph-like flow, Complex Grammar",
+      "formatting": "Sentence Case (Sentences MUST start with a Capital Letter)",
+      "note": "Sentences are designed to be the ultimate test of fluency."
+    }
+  },
+  "L1": {
+    "title": "Modern Technology",
+    "stages": {
+      "1": [
+        "refrigerator", "motorcycle", "helicopter", "ambulance", "telephone", "television",
+        "microwave", "computer", "calculator", "machine", "internet", "video",
+        "camera", "radio", "instrument", "robot", "engine", "electric",
+        "battery", "screen", "keyboard", "mouse", "system", "program",
+        "digital", "science", "technology", "invention", "discover"
+      ],
+      "2": [
+        "The refrigerator is empty so we need to go shopping soon",
+        "He rides his motorcycle to work every single day",
+        "We watched an interesting program on television last night",
+        "The ambulance rushed the patient to the hospital quickly",
+        "Using a computer is necessary for doing modern business",
+        "The helicopter landed safely on top of the tall building",
+        "Can you help me calculate the answer with a calculator",
+        "Please put the cold food in the refrigerator immediately",
+        "The microwave oven can heat up your lunch in two minutes",
+        "Modern technology has changed the way we communicate",
+        "Scientists are inventing new machines to help people",
+        "I took many digital photos with my new camera"
+      ]
+    }
+  },
+  "L2": {
+    "title": "Complex Places",
+    "stages": {
+      "1": [
+        "university", "department", "supermarket", "restaurant", "museum", "hospital",
+        "apartment", "building", "factory", "bakery", "cafeteria", "library",
+        "stadium", "theater", "airport", "station", "capital", "community",
+        "society", "environment", "government", "office", "playground", "garden",
+        "balcony", "basement", "kitchen", "bedroom", "bathroom"
+      ],
+      "2": [
+        "My sister studies at a famous university in the capital city",
+        "We are going to the department store to buy some clothes",
+        "The supermarket sells fresh vegetables and fruit every day",
+        "Let us meet at the entrance of the museum at ten o'clock",
+        "The new apartment building has a beautiful garden on the roof",
+        "He works as a doctor in a large hospital near the station",
+        "We had a delicious dinner at a nice Italian restaurant",
+        "The factory produces cars and sells them to other countries",
+        "Students usually eat lunch in the school cafeteria together",
+        "The library is a quiet place for reading and studying",
+        "Environmental protection is important for our community",
+        "The government is building a new stadium for sports"
+      ]
+    }
+  },
+  "L3": {
+    "title": "Abstract Nouns",
+    "stages": {
+      "1": [
+        "information", "education", "conversation", "introduction", "invitation",
+        "celebration", "vacation", "tradition", "attention", "situation",
+        "position", "population", "competition", "discussion", "preparation",
+        "operation", "relation", "direction", "collection", "connection",
+        "action", "question", "mention", "decision", "suggestion"
+      ],
+      "2": [
+        "Education is the most powerful weapon to change the world",
+        "Thank you for the invitation to your birthday celebration",
+        "Can you give me more information about the summer camp",
+        "We had a very long conversation about our future plans",
+        "Please pay close attention to what the teacher is saying",
+        "The population of the world is increasing very fast",
+        "It is a tradition to have a family dinner on New Year's Eve",
+        "We are making preparations for the upcoming competition",
+        "He gave a brief introduction about himself to the class",
+        "The situation is becoming more difficult to handle",
+        "What is your suggestion for solving this serious problem",
+        "Making the right decision requires careful thinking"
+      ]
+    }
+  },
+  "L4": {
+    "title": "Long Adjectives",
+    "stages": {
+      "1": [
+        "comfortable", "convenient", "traditional", "international", "important",
+        "different", "difficult", "dangerous", "expensive", "interesting",
+        "beautiful", "wonderful", "successful", "intelligent", "independent",
+        "responsible", "impossible", "necessary", "excellent", "favorite",
+        "popular", "similar", "familiar", "terrible", "horrible"
+      ],
+      "2": [
+        "This sofa is very comfortable to sit on after a long day",
+        "Living near the subway station is very convenient for me",
+        "It is important to learn about different cultures and customs",
+        "English is an international language spoken by many people",
+        "She wore a beautiful traditional dress to the wedding party",
+        "It is dangerous to swim in the river during the storm",
+        "The math question was too difficult for me to answer",
+        "He is an intelligent and responsible student in our class",
+        "It is impossible to finish all the work in one hour",
+        "We had a wonderful time visiting the famous museum",
+        "This is the most expensive car I have ever seen",
+        "Vegetables are necessary for keeping good health"
+      ]
+    }
+  },
+  "L5": {
+    "title": "Science & Nature",
+    "stages": {
+      "1": [
+        "temperature", "dinosaur", "mosquito", "cockroach", "butterfly", "elephant",
+        "pollution", "geography", "history", "biology", "chemistry", "science",
+        "weather", "climate", "typhoon", "hurricane", "tornado", "earthquake",
+        "mountain", "volcano", "ocean", "river", "forest", "desert", "island"
+      ],
+      "2": [
+        "The temperature dropped quickly after the sun went down",
+        "Dinosaurs lived on earth millions of years ago",
+        "Be careful of mosquitoes when you go camping in summer",
+        "I saw a huge cockroach in the kitchen and I screamed",
+        "Butterflies have colorful wings and fly among flowers",
+        "Pollution is causing serious damage to our environment",
+        "We learned about the history of our country in class",
+        "A strong typhoon brought heavy rain and strong winds",
+        "Geography teaches us about the land and people of the world",
+        "Elephants are the largest land animals living today",
+        "Science helps us understand the mysteries of the universe",
+        "Protecting the forest is important for all living things"
+      ]
+    }
+  },
+  "L6": {
+    "title": "Food & Festivals",
+    "stages": {
+      "1": [
+        "vegetable", "chocolate", "hamburger", "sandwich", "strawberry", "watermelon",
+        "pineapple", "tangerine", "tomato", "potato", "spaghetti", "dumpling",
+        "breakfast", "lunch", "dinner", "Halloween", "Christmas", "Valentine",
+        "festival", "holiday", "vacation", "anniversary", "birthday", "party"
+      ],
+      "2": [
+        "Eating fresh vegetables and fruit is good for your health",
+        "My favorite flavor of ice cream is sweet chocolate",
+        "We usually eat turkey and pumpkin pie on Thanksgiving",
+        "He gave her a box of chocolates on Valentine's Day",
+        "Children like to dress up in costumes for Halloween",
+        "Christmas is a time for giving gifts and being with family",
+        "I had a hamburger and french fries for lunch today",
+        "Watermelon is a refreshing fruit to eat in hot summer",
+        "She made a delicious strawberry cake for the party",
+        "We are planning a long vacation during the summer holiday",
+        "Spaghetti is a popular Italian dish made of noodles",
+        "Remember to wash the tomatoes before you eat them"
+      ]
+    }
+  },
+  "L7": {
+    "title": "Advanced Verbs",
+    "stages": {
+      "1": [
+        "appreciate", "congratulate", "understand", "remember", "experience",
+        "practice", "prepare", "decide", "imagine", "volunteer", "introduce",
+        "celebrate", "participate", "communicate", "concentrate", "continue",
+        "disappear", "discover", "encourage", "experience", "pronounce"
+      ],
+      "2": [
+        "I appreciate your help and kindness very much",
+        "We want to congratulate you on your great success",
+        "Do you understand the meaning of this difficult word",
+        "I cannot imagine what life would be like without you",
+        "She decided to study abroad to improve her English",
+        "Please remember to turn off the lights when you leave",
+        "We need to prepare everything for the big meeting tomorrow",
+        "He volunteered to help clean up the park on Sunday",
+        "Practice makes perfect so you should keep trying",
+        "It is important to communicate clearly with others",
+        "The magician made the rabbit disappear from the hat",
+        "Teachers should encourage students to ask questions"
+      ]
+    }
+  },
+  "L8": {
+    "title": "Survivor Master",
+    "stages": {
+      "1": [
+        "congratulations", "transportation", "refrigerator", "supermarket",
+        "comfortable", "convenient", "international", "environment",
+        "university", "dictionary", "vocabulary", "communication",
+        "representative", "championship", "relationship", "anniversary",
+        "entertainment", "kindergarten", "understanding", "intelligence"
+      ],
+      "2": [
+        "Congratulations on finishing the final level of the game",
+        "Public transportation makes traveling around the city easier",
+        "Please look up the new words in your English dictionary",
+        "Communication is the key to building a good relationship",
+        "We need to protect the environment for future generations",
+        "The refrigerator keeps our food fresh and cold for a long time",
+        "Learning vocabulary is the first step to mastering a language",
+        "She is studying international business at a famous university",
+        "This supermarket offers a wide variety of imported goods",
+        "I hope you have a comfortable and pleasant journey home",
+        "Understanding each other is important for world peace",
+        "You are now a true master of English vocabulary survival"
+      ]
+    }
+  }
+}
