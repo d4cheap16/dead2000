@@ -10,7 +10,8 @@
       "filter_logic": "Speech-First Strategy",
       "exclude": [
         "Common monosyllabic words (e.g., buy, pay, eat)",
-        "Words with weak vowel sounds that are hard to detect"
+        "Words with weak vowel sounds that are hard to detect",
+        "Pure numbers (e.g., three, fifty, ten) - STT often converts these to digits (3, 50, 10) causing match failures"
       ],
       "include": [
         "Words with 3+ syllables (e.g., supermarket, government)",
@@ -22,7 +23,7 @@
       "difficulty": "CEFR A2 ~ B1",
       "style": "Complex & Compound Sentences",
       "formatting": "Sentence Case (Sentences MUST start with a Capital Letter)",
-      "note": "Sentences should reflect social interactions or describe abstract situations."
+      "note": "Sentences should reflect social interactions or describe abstract situations without inducing digit output."
     }
   },
   "L1": {
@@ -36,7 +37,7 @@
         "danger", "dangerous", "safety", "protect", "control", "survive"
       ],
       "2": [
-        "You should take this medicine three times a day",
+        "You should take this medicine after every meal",
         "The ambulance arrived at the hospital very quickly",
         "I have a terrible headache and a high fever",
         "Regular exercise keeps your body strong and healthy",
@@ -70,7 +71,7 @@
         "Please count your change before you leave the shop",
         "We need to decide which product is the best choice",
         "He keeps a lot of money in his wallet",
-        "The total price of these books is fifty dollars",
+        "The total price of these books is very high",
         "Good service is important for a successful business",
         "She bought a special gift for her mother's birthday",
         "Everything in this store is cheap and popular"
@@ -123,7 +124,7 @@
         "She wrote a letter to her parents yesterday",
         "He uses his computer to do homework every day",
         "Do you understand what the teacher is saying",
-        "The meeting will start in ten minutes",
+        "The meeting will start in a few minutes",
         "Let us continue our conversation after lunch",
         "Watching cartoons is a fun way to learn English"
       ]
