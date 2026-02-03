@@ -713,7 +713,7 @@ const ADMIN_KEYS = [
         'Rookie':    { startZ: 0.10, speed: 0.0015, sentencesRequired: 2 },
         'Veteran':   { startZ: 0.10, speed: 0.0016, sentencesRequired: 3 },
         'Nightmare': { startZ: 0.10, speed: 0.0019, sentencesRequired: 4 },
-        'NoHope':    { startZ: 0.40, speed: 0.0006, sentencesRequired: 5 } 
+        'NoHope':    { startZ: 0.50, speed: 0.0006, sentencesRequired: 5 } 
     };
 
     const BOSS_PHYSICS_CONFIG = {
@@ -760,22 +760,22 @@ const ADMIN_KEYS = [
             'NoHope':    { rewardThreshold: 12, criticalChance: 0.01, baseScore: 200, comboMultiplier: 20 }
         },
         BOSS_COMBO: {
-            'Rookie':    { rewardThreshold: 10, shotgunPush: 0.20, flashDuration: 300 },
-            'Veteran':   { rewardThreshold: 15, shotgunPush: 0.15, flashDuration: 180 },
-            'Nightmare': { rewardThreshold: 20, shotgunPush: 0.10, flashDuration: 120 },
-            'NoHope':    { rewardThreshold: 30, shotgunPush: 0.005, flashDuration: 60 }
+            'Rookie':    { rewardThreshold: 12, shotgunPush: 0.20, flashDuration: 300 },
+            'Veteran':   { rewardThreshold: 13, shotgunPush: 0.15, flashDuration: 180 },
+            'Nightmare': { rewardThreshold: 16, shotgunPush: 0.10, flashDuration: 120 },
+            'NoHope':    { rewardThreshold: 18, shotgunPush: 0.005, flashDuration: 60 }
         },
         SURVIVAL: {
-            'Rookie':    { maxHP: 6 },
-            'Veteran':   { maxHP: 5 },
-            'Nightmare': { maxHP: 4 },
-            'NoHope':    { maxHP: 3 }
+            'Rookie':    { maxHP: 7 },
+            'Veteran':   { maxHP: 6 },
+            'Nightmare': { maxHP: 5 },
+            'NoHope':    { maxHP: 4 }
         },
         THRESHOLDS: {
             'Rookie':    { deathZ: 0.85 },
             'Veteran':   { deathZ: 0.85 },
             'Nightmare': { deathZ: 0.85 },
-            'NoHope':    { deathZ: 0.85 }
+            'NoHope':    { deathZ: 0.80 }
         }
     };
 
@@ -831,7 +831,7 @@ const ADMIN_KEYS = [
         }
     };
     
-    const BOSS_TRIGGER_KILLS = { 'Rookie': 12, 'Veteran': 18, 'Nightmare': 20, 'NoHope': 25 };
+    const BOSS_TRIGGER_KILLS = { 'Rookie': 13, 'Veteran': 17, 'Nightmare': 21, 'NoHope': 25 };
 
     const sfx = {
         ctx: null,
