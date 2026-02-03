@@ -673,7 +673,7 @@ const ADMIN_KEYS = [
     atob("QWRhV29uZw=="), 
     atob("VG9ueQ=="),     
     atob("SmFtZXM=")      
-];;
+];
     
     function escapeHtml(text) {
         if (!text) return text;
@@ -1060,7 +1060,7 @@ const ADMIN_KEYS = [
             let records = [];
             snap.forEach(d => {
                 const data = d.data();
-                if(data.book == selectedBook && data.lesson == lessonId && data.name !== ADMIN_KEY) records.push(data);
+         if(data.book == selectedBook && data.lesson == lessonId && !ADMIN_KEYS.includes(data.name)) records.push(data);
             });
             records.sort((a, b) => b.score - a.score);
             const top3 = records.slice(0, 3);
