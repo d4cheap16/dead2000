@@ -669,7 +669,11 @@
 </script>
 
 <script>
-    const ADMIN_KEY = atob("QWRhV29uZw==");
+const ADMIN_KEYS = [
+    atob("QWRhV29uZw=="), 
+    atob("VG9ueQ=="),     
+    atob("SmFtZXM=")      
+];;
     
     function escapeHtml(text) {
         if (!text) return text;
@@ -1151,13 +1155,14 @@
         document.getElementById('mission-screen').classList.remove('hidden');
     };
 
-    window.handleAuth = async () => {
-        const nameInput = document.getElementById('input-name').value.trim();
-        if(nameInput === ADMIN_KEY) {
-            document.getElementById('login-screen').classList.add('hidden');
-            showAdmin();
-            return;
-        }
+window.handleAuth = async () => {
+    const nameInput = document.getElementById('input-name').value.trim();
+    // 修改：檢查輸入的名字是否在我們的管理員清單內
+    if(ADMIN_KEYS.includes(nameInput)) {
+        document.getElementById('login-screen').classList.add('hidden');
+        showAdmin();
+        return;
+    }
         const grade = document.getElementById('select-grade').value;
         const className = document.getElementById('select-class').value;
         const no = document.getElementById('input-no').value.trim();
@@ -1181,7 +1186,7 @@
             let res = []; 
             snap.forEach(d => {
                 const data = d.data();
-                if (data.name !== ADMIN_KEY) res.push(data);
+                if (!ADMIN_KEYS.includes(data.name)) res.push(data);
             });
             res.sort((a, b) => {
                 const timeA = a.timestamp ? a.timestamp.seconds : 0;
@@ -1245,11 +1250,11 @@
         document.body.removeChild(link);
     };
 
-    window.startGodMode = () => {
-        document.getElementById('admin-screen').classList.add('hidden');
-        state.player = { name: ADMIN_KEY, no: "00", class: "GOD MODE" };
-        startGame();
-    };
+window.startGodMode = () => {
+    document.getElementById('admin-screen').classList.add('hidden');
+    state.player = { name: ADMIN_KEYS[1], no: "00", class: "GOD MODE" }; 
+    startGame();
+};
 
     function executeReward(key) {
         const conf = REWARD_CONFIG[key];
@@ -1554,7 +1559,7 @@
                     ctx.restore();
                 }
 
-                if (state.player.name === ADMIN_KEY) {
+                if (ADMIN_KEYS.includes(state.player.name)) {
                     ctx.font = `8px monospace`; ctx.fillStyle = "#0f0"; ctx.textAlign = "center";
                     ctx.fillText(`GOD MODE: ON`, 0, -size * 1.6);
                 }
@@ -1893,7 +1898,7 @@
         const shakeConf = DAMAGE_SHAKE_CONFIG[state.difficultyMode] || DAMAGE_SHAKE_CONFIG['Veteran'];
         const physics = BOSS_PHYSICS_CONFIG[state.difficultyMode] || BOSS_PHYSICS_CONFIG['Veteran'];
         
-        if (state.player.name === ADMIN_KEY) {
+        if (ADMIN_KEYS.includes(state.player.name)) {
             state.shake = 10;
             state.shakeDecay = 0.8; 
             sfx.damage(); 
@@ -2029,7 +2034,7 @@
     }
 
     async function syncData() {
-        if (state.player.name === ADMIN_KEY) return;
+        if (ADMIN_KEYS.includes(state.player.name)) return;
 
         try {
             const { db, appId, setDoc, doc, serverTimestamp } = window.fbase;
