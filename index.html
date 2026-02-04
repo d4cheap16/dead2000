@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <link rel="icon" href="https://d4cheap16.github.io/tddt/zombie.png" type="image/png">
+    <link rel="icon" href="https://d4cheap16.github.io/dead2000/zombie.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>Dead Don't Talk</title>
+    <title>Dead 2000</title>
     <meta name="description" content="Want to Survive? Speak!">
     <meta property="og:title" content="Dead don't talk, but you do.">
     <meta property="og:description" content="Speak, or become one of them...">
-    <meta property="og:image" content="https://d4cheap16.github.io/tddt/opentag.png">
+    <meta property="og:image" content="https://d4cheap16.github.io/dead2000/opentag.png">
     <meta property="og:type" content="website">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -189,6 +189,18 @@
             box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
         }
 
+        /* ★★★ Special Style for Unit 9 (Final Exam) ★★★ */
+        .lesson-final {
+            border-color: #b45309 !important; /* Dark Amber */
+            color: #fbbf24 !important; /* Amber-400 */
+        }
+        .lesson-final.lesson-active {
+            background-color: #f59e0b !important; /* Amber-500 */
+            color: #000 !important;
+            border-color: #fbbf24 !important;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+        }
+
         /* Boss UI 基礎樣式 - 手機版改到上方 */
         #boss-ui {
             position: absolute; 
@@ -295,46 +307,53 @@
             filter: drop-shadow(0 0 2px #000);
         }
         
+        /* ★★★ FIX 3: 調整目標單字樣式 (防止長字溢出) ★★★ */
+        /* 修改字體為 Noto Sans TC 以節省空間並提高可讀性 */
         #current-word-ui {
             font-family: 'Noto Sans TC', sans-serif !important;
-            font-weight: 700; 
-            letter-spacing: 0.5px; 
+            font-weight: 700; /* 使用粗體增加辨識度 */
+            letter-spacing: 0.5px; /* 稍微增加字距 */
             
-            font-size: 26px !important; 
+            font-size: 26px !important; /* 稍微調整大小 */
             line-height: 1.3;
             margin-top: 10px;
             
             display: flex !important;
             flex-wrap: wrap !important;
             
+            /* ★★★ 修改這裡：預設為一般戰鬥，使用置中對齊 ★★★ */
             justify-content: center !important; 
             text-align: center !important; 
             
-            white-space: normal !important;        
-            overflow-wrap: break-word !important;  
-            word-break: keep-all !important;       
+            white-space: normal !important;        /* 允許換行 */
+            overflow-wrap: break-word !important;  /* 長單字太長時可切斷 */
+            word-break: keep-all !important;       /* 盡量保持單字完整 */
             
             width: 100%;
             max-width: 100%;
         }
 
+        /* ★★★ 新增：BOSS 戰專用樣式 (靠左對齊) ★★★ */
         #current-word-ui.boss-mode-layout {
-            justify-content: flex-start !important; 
-            text-align: left !important;            
+            justify-content: flex-start !important; /* 靠左開始 */
+            text-align: left !important;            /* 文字靠左 */
         }
 
+        /* ★★★ UNIT NAME FONT SIZE - 單位名稱字體大小控制 ★★★ */
         #mission-target-display {
-            font-size: 12px; 
+            font-size: 12px; /* 調整首頁選單中的標題大小 (原為 text-sm: 14px) */
         }
         #selected-mission-title {
-            font-size: 11px; 
+            font-size: 11px; /* 調整登入畫面中的標題大小 (原為 text-[11px]: 11px) */
         }
 
         /* =========================================
-           ★★★ 媒體查詢 (Media Queries) ★★★
+           ★★★ 媒體查詢 (Media Queries) - 請保持在最下方 ★★★
            ========================================= */
 
+        /* --- 橫向模式通則 (Mobile & Desktop) --- */
         @media (orientation: landscape) {
+            /* 修正輸入框寬度：移除手機版的縮放 Hack，回歸 100% 寬度 */
             select, input {
                 transform: none !important;
                 width: 100% !important;
@@ -346,6 +365,7 @@
             }
         }
 
+        /* --- 電腦/大平板橫向模式 (Desktop/Tablet) --- */
         @media (min-width: 768px) and (orientation: landscape) {
             .game-wrapper {
                 flex-direction: row;
@@ -396,23 +416,24 @@
             }
 
             .vital-info-container {
-                flex-direction: column !important;
+                flex-direction: column !important; /* 改為垂直 */
                 align-items: center !important;
-                gap: 8px !important; 
+                gap: 8px !important; /* 增加間距 */
                 margin-top: 10px !important;
             }
 
             #status-label {
-                font-size: 14px !important; 
+                font-size: 14px !important; /* 放大生命狀態文字 */
             }
 
             #combo-display {
-                font-size: 14px !important; 
+                font-size: 14px !important; /* 放大 Combo 文字 */
                 margin-top: 4px;
             }
 
+            /* Desktop override specifically handled above, but ensuring consistency */
             #current-word-ui {
-                font-size: 28px !important; 
+                font-size: 28px !important; /* 在大螢幕上可以稍微再大一點 */
             }
 
             .btn { font-size: 10px; padding: 15px; }
@@ -420,8 +441,10 @@
 
             #boss-ui {
                 position: absolute;
+                /* ★★★ FIX: 橫向/電腦模式恢復到底部 ★★★ */
                 top: auto !important; 
                 bottom: 20px !important;
+                
                 left: 0 !important;
                 width: 100% !important;
                 padding: 0 40px;
@@ -442,15 +465,18 @@
         </div>
     </div>
 
+    <!-- Mission Screen: Split Layout for Landscape -->
     <div id="mission-screen" class="overlay-screen">
         <div class="flex flex-col w-full max-w-sm landscape:max-w-4xl landscape:flex-row landscape:items-center landscape:justify-center landscape:gap-8 h-full landscape:h-auto">
+            <!-- Left: Visuals (Banner + Title) -->
             <div class="w-full landscape:w-2/5 flex flex-col items-center justify-center shrink-0">
                 <div class="banner-box landscape:aspect-video landscape:w-full">
-                    <img src="https://d4cheap16.github.io/tddt/indexbanner.png" alt="Index Banner" onerror="this.style.display='none'">
+                    <img src="https://d4cheap16.github.io/dead2000/indexbanner.png" alt="Index Banner" onerror="this.style.display='none'">
                 </div>
-                <h1 class="text-md mb-6 landscape:mb-0 landscape:mt-4 text-red-600 tracking-tighter flicker uppercase">Dead Don't Talk</h1>
+                <h1 class="text-md mb-6 landscape:mb-0 landscape:mt-4 text-red-600 tracking-tighter flicker uppercase">Dead 2000</h1>
             </div>
             
+            <!-- Right: Controls (Menu Box) -->
             <div class="bg-black p-5 border border-zinc-800 w-full rounded-lg shadow-2xl overflow-y-auto max-h-[75%] landscape:max-h-full landscape:w-3/5">
                 <p class="text-[8px] text-zinc-500 mb-2 uppercase text-left font-bold">Sector Access</p>
                 <div class="grid grid-cols-5 gap-1 mb-6" id="book-grid"></div>
@@ -472,23 +498,27 @@
         </div>
     </div>
 
+    <!-- Login Screen: Split Layout for Landscape -->
     <div id="login-screen" class="overlay-screen hidden">
         <div class="flex flex-col w-full max-w-sm landscape:max-w-4xl landscape:flex-row landscape:items-center landscape:justify-center landscape:gap-8 h-full landscape:h-auto">
+            <!-- Left: Visuals -->
             <div class="w-full landscape:w-2/5 flex flex-col items-center justify-center shrink-0">
                 <div class="banner-box landscape:aspect-video landscape:w-full">
-                    <img src="https://d4cheap16.github.io/tddt/missionbanner.png" alt="Mission Banner" onerror="this.style.display='none'">
+                    <img src="https://d4cheap16.github.io/dead2000/missionbanner.png" alt="Mission Banner" onerror="this.style.display='none'">
                 </div>
                 <h2 id="selected-mission-title" class="text-blue-500 mb-6 landscape:mb-0 landscape:mt-4 text-[11px] uppercase tracking-widest">MISSION ID</h2>
             </div>
+
+            <!-- Right: Controls -->
             <div class="bg-black p-5 border border-zinc-800 w-full space-y-4 rounded-lg text-left landscape:w-3/5">
                 <p class="text-[8px] text-zinc-600 mb-1 uppercase px-1">Registration</p>
                 <div class="flex gap-2">
                     <select id="select-grade">
-                        <option value="G10">高一</option><option value="G11">高二</option><option value="G12">高三</option>
+                        <option value="G07">國一</option><option value="G08">國二</option><option value="G09">國三</option>
                     </select>
                     <select id="select-class">
                         <option value="知足">知足</option><option value="感恩">感恩</option><option value="善解">善解</option><option value="包容">包容</option>
-                        <option value="大愛">大愛</option><option value="外校">外校</option>
+                        <option value="大愛">大愛</option><option value="合心">合心</option><option value="協力">協力</option><option value="外校">外校</option>
                     </select>
                 </div>
                 <input type="number" id="input-no" placeholder="NUMBER" class="input-retro">
@@ -502,7 +532,7 @@
                 </div>
                 <div class="flex gap-2 mt-4">
                     <button onclick="backToMission()" class="btn w-1/3 text-[8px] uppercase bg-zinc-900 border-zinc-700 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300">Back</button>
-                    <button id="start-btn" onclick="handleAuth()" class="btn w-2/3 py-5 bg-green-950 border-green-700 text-green-500 hover:bg-green-900 hover:text-green-400 uppercase font-bold tracking-wider">Initiate</button>
+                    <button id="start-btn" onclick="handleAuth()" class="btn w-2/3 py-5 bg-green-950 border-green-700 text-green-500 hover:bg-green-900 hover:text-green-400 uppercase font-bold tracking-wider">START</button>
                 </div>
             </div>
         </div>
@@ -564,15 +594,21 @@
 
     <div class="canvas-container" id="canvas-holder">
         <canvas id="game-canvas"></canvas>
+        
         <div id="reward-toast" class="pixel-font">REWARD LOADED</div>
+
         <div id="boss-ui" class="px-5 w-full">
             <div id="boss-phase-display" class="text-center text-[8px] text-red-500 font-bold mb-1 tracking-widest">THREAT LEVEL MAX</div>
             <div class="w-full bg-zinc-900 h-3 border-2 border-white mb-2 overflow-hidden rounded-full">
                 <div id="boss-hp-bar" class="h-full bg-red-600 transition-all duration-300" style="width: 100%"></div>
             </div>
         </div>
+
         <div id="weapon-layer">
-            <img id="weapon-img" src="https://d4cheap16.github.io/tddt/gun01.png" alt="Weapon" style="width: 60%; transform: translateY(30%);">
+            <img id="weapon-img" 
+                 src="https://d4cheap16.github.io/dead2000/gun01.png" 
+                 alt="Weapon"
+                 style="width: 60%; transform: translateY(30%);">
         </div>
     </div>
 
@@ -606,7 +642,7 @@
 
     <div id="game-footer" class="game-credits">
         <p>Designed by CHENWEI with Gemini</p>
-        <img src="https://d4cheap16.github.io/tddt/Gemini.png" alt="Google Gemini Logo">
+        <img src="https://d4cheap16.github.io/dead2000/Gemini.png" alt="Google Gemini Logo">
     </div>
 
 </div>
@@ -628,14 +664,20 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    // Expose advanced query functions to window
+    // Added query, where, orderBy, limit to window.fbase for optimization
     window.fbase = { db, setDoc, doc, collection, getDocs, serverTimestamp, deleteDoc, query, where, orderBy, limit, appId: 'voice-reborn-101' };
     signInAnonymously(auth);
 </script>
 
 <script>
-    const ADMIN_KEY = atob("QWRhV29uZw==");
-    let rankCache = {}; // ★★★ Cache to prevent re-fetching ★★★
+const ADMIN_KEYS = [
+    atob("QWRhV29uZw=="), 
+    atob("amhlbndlaTEyMDc="),     
+    atob("SmFtZXM=")      
+];
+    
+    // ★★★ NEW: Rank Cache to prevent repeated reads ★★★
+    let rankCache = {};
 
     function escapeHtml(text) {
         if (!text) return text;
@@ -655,19 +697,19 @@
     };
 
     const BGS = [
-        "https://d4cheap16.github.io/tddt/BG01.png", 
-        "https://d4cheap16.github.io/tddt/BG02.png", 
-        "https://d4cheap16.github.io/tddt/BG03.png", 
-        "https://d4cheap16.github.io/tddt/BG04.png", 
-        "https://d4cheap16.github.io/tddt/BG05.png"
+        "https://d4cheap16.github.io/dead2000/BG01.png", 
+        "https://d4cheap16.github.io/dead2000/BG02.png", 
+        "https://d4cheap16.github.io/dead2000/BG03.png", 
+        "https://d4cheap16.github.io/dead2000/BG04.png", 
+        "https://d4cheap16.github.io/dead2000/BG05.png"
     ];
 
     const GUN_ASSETS = {
-        idle: "https://d4cheap16.github.io/tddt/gun01.png",
-        fire: "https://d4cheap16.github.io/tddt/gun02.png",
-        flash: "https://d4cheap16.github.io/tddt/flash.png",
-        shotgun: "https://d4cheap16.github.io/tddt/shotgun.png",
-        critical: "https://d4cheap16.github.io/tddt/minigun.png",
+        idle: "https://d4cheap16.github.io/dead2000/gun01.png",
+        fire: "https://d4cheap16.github.io/dead2000/gun02.png",
+        flash: "https://d4cheap16.github.io/dead2000/flash.png",
+        shotgun: "https://d4cheap16.github.io/dead2000/shotgun.png",
+        critical: "https://d4cheap16.github.io/dead2000/minigun.png",
         timer: null
     };
 
@@ -675,14 +717,14 @@
         'Rookie':    { startZ: 0.10, speed: 0.0015, sentencesRequired: 2 },
         'Veteran':   { startZ: 0.10, speed: 0.0016, sentencesRequired: 3 },
         'Nightmare': { startZ: 0.10, speed: 0.0019, sentencesRequired: 4 },
-        'NoHope':    { startZ: 0.50, speed: 0.0006, sentencesRequired: 5 } 
+        'NoHope':    { startZ: 0.45, speed: 0.0006, sentencesRequired: 5 } 
     };
 
     const BOSS_PHYSICS_CONFIG = {
-        'Rookie':    { hit: 0.05,  crit: 0.15, phase: 0.40, attackReset: 0.30 },
-        'Veteran':   { hit: 0.04,  crit: 0.12, phase: 0.35, attackReset: 0.25 },
-        'Nightmare': { hit: 0.03,  crit: 0.10, phase: 0.30, attackReset: 0.20 },
-        'NoHope':    { hit: 0.002, crit: 0.05, phase: 0.10, attackReset: 0.04 } 
+        'Rookie':    { hit: 0.05,  crit: 0.05, phase: 0.40, attackReset: 0.30 },
+        'Veteran':   { hit: 0.04,  crit: 0.04, phase: 0.35, attackReset: 0.25 },
+        'Nightmare': { hit: 0.03,  crit: 0.03, phase: 0.30, attackReset: 0.20 },
+        'NoHope':    { hit: 0.003, crit: 0.02, phase: 0.10, attackReset: 0.05 } 
     };
 
     const BOSS_SHAKE_CONFIG = {
@@ -722,22 +764,22 @@
             'NoHope':    { rewardThreshold: 12, criticalChance: 0.01, baseScore: 200, comboMultiplier: 20 }
         },
         BOSS_COMBO: {
-            'Rookie':    { rewardThreshold: 10, shotgunPush: 0.20, flashDuration: 300 },
-            'Veteran':   { rewardThreshold: 15, shotgunPush: 0.15, flashDuration: 180 },
-            'Nightmare': { rewardThreshold: 20, shotgunPush: 0.10, flashDuration: 120 },
-            'NoHope':    { rewardThreshold: 30, shotgunPush: 0.005, flashDuration: 60 }
+            'Rookie':    { rewardThreshold: 12, shotgunPush: 0.20, flashDuration: 300 },
+            'Veteran':   { rewardThreshold: 13, shotgunPush: 0.15, flashDuration: 180 },
+            'Nightmare': { rewardThreshold: 16, shotgunPush: 0.10, flashDuration: 120 },
+            'NoHope':    { rewardThreshold: 18, shotgunPush: 0.005, flashDuration: 60 }
         },
         SURVIVAL: {
-            'Rookie':    { maxHP: 6 },
-            'Veteran':   { maxHP: 5 },
-            'Nightmare': { maxHP: 4 },
-            'NoHope':    { maxHP: 3 }
+            'Rookie':    { maxHP: 7 },
+            'Veteran':   { maxHP: 6 },
+            'Nightmare': { maxHP: 5 },
+            'NoHope':    { maxHP: 4 }
         },
         THRESHOLDS: {
             'Rookie':    { deathZ: 0.85 },
             'Veteran':   { deathZ: 0.85 },
             'Nightmare': { deathZ: 0.85 },
-            'NoHope':    { deathZ: 0.85 }
+            'NoHope':    { deathZ: 0.80 }
         }
     };
 
@@ -793,7 +835,7 @@
         }
     };
     
-    const BOSS_TRIGGER_KILLS = { 'Rookie': 10, 'Veteran': 13, 'Nightmare': 15, 'NoHope': 20 };
+    const BOSS_TRIGGER_KILLS = { 'Rookie': 13, 'Veteran': 17, 'Nightmare': 21, 'NoHope': 25 };
 
     const sfx = {
         ctx: null,
@@ -932,7 +974,7 @@
 
     function initUI() {
         document.getElementById('book-grid').innerHTML = [1,2,3,4,5].map(i => 
-            `<button onclick="selectBook(${i})" class="btn book-btn ${i===1?'book-active':''}" id="b${i}">${['I','II','III','IV','V'][i-1]}</button>`).join('');
+            `<button onclick="selectBook(${i})" class="btn book-btn ${i===1?'book-active':''}" id="b${i}">LV ${i}</button>`).join('');
         
         loadBookData(1);
         
@@ -961,10 +1003,21 @@
     function refreshLessonGrid() {
         const grid = document.getElementById('lesson-grid');
         grid.innerHTML = [1,2,3,4,5,6,7,8,9].map(i => {
-            const hasData = currentBookData && currentBookData[`L${i}`];
+            let hasData = currentBookData && currentBookData[`L${i}`];
+            
+            // Unit 9 logic: available if book has content
+            if (i === 9 && currentBookData && Object.keys(currentBookData).length > 0) {
+                hasData = true;
+            }
+
             const activeClass = i === selectedLesson ? 'lesson-active' : '';
             const emptyClass = !hasData ? 'btn-empty' : '';
-            return `<button onclick="selectLesson(${i})" class="btn lesson-btn ${activeClass} ${emptyClass}" id="l${i}">${i}</button>`;
+            
+            // Special styling for Unit 9
+            const finalClass = i === 9 ? 'lesson-final' : '';
+            const btnText = i === 9 ? "ALL" : i;
+
+            return `<button onclick="selectLesson(${i})" class="btn lesson-btn ${finalClass} ${activeClass} ${emptyClass}" id="l${i}">${btnText}</button>`;
         }).join('');
     }
 
@@ -976,12 +1029,12 @@
         selectedBook = n;
         try {
             const timestamp = new Date().getTime();
-            const res = await fetch(`book${n}.json?t=${timestamp}`);
+            const res = await fetch(`level${n}.json?t=${timestamp}`);
             
             if (!res.ok) throw new Error("File not found");
             
             currentBookData = await res.json();
-            console.log(`Loaded Book ${n} successfully`);
+            console.log(`Loaded Level ${n} successfully`);
             
             refreshLessonGrid();
             checkMissionValid();
@@ -999,68 +1052,96 @@
         loadBookData(n);
     };
 
-    // ★★★ OPTIMIZED: Uses Server-Side Query, Limit, and Cache ★★★
     async function fetchLessonRankings(lessonId) {
         const preview = document.getElementById('leaderboard-preview');
         const list = document.getElementById('top-records-list');
         list.innerHTML = "SEARCHING RECORDS...";
         preview.classList.remove('hidden');
 
-        // Check Cache first
-        const cacheKey = `B${selectedBook}_L${lessonId}`;
+        // 1. Check Cache first
+        const cacheKey = `b${selectedBook}_l${lessonId}`;
         if (rankCache[cacheKey]) {
-            renderRankings(rankCache[cacheKey], list);
+            renderRankList(list, rankCache[cacheKey]);
             return;
         }
 
         try {
+            // Import optimized functions from window.fbase
             const { db, appId, collection, getDocs, query, where, orderBy, limit } = window.fbase;
-            const scoresRef = collection(db, 'artifacts', appId, 'public', 'data', 'scores');
+            const scoresRef = collection(db, 'artifacts', appId, 'public', 'data', 'scores_2K');
             
-            // Server-side filter: Only this book, only this lesson, order by score high to low, Limit 10
-            // NOTE: This might require a Composite Index in Firebase Console. 
-            // If the console warns, click the link in the error to create it.
-            const q = query(scoresRef, 
-                where("book", "==", selectedBook), 
-                where("lesson", "==", lessonId), 
-                orderBy("score", "desc"), 
-                limit(10)
+            // 2. Server-side Query: book == selectedBook && lesson == lessonId, order by score desc, limit 8
+            const q = query(
+                scoresRef, 
+                where('book', '==', selectedBook), 
+                where('lesson', '==', lessonId),
+                orderBy('score', 'desc'),
+                limit(8) 
             );
 
             const snap = await getDocs(q);
             let records = [];
             snap.forEach(d => {
                 const data = d.data();
-                if(data.name !== ADMIN_KEY) records.push(data);
+                if(!ADMIN_KEYS.includes(data.name)) records.push(data);
             });
-            
-            // We only need top 3
+
+            // 3. Store in Cache (keep top 3)
             const top3 = records.slice(0, 3);
-            
-            // Save to cache
             rankCache[cacheKey] = top3;
             
-            renderRankings(top3, list);
+            renderRankList(list, top3);
 
         } catch (e) { 
-            console.error(e);
+            console.error("Rank Error:", e);
             if (e.message && e.message.includes("index")) {
-                 console.warn("★★★ MISSING INDEX ★★★ Please open the browser console and click the Firebase link to create the index.");
-                 list.innerHTML = "INDEX REQUIRED (SEE CONSOLE)";
+                console.warn("★★★ FIRESTORE INDEX MISSING ★★★ Please click the link in the error message above to create it.");
+                list.innerHTML = "INDEX REQUIRED (SEE CONSOLE)";
             } else {
-                 list.innerHTML = "UNABLE TO LOAD RECORDS"; 
+                list.innerHTML = "UNABLE TO LOAD RECORDS"; 
             }
         }
     }
 
-    function renderRankings(records, listElement) {
-        if(records.length === 0) listElement.innerHTML = "NO RECORDS IN THIS SECTOR";
-        else listElement.innerHTML = records.map((r, i) => `<div class="flex justify-between"><span>#${i+1} ${r.name}</span> <span class="text-green-500 font-bold">${r.score}</span></div>`).join('');
+    function renderRankList(container, records) {
+        if(records.length === 0) {
+            container.innerHTML = "NO RECORDS IN THIS SECTOR";
+        } else {
+            container.innerHTML = records.map((r, i) => `<div class="flex justify-between"><span>#${i+1} ${escapeHtml(r.name)}</span> <span class="text-green-500 font-bold">${r.score}</span></div>`).join('');
+        }
     }
 
     window.selectLesson = (n) => {
         if (!currentBookData) return;
         
+        // --- AUTO-GENERATE UNIT 9 ---
+        if (n === 9) {
+            let allWords = [];
+            let allSentences = [];
+            
+            for (let i = 1; i <= 8; i++) {
+                if (currentBookData[`L${i}`] && currentBookData[`L${i}`].stages) {
+                    if (currentBookData[`L${i}`].stages["1"]) {
+                        allWords = allWords.concat(currentBookData[`L${i}`].stages["1"]);
+                    }
+                    if (currentBookData[`L${i}`].stages["2"]) {
+                        allSentences = allSentences.concat(currentBookData[`L${i}`].stages["2"]);
+                    }
+                }
+            }
+
+            if (allWords.length > 0) {
+                currentBookData[`L9`] = {
+                    title: "SECTOR FINAL EXAM",
+                    stages: {
+                        "1": allWords,
+                        "2": allSentences
+                    }
+                };
+            }
+        }
+        // -----------------------------
+
         const data = currentBookData[`L${n}`];
         const targetDisplay = document.getElementById('mission-target-display');
         
@@ -1069,11 +1150,13 @@
             targetDisplay.classList.remove('text-green-400');
             targetDisplay.classList.add('text-red-500');
             document.getElementById('leaderboard-preview').classList.add('hidden');
+            document.getElementById('confirm-mission-btn').disabled = true;
             return;
         }
         selectedLesson = n;
         document.querySelectorAll('.lesson-btn').forEach(b => b.classList.remove('lesson-active'));
         document.getElementById(`l${n}`).classList.add('lesson-active');
+        
         checkMissionValid();
         fetchLessonRankings(n);
     };
@@ -1114,13 +1197,14 @@
         document.getElementById('mission-screen').classList.remove('hidden');
     };
 
-    window.handleAuth = async () => {
-        const nameInput = document.getElementById('input-name').value.trim();
-        if(nameInput === ADMIN_KEY) {
-            document.getElementById('login-screen').classList.add('hidden');
-            showAdmin();
-            return;
-        }
+window.handleAuth = async () => {
+    const nameInput = document.getElementById('input-name').value.trim();
+    // 修改：檢查輸入的名字是否在我們的管理員清單內
+    if(ADMIN_KEYS.includes(nameInput)) {
+        document.getElementById('login-screen').classList.add('hidden');
+        showAdmin();
+        return;
+    }
         const grade = document.getElementById('select-grade').value;
         const className = document.getElementById('select-class').value;
         const no = document.getElementById('input-no').value.trim();
@@ -1133,26 +1217,19 @@
 
     let cachedAdminData = [];
 
-    // ★★★ OPTIMIZED: Admin also needs limits to prevent massive reads ★★★
     async function showAdmin() {
         document.getElementById('admin-screen').classList.remove('hidden');
         const body = document.getElementById('records-body');
-        body.innerHTML = "<tr><td colspan='5' class='p-4 text-center'>FETCHING ARCHIVE (LAST 50)...</td></tr>";
+        body.innerHTML = "<tr><td colspan='5' class='p-4 text-center'>FETCHING ARCHIVE...</td></tr>";
         
         try {
-            const { db, appId, collection, getDocs, query, orderBy, limit } = window.fbase;
-            const scoresRef = collection(db, 'artifacts', appId, 'public', 'data', 'scores');
-            
-            // Order by timestamp descending, limit to 50
-            const q = query(scoresRef, orderBy("timestamp", "desc"), limit(50));
-            
-            const snap = await getDocs(q);
+            const { db, appId, collection, getDocs } = window.fbase;
+            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores_2K'));
             let res = []; 
             snap.forEach(d => {
                 const data = d.data();
-                if (data.name !== ADMIN_KEY) res.push(data);
+                if (!ADMIN_KEYS.includes(data.name)) res.push(data);
             });
-            // No need to sort manually if using orderBy, but keeping failsafe
             res.sort((a, b) => {
                 const timeA = a.timestamp ? a.timestamp.seconds : 0;
                 const timeB = b.timestamp ? b.timestamp.seconds : 0;
@@ -1188,7 +1265,7 @@
             }).join('');
         } catch(e) { 
             console.error(e);
-            body.innerHTML = "SYSTEM ERROR / MISSING INDEX"; 
+            body.innerHTML = "SYSTEM ERROR"; 
         }
     }
     
@@ -1215,11 +1292,11 @@
         document.body.removeChild(link);
     };
 
-    window.startGodMode = () => {
-        document.getElementById('admin-screen').classList.add('hidden');
-        state.player = { name: ADMIN_KEY, no: "00", class: "GOD MODE" };
-        startGame();
-    };
+window.startGodMode = () => {
+    document.getElementById('admin-screen').classList.add('hidden');
+    state.player = { name: ADMIN_KEYS[1], no: "00", class: "GOD MODE" }; 
+    startGame();
+};
 
     function executeReward(key) {
         const conf = REWARD_CONFIG[key];
@@ -1264,8 +1341,8 @@
         }
         const { db, appId, collection, getDocs, deleteDoc, doc } = window.fbase;
         try {
-            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores'));
-            for(let d of snap.docs) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores', d.id));
+            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores_2K'));
+            for(let d of snap.docs) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores_2K', d.id));
             clearConfirm = false; showAdmin();
         } catch (e) { btn.innerText = "ERROR"; }
     };
@@ -1525,7 +1602,7 @@
                     ctx.restore();
                 }
 
-                if (state.player.name === ADMIN_KEY) {
+                if (ADMIN_KEYS.includes(state.player.name)) {
                     ctx.font = `8px monospace`; ctx.fillStyle = "#0f0"; ctx.textAlign = "center";
                     ctx.fillText(`GOD MODE: ON`, 0, -size * 1.6);
                 }
@@ -1598,6 +1675,7 @@
         document.getElementById('perfect-badge').style.display = 'none';
         document.getElementById('game-footer').classList.add('hidden');
         
+        // ★★★ FIX: 重置對齊方式 ★★★
         document.getElementById('current-word-ui').classList.remove('boss-mode-layout');
         
         updateUIPanel();
@@ -1754,6 +1832,7 @@
         
         document.getElementById('boss-ui').style.opacity = '1';
         
+        // ★★★ FIX: 切換為 BOSS 對齊模式 ★★★
         document.getElementById('current-word-ui').classList.add('boss-mode-layout');
         
         sfx.boss();
@@ -1862,7 +1941,7 @@
         const shakeConf = DAMAGE_SHAKE_CONFIG[state.difficultyMode] || DAMAGE_SHAKE_CONFIG['Veteran'];
         const physics = BOSS_PHYSICS_CONFIG[state.difficultyMode] || BOSS_PHYSICS_CONFIG['Veteran'];
         
-        if (state.player.name === ADMIN_KEY) {
+        if (ADMIN_KEYS.includes(state.player.name)) {
             state.shake = 10;
             state.shakeDecay = 0.8; 
             sfx.damage(); 
@@ -1982,7 +2061,14 @@
         const wordEl = document.getElementById('current-word-ui');
 
         if (state.bossMode) {
+            // labelEl removed
+            // labelEl.innerText = "BOSS SEQUENCE";
+            // labelEl.className = "text-[6px] text-red-500 mb-1 uppercase tracking-widest flicker";
         } else {
+            // labelEl removed
+            // labelEl.innerText = "TARGETING";
+            // labelEl.className = "text-[6px] text-zinc-600 mb-1 uppercase tracking-widest";
+            
             const target = [...state.enemies].filter(e => !e.isDying).sort((a,b) => b.z - a.z)[0];
             let t = "AWAITING...";
             if (target) t = target.word;
@@ -1991,12 +2077,12 @@
     }
 
     async function syncData() {
-        if (state.player.name === ADMIN_KEY) return;
+        if (ADMIN_KEYS.includes(state.player.name)) return;
 
         try {
             const { db, appId, setDoc, doc, serverTimestamp } = window.fbase;
             const rid = `${state.player.class}_${state.player.no}_${Date.now()}`;
-            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores', rid), {
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores_2K', rid), {
                 ...state.player, score: Math.floor(state.score), difficulty: state.difficultyMode, book: selectedBook, lesson: selectedLesson, timestamp: serverTimestamp()
             });
         } catch(e){}
@@ -2011,8 +2097,8 @@
         if (currentBookData && currentBookData[`L${selectedLesson}`]) { title = currentBookData[`L${selectedLesson}`].title; }
         el.innerHTML = `
             <div class="grid grid-cols-[35%_65%] gap-1 text-[9px] uppercase tracking-wider font-bold text-left">
-                <div class="text-zinc-500">MISSION</div><div class="text-blue-400">Book ${selectedBook} - ${title}</div>
-                <div class="text-zinc-500">LEVEL</div><div class="text-red-400">${state.difficultyMode}</div>
+                <div class="text-zinc-500">MISSION</div><div class="text-blue-400">LEVEL ${selectedBook} - ${title}</div>
+                <div class="text-zinc-500">MODE</div><div class="text-red-400">${state.difficultyMode}</div>
                 <div class="text-zinc-500">UNIT</div><div class="text-white">${state.player.class}</div>
                 <div class="text-zinc-500">AGENT</div><div class="text-white">${state.player.no}. ${state.player.name}</div>
                 <div class="text-zinc-500">DATE</div><div class="text-zinc-400">${dateStr}</div>
