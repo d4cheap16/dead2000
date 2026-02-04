@@ -2214,7 +2214,9 @@ window.handleAuth = async () => {
             
             if (state.bossMode && state.bossData) {
                 targetLabel.innerText = state.bossData.words[state.bossWordIndex];
+                targetLabel.setAttribute('data-speech', state.bossData.words[state.bossWordIndex]); 
             } else if (target) {
+                targetLabel.setAttribute('data-speech', target.word);
                 if (target.zh) {
                     targetLabel.innerHTML = `
                         <div class="text-white text-[20px] font-bold mb-2">${target.word}</div>
@@ -2225,6 +2227,7 @@ window.handleAuth = async () => {
                 }
             } else {
                 targetLabel.innerText = "NO TARGET";
+                targetLabel.removeAttribute('data-speech');
             }
             
             if(recognition) recognition.stop(); releaseWakeLock();
@@ -2237,7 +2240,9 @@ window.handleAuth = async () => {
     };
 
     window.speakTarget = () => {
-        const text = document.getElementById('pause-target-word').innerText;
+        const el = document.getElementById('pause-target-word');
+        const text = el.getAttribute('data-speech') || el.innerText;
+        
         if(text === "---" || text === "NO TARGET") return;
         const u = new SpeechSynthesisUtterance(text); u.lang = 'en-US'; speechSynthesis.speak(u);
     };
