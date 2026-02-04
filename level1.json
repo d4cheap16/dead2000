@@ -27,17 +27,69 @@
       "style": "Contextual & Descriptive (具體情境描述)",
       "formatting": "Sentence Case (Sentences MUST start with a Capital Letter)",
       "note": "Ensure sentences are natural to speak and contain target vocabulary."
+    },
+    "chinese_definition_rules": {
+      "source_document": "國中2000字-依字母序1(列印版).pdf",
+      "data_structure_change": "由 [\"word\"] 改為 [{\"en\": \"word\", \"zh\": \"中文 (pos)\"}]",
+      "formatting_guide": {
+        "pattern": "中文解釋 (詞性縮寫)",
+        "pos_abbreviations": {
+          "noun": "n.",
+          "verb": "v.",
+          "adjective": "adj.",
+          "adverb": "adv.",
+          "preposition": "prep.",
+          "conjunction": "conj."
+        },
+        "examples": [
+          "morning -> 早上 (n.)",
+          "early -> 早的 (adj.)",
+          "always -> 總是 (adv.)"
+        ]
+      },
+      "note": "若有多個解釋，選取最常用且適合國中程度的定義。顯示時建議英文較大、中文較小(綠色)以利區分。"
     }
   },
   "L1": {
     "title": "Time & Frequency",
     "stages": {
       "1": [
-        "morning", "afternoon", "evening", "tonight", "yesterday", "tomorrow", "weekend",
-        "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday",
-        "calendar", "minute", "season", "winter", "summer",
-        "clock", "watch", "time", "hour", "date", "year", "month", "week",
-        "early", "late", "later", "future", "past", "now", "often", "always", "never"
+        { "en": "morning", "zh": "早上 (n.)" },
+        { "en": "afternoon", "zh": "下午 (n.)" },
+        { "en": "evening", "zh": "傍晚 (n.)" },
+        { "en": "tonight", "zh": "今晚 (n.)" },
+        { "en": "yesterday", "zh": "昨天 (n.)" },
+        { "en": "tomorrow", "zh": "明天 (n.)" },
+        { "en": "weekend", "zh": "週末 (n.)" },
+        { "en": "sunday", "zh": "星期天 (n.)" },
+        { "en": "monday", "zh": "星期一 (n.)" },
+        { "en": "tuesday", "zh": "星期二 (n.)" },
+        { "en": "wednesday", "zh": "星期三 (n.)" },
+        { "en": "thursday", "zh": "星期四 (n.)" },
+        { "en": "friday", "zh": "星期五 (n.)" },
+        { "en": "saturday", "zh": "星期六 (n.)" },
+        { "en": "calendar", "zh": "日曆 (n.)" },
+        { "en": "minute", "zh": "分 (n.)" },
+        { "en": "season", "zh": "季節 (n.)" },
+        { "en": "winter", "zh": "冬天 (n.)" },
+        { "en": "summer", "zh": "夏天 (n.)" },
+        { "en": "clock", "zh": "時鐘 (n.)" },
+        { "en": "watch", "zh": "手錶 (n.)" },
+        { "en": "time", "zh": "時間 (n.)" },
+        { "en": "hour", "zh": "小時 (n.)" },
+        { "en": "date", "zh": "日期 (n.)" },
+        { "en": "year", "zh": "年 (n.)" },
+        { "en": "month", "zh": "月份 (n.)" },
+        { "en": "week", "zh": "週 (n.)" },
+        { "en": "early", "zh": "早的 (adj.)" },
+        { "en": "late", "zh": "晚的 (adj.)" },
+        { "en": "later", "zh": "稍晚的 (adj.)" },
+        { "en": "future", "zh": "未來 (n.)" },
+        { "en": "past", "zh": "過去的 (adj.)" },
+        { "en": "now", "zh": "現在 (adv.)" },
+        { "en": "often", "zh": "經常 (adv.)" },
+        { "en": "always", "zh": "總是 (adv.)" },
+        { "en": "never", "zh": "從未 (adv.)" }
       ],
       "2": [
         "I wake up early in the morning",
