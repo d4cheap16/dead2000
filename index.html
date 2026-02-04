@@ -1378,8 +1378,16 @@ window.startGodMode = () => {
     }
 
     class Enemy {
-        constructor(word, isBoss = false) {
-            this.word = word; this.isBoss = isBoss; 
+        constructor(data, isBoss = false) {
+            if (typeof data === 'object' && data !== null && data.en) {
+                this.word = data.en;
+                this.zh = data.zh;
+            } else {
+                this.word = data;
+                this.zh = null;
+            }
+            
+            this.isBoss = isBoss; 
             this.z = (state.difficultyMode === 'Rookie' && !isBoss) ? 0.25 : 0;
             this.x = (Math.random() - 0.5) * 380; this.y = (Math.random() - 0.5) * 30;
             
@@ -2070,9 +2078,21 @@ window.startGodMode = () => {
             // labelEl.className = "text-[6px] text-zinc-600 mb-1 uppercase tracking-widest";
             
             const target = [...state.enemies].filter(e => !e.isDying).sort((a,b) => b.z - a.z)[0];
-            let t = "AWAITING...";
-            if (target) t = target.word;
-            wordEl.innerText = t; 
+            
+            if (target) {
+                if (target.zh) {
+                    // Display English + Chinese
+                    wordEl.innerHTML = `
+                        <div class="w-full">${target.word}</div>
+                        <div class="w-full text-[#4ade80] text-[12px] font-normal mt-1 tracking-wider" style="font-family: 'Noto Sans TC', sans-serif;">${target.zh}</div>
+                    `;
+                } else {
+                    // Display English only
+                    wordEl.innerText = target.word;
+                }
+            } else {
+                wordEl.innerText = "AWAITING...";
+            }
         }
     }
 
@@ -2142,11 +2162,29 @@ window.startGodMode = () => {
         if (state.isPaused) { 
             ps.classList.remove('hidden');
             const target = [...state.enemies].filter(e => !e.isDying).sort((a,b) => b.z - a.z)[0];
-            if (state.bossMode && state.bossData) targetLabel.innerText = state.bossData.words[state.bossWordIndex];
-            else if (target) targetLabel.innerText = target.word;
-            else targetLabel.innerText = "NO TARGET";
+            
+            if (state.bossMode && state.bossData) {
+                targetLabel.innerText = state.bossData.words[state.bossWordIndex];
+            } else if (target) {
+                if (target.zh) {
+                    targetLabel.innerHTML = `
+                        <div class="text-white text-[20px] font-bold mb-2">${target.word}</div>
+                        <div class="text-[#4ade80] text-[14px] font-normal" style="font-family: 'Noto Sans TC', sans-serif;">${target.zh}</div>
+                    `;
+                } else {
+                    targetLabel.innerText = target.word;
+                }
+            } else {
+                targetLabel.innerText = "NO TARGET";
+            }
+            
             if(recognition) recognition.stop(); releaseWakeLock();
-        } else { ps.classList.add('hidden'); requestAnimationFrame(gameLoop); if(recognition) try{recognition.start();}catch(e){} requestWakeLock(); }
+        } else { 
+            ps.classList.add('hidden'); 
+            requestAnimationFrame(gameLoop); 
+            if(recognition) try{recognition.start();}catch(e){} 
+            requestWakeLock(); 
+        }
     };
 
     window.speakTarget = () => {
