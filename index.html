@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <link rel="icon" href="https://d4cheap16.github.io/dead2000/zombie.png" type="image/png">
+    <link rel="icon" href="https://d4cheap16.github.io/tddt/zombie.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>Dead 2000</title>
+    <title>Dead Don't Talk</title>
     <meta name="description" content="Want to Survive? Speak!">
     <meta property="og:title" content="Dead don't talk, but you do.">
     <meta property="og:description" content="Speak, or become one of them...">
-    <meta property="og:image" content="https://d4cheap16.github.io/dead2000/opentag.png">
+    <meta property="og:image" content="https://d4cheap16.github.io/tddt/opentag.png">
     <meta property="og:type" content="website">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -187,18 +187,6 @@
             background-color: #16a34a !important; color: #000 !important;
             border-color: #4ade80 !important; font-weight: bold;
             box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
-        }
-
-        /* ★★★ Special Style for Unit 9 (Final Exam) ★★★ */
-        .lesson-final {
-            border-color: #b45309 !important; /* Dark Amber */
-            color: #fbbf24 !important; /* Amber-400 */
-        }
-        .lesson-final.lesson-active {
-            background-color: #f59e0b !important; /* Amber-500 */
-            color: #000 !important;
-            border-color: #fbbf24 !important;
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
         }
 
         /* Boss UI 基礎樣式 - 手機版改到上方 */
@@ -471,9 +459,9 @@
             <!-- Left: Visuals (Banner + Title) -->
             <div class="w-full landscape:w-2/5 flex flex-col items-center justify-center shrink-0">
                 <div class="banner-box landscape:aspect-video landscape:w-full">
-                    <img src="https://d4cheap16.github.io/dead2000/indexbanner.png" alt="Index Banner" onerror="this.style.display='none'">
+                    <img src="https://d4cheap16.github.io/tddt/indexbanner.png" alt="Index Banner" onerror="this.style.display='none'">
                 </div>
-                <h1 class="text-md mb-6 landscape:mb-0 landscape:mt-4 text-red-600 tracking-tighter flicker uppercase">Dead 2000</h1>
+                <h1 class="text-md mb-6 landscape:mb-0 landscape:mt-4 text-red-600 tracking-tighter flicker uppercase">Dead Don't Talk</h1>
             </div>
             
             <!-- Right: Controls (Menu Box) -->
@@ -504,7 +492,7 @@
             <!-- Left: Visuals -->
             <div class="w-full landscape:w-2/5 flex flex-col items-center justify-center shrink-0">
                 <div class="banner-box landscape:aspect-video landscape:w-full">
-                    <img src="https://d4cheap16.github.io/dead2000/missionbanner.png" alt="Mission Banner" onerror="this.style.display='none'">
+                    <img src="https://d4cheap16.github.io/tddt/missionbanner.png" alt="Mission Banner" onerror="this.style.display='none'">
                 </div>
                 <h2 id="selected-mission-title" class="text-blue-500 mb-6 landscape:mb-0 landscape:mt-4 text-[11px] uppercase tracking-widest">MISSION ID</h2>
             </div>
@@ -514,11 +502,11 @@
                 <p class="text-[8px] text-zinc-600 mb-1 uppercase px-1">Registration</p>
                 <div class="flex gap-2">
                     <select id="select-grade">
-                        <option value="G07">國一</option><option value="G08">國二</option><option value="G09">國三</option>
+                        <option value="G10">高一</option><option value="G11">高二</option><option value="G12">高三</option>
                     </select>
                     <select id="select-class">
                         <option value="知足">知足</option><option value="感恩">感恩</option><option value="善解">善解</option><option value="包容">包容</option>
-                        <option value="大愛">大愛</option><option value="合心">合心</option><option value="協力">協力</option><option value="外校">外校</option>
+                        <option value="大愛">大愛</option><option value="外校">外校</option>
                     </select>
                 </div>
                 <input type="number" id="input-no" placeholder="NUMBER" class="input-retro">
@@ -532,7 +520,7 @@
                 </div>
                 <div class="flex gap-2 mt-4">
                     <button onclick="backToMission()" class="btn w-1/3 text-[8px] uppercase bg-zinc-900 border-zinc-700 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300">Back</button>
-                    <button id="start-btn" onclick="handleAuth()" class="btn w-2/3 py-5 bg-green-950 border-green-700 text-green-500 hover:bg-green-900 hover:text-green-400 uppercase font-bold tracking-wider">START</button>
+                    <button id="start-btn" onclick="handleAuth()" class="btn w-2/3 py-5 bg-green-950 border-green-700 text-green-500 hover:bg-green-900 hover:text-green-400 uppercase font-bold tracking-wider">Initiate</button>
                 </div>
             </div>
         </div>
@@ -606,7 +594,7 @@
 
         <div id="weapon-layer">
             <img id="weapon-img" 
-                 src="https://d4cheap16.github.io/dead2000/gun01.png" 
+                 src="https://d4cheap16.github.io/tddt/gun01.png" 
                  alt="Weapon"
                  style="width: 60%; transform: translateY(30%);">
         </div>
@@ -642,7 +630,7 @@
 
     <div id="game-footer" class="game-credits">
         <p>Designed by CHENWEI with Gemini</p>
-        <img src="https://d4cheap16.github.io/dead2000/Gemini.png" alt="Google Gemini Logo">
+        <img src="https://d4cheap16.github.io/tddt/Gemini.png" alt="Google Gemini Logo">
     </div>
 
 </div>
@@ -650,7 +638,8 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDocs, collection, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    // ★★★ FIX: 加入 query, where, orderBy, limit 引用 ★★★
+    import { getFirestore, doc, setDoc, getDocs, collection, serverTimestamp, deleteDoc, query, where, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBF4B2Y8-e4Ifp2_9uWjKGyLItKq0QAgnE",
@@ -664,16 +653,14 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    window.fbase = { db, setDoc, doc, collection, getDocs, serverTimestamp, deleteDoc, appId: 'voice-reborn-101' };
+    // ★★★ FIX: 將 query 相關函式暴露到 window.fbase ★★★
+    window.fbase = { db, setDoc, doc, collection, getDocs, serverTimestamp, deleteDoc, query, where, orderBy, limit, appId: 'voice-reborn-101' };
     signInAnonymously(auth);
 </script>
 
 <script>
-const ADMIN_KEYS = [
-    atob("QWRhV29uZw=="), 
-    atob("amhlbndlaTEyMDc="),     
-    atob("SmFtZXM=")      
-];
+    const ADMIN_KEY = atob("QWRhV29uZw==");
+    let rankCache = {}; // ★★★ 新增快取物件 ★★★
     
     function escapeHtml(text) {
         if (!text) return text;
@@ -693,19 +680,19 @@ const ADMIN_KEYS = [
     };
 
     const BGS = [
-        "https://d4cheap16.github.io/dead2000/BG01.png", 
-        "https://d4cheap16.github.io/dead2000/BG02.png", 
-        "https://d4cheap16.github.io/dead2000/BG03.png", 
-        "https://d4cheap16.github.io/dead2000/BG04.png", 
-        "https://d4cheap16.github.io/dead2000/BG05.png"
+        "https://d4cheap16.github.io/tddt/BG01.png", 
+        "https://d4cheap16.github.io/tddt/BG02.png", 
+        "https://d4cheap16.github.io/tddt/BG03.png", 
+        "https://d4cheap16.github.io/tddt/BG04.png", 
+        "https://d4cheap16.github.io/tddt/BG05.png"
     ];
 
     const GUN_ASSETS = {
-        idle: "https://d4cheap16.github.io/dead2000/gun01.png",
-        fire: "https://d4cheap16.github.io/dead2000/gun02.png",
-        flash: "https://d4cheap16.github.io/dead2000/flash.png",
-        shotgun: "https://d4cheap16.github.io/dead2000/shotgun.png",
-        critical: "https://d4cheap16.github.io/dead2000/minigun.png",
+        idle: "https://d4cheap16.github.io/tddt/gun01.png",
+        fire: "https://d4cheap16.github.io/tddt/gun02.png",
+        flash: "https://d4cheap16.github.io/tddt/flash.png",
+        shotgun: "https://d4cheap16.github.io/tddt/shotgun.png",
+        critical: "https://d4cheap16.github.io/tddt/minigun.png",
         timer: null
     };
 
@@ -713,14 +700,14 @@ const ADMIN_KEYS = [
         'Rookie':    { startZ: 0.10, speed: 0.0015, sentencesRequired: 2 },
         'Veteran':   { startZ: 0.10, speed: 0.0016, sentencesRequired: 3 },
         'Nightmare': { startZ: 0.10, speed: 0.0019, sentencesRequired: 4 },
-        'NoHope':    { startZ: 0.45, speed: 0.0006, sentencesRequired: 5 } 
+        'NoHope':    { startZ: 0.50, speed: 0.0006, sentencesRequired: 5 } 
     };
 
     const BOSS_PHYSICS_CONFIG = {
-        'Rookie':    { hit: 0.05,  crit: 0.05, phase: 0.40, attackReset: 0.30 },
-        'Veteran':   { hit: 0.04,  crit: 0.04, phase: 0.35, attackReset: 0.25 },
-        'Nightmare': { hit: 0.03,  crit: 0.03, phase: 0.30, attackReset: 0.20 },
-        'NoHope':    { hit: 0.003, crit: 0.02, phase: 0.10, attackReset: 0.05 } 
+        'Rookie':    { hit: 0.05,  crit: 0.15, phase: 0.40, attackReset: 0.30 },
+        'Veteran':   { hit: 0.04,  crit: 0.12, phase: 0.35, attackReset: 0.25 },
+        'Nightmare': { hit: 0.03,  crit: 0.10, phase: 0.30, attackReset: 0.20 },
+        'NoHope':    { hit: 0.002, crit: 0.05, phase: 0.10, attackReset: 0.04 } 
     };
 
     const BOSS_SHAKE_CONFIG = {
@@ -760,22 +747,22 @@ const ADMIN_KEYS = [
             'NoHope':    { rewardThreshold: 12, criticalChance: 0.01, baseScore: 200, comboMultiplier: 20 }
         },
         BOSS_COMBO: {
-            'Rookie':    { rewardThreshold: 12, shotgunPush: 0.20, flashDuration: 300 },
-            'Veteran':   { rewardThreshold: 13, shotgunPush: 0.15, flashDuration: 180 },
-            'Nightmare': { rewardThreshold: 16, shotgunPush: 0.10, flashDuration: 120 },
-            'NoHope':    { rewardThreshold: 18, shotgunPush: 0.005, flashDuration: 60 }
+            'Rookie':    { rewardThreshold: 10, shotgunPush: 0.20, flashDuration: 300 },
+            'Veteran':   { rewardThreshold: 15, shotgunPush: 0.15, flashDuration: 180 },
+            'Nightmare': { rewardThreshold: 20, shotgunPush: 0.10, flashDuration: 120 },
+            'NoHope':    { rewardThreshold: 30, shotgunPush: 0.005, flashDuration: 60 }
         },
         SURVIVAL: {
-            'Rookie':    { maxHP: 7 },
-            'Veteran':   { maxHP: 6 },
-            'Nightmare': { maxHP: 5 },
-            'NoHope':    { maxHP: 4 }
+            'Rookie':    { maxHP: 6 },
+            'Veteran':   { maxHP: 5 },
+            'Nightmare': { maxHP: 4 },
+            'NoHope':    { maxHP: 3 }
         },
         THRESHOLDS: {
             'Rookie':    { deathZ: 0.85 },
             'Veteran':   { deathZ: 0.85 },
             'Nightmare': { deathZ: 0.85 },
-            'NoHope':    { deathZ: 0.80 }
+            'NoHope':    { deathZ: 0.85 }
         }
     };
 
@@ -831,7 +818,7 @@ const ADMIN_KEYS = [
         }
     };
     
-    const BOSS_TRIGGER_KILLS = { 'Rookie': 13, 'Veteran': 17, 'Nightmare': 21, 'NoHope': 25 };
+    const BOSS_TRIGGER_KILLS = { 'Rookie': 10, 'Veteran': 13, 'Nightmare': 15, 'NoHope': 20 };
 
     const sfx = {
         ctx: null,
@@ -970,7 +957,7 @@ const ADMIN_KEYS = [
 
     function initUI() {
         document.getElementById('book-grid').innerHTML = [1,2,3,4,5].map(i => 
-            `<button onclick="selectBook(${i})" class="btn book-btn ${i===1?'book-active':''}" id="b${i}">LV ${i}</button>`).join('');
+            `<button onclick="selectBook(${i})" class="btn book-btn ${i===1?'book-active':''}" id="b${i}">${['I','II','III','IV','V'][i-1]}</button>`).join('');
         
         loadBookData(1);
         
@@ -999,21 +986,10 @@ const ADMIN_KEYS = [
     function refreshLessonGrid() {
         const grid = document.getElementById('lesson-grid');
         grid.innerHTML = [1,2,3,4,5,6,7,8,9].map(i => {
-            let hasData = currentBookData && currentBookData[`L${i}`];
-            
-            // Unit 9 logic: available if book has content
-            if (i === 9 && currentBookData && Object.keys(currentBookData).length > 0) {
-                hasData = true;
-            }
-
+            const hasData = currentBookData && currentBookData[`L${i}`];
             const activeClass = i === selectedLesson ? 'lesson-active' : '';
             const emptyClass = !hasData ? 'btn-empty' : '';
-            
-            // Special styling for Unit 9
-            const finalClass = i === 9 ? 'lesson-final' : '';
-            const btnText = i === 9 ? "ALL" : i;
-
-            return `<button onclick="selectLesson(${i})" class="btn lesson-btn ${finalClass} ${activeClass} ${emptyClass}" id="l${i}">${btnText}</button>`;
+            return `<button onclick="selectLesson(${i})" class="btn lesson-btn ${activeClass} ${emptyClass}" id="l${i}">${i}</button>`;
         }).join('');
     }
 
@@ -1025,12 +1001,12 @@ const ADMIN_KEYS = [
         selectedBook = n;
         try {
             const timestamp = new Date().getTime();
-            const res = await fetch(`level${n}.json?t=${timestamp}`);
+            const res = await fetch(`book${n}.json?t=${timestamp}`);
             
             if (!res.ok) throw new Error("File not found");
             
             currentBookData = await res.json();
-            console.log(`Loaded Level ${n} successfully`);
+            console.log(`Loaded Book ${n} successfully`);
             
             refreshLessonGrid();
             checkMissionValid();
@@ -1048,58 +1024,66 @@ const ADMIN_KEYS = [
         loadBookData(n);
     };
 
+    // ★★★ FIX: 使用 Query 查詢，大幅節省讀取次數 ★★★
+    function renderRankList(container, records) {
+         if(records.length === 0) container.innerHTML = "NO RECORDS IN THIS SECTOR";
+         else container.innerHTML = records.map((r, i) => `<div class="flex justify-between"><span>#${i+1} ${r.name}</span> <span class="text-green-500 font-bold">${r.score}</span></div>`).join('');
+    }
+
     async function fetchLessonRankings(lessonId) {
+        const cacheKey = `b${selectedBook}_l${lessonId}`;
         const preview = document.getElementById('leaderboard-preview');
         const list = document.getElementById('top-records-list');
+        
+        // 1. 快取檢查
+        if (rankCache[cacheKey]) {
+            renderRankList(list, rankCache[cacheKey]);
+            preview.classList.remove('hidden');
+            return;
+        }
+
         list.innerHTML = "SEARCHING RECORDS...";
         preview.classList.remove('hidden');
 
         try {
-            const { db, appId, collection, getDocs } = window.fbase;
-            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores_2K'));
+            // 從 window.fbase 解構出需要的工具
+            const { db, appId, collection, getDocs, query, where, orderBy, limit } = window.fbase;
+            
+            // 2. 伺服器端過濾查詢
+            const q = query(
+                collection(db, 'artifacts', appId, 'public', 'data', 'scores'),
+                where("book", "==", selectedBook),
+                where("lesson", "==", lessonId),
+                orderBy("score", "desc"), 
+                limit(5) // 取前5名，預留一些被Admin過濾掉的空間
+            );
+
+            const snap = await getDocs(q);
             let records = [];
             snap.forEach(d => {
                 const data = d.data();
-         if(data.book == selectedBook && data.lesson == lessonId && !ADMIN_KEYS.includes(data.name)) records.push(data);
+                if(data.name !== ADMIN_KEY) records.push(data);
             });
-            records.sort((a, b) => b.score - a.score);
-            const top3 = records.slice(0, 3);
-            if(top3.length === 0) list.innerHTML = "NO RECORDS IN THIS SECTOR";
-            else list.innerHTML = top3.map((r, i) => `<div class="flex justify-between"><span>#${i+1} ${r.name}</span> <span class="text-green-500 font-bold">${r.score}</span></div>`).join('');
-        } catch (e) { list.innerHTML = "UNABLE TO LOAD RECORDS"; }
+            
+            // 取前3名
+            records = records.slice(0, 3);
+            
+            // 3. 寫入快取
+            rankCache[cacheKey] = records;
+
+            renderRankList(list, records);
+        } catch (e) { 
+            console.error(e); 
+            if (e.message && e.message.includes("requires an index")) {
+                console.log("%c 請點擊 Console 中的連結以建立 Firebase 索引", "color: red; font-size: 16px; font-weight: bold;");
+            }
+            list.innerHTML = "UNABLE TO LOAD RECORDS"; 
+        }
     }
 
     window.selectLesson = (n) => {
         if (!currentBookData) return;
         
-        // --- AUTO-GENERATE UNIT 9 ---
-        if (n === 9) {
-            let allWords = [];
-            let allSentences = [];
-            
-            for (let i = 1; i <= 8; i++) {
-                if (currentBookData[`L${i}`] && currentBookData[`L${i}`].stages) {
-                    if (currentBookData[`L${i}`].stages["1"]) {
-                        allWords = allWords.concat(currentBookData[`L${i}`].stages["1"]);
-                    }
-                    if (currentBookData[`L${i}`].stages["2"]) {
-                        allSentences = allSentences.concat(currentBookData[`L${i}`].stages["2"]);
-                    }
-                }
-            }
-
-            if (allWords.length > 0) {
-                currentBookData[`L9`] = {
-                    title: "SECTOR FINAL EXAM",
-                    stages: {
-                        "1": allWords,
-                        "2": allSentences
-                    }
-                };
-            }
-        }
-        // -----------------------------
-
         const data = currentBookData[`L${n}`];
         const targetDisplay = document.getElementById('mission-target-display');
         
@@ -1108,13 +1092,11 @@ const ADMIN_KEYS = [
             targetDisplay.classList.remove('text-green-400');
             targetDisplay.classList.add('text-red-500');
             document.getElementById('leaderboard-preview').classList.add('hidden');
-            document.getElementById('confirm-mission-btn').disabled = true;
             return;
         }
         selectedLesson = n;
         document.querySelectorAll('.lesson-btn').forEach(b => b.classList.remove('lesson-active'));
         document.getElementById(`l${n}`).classList.add('lesson-active');
-        
         checkMissionValid();
         fetchLessonRankings(n);
     };
@@ -1155,14 +1137,13 @@ const ADMIN_KEYS = [
         document.getElementById('mission-screen').classList.remove('hidden');
     };
 
-window.handleAuth = async () => {
-    const nameInput = document.getElementById('input-name').value.trim();
-    // 修改：檢查輸入的名字是否在我們的管理員清單內
-    if(ADMIN_KEYS.includes(nameInput)) {
-        document.getElementById('login-screen').classList.add('hidden');
-        showAdmin();
-        return;
-    }
+    window.handleAuth = async () => {
+        const nameInput = document.getElementById('input-name').value.trim();
+        if(nameInput === ADMIN_KEY) {
+            document.getElementById('login-screen').classList.add('hidden');
+            showAdmin();
+            return;
+        }
         const grade = document.getElementById('select-grade').value;
         const className = document.getElementById('select-class').value;
         const no = document.getElementById('input-no').value.trim();
@@ -1182,11 +1163,11 @@ window.handleAuth = async () => {
         
         try {
             const { db, appId, collection, getDocs } = window.fbase;
-            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores_2K'));
+            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores'));
             let res = []; 
             snap.forEach(d => {
                 const data = d.data();
-                if (!ADMIN_KEYS.includes(data.name)) res.push(data);
+                if (data.name !== ADMIN_KEY) res.push(data);
             });
             res.sort((a, b) => {
                 const timeA = a.timestamp ? a.timestamp.seconds : 0;
@@ -1250,11 +1231,11 @@ window.handleAuth = async () => {
         document.body.removeChild(link);
     };
 
-window.startGodMode = () => {
-    document.getElementById('admin-screen').classList.add('hidden');
-    state.player = { name: ADMIN_KEYS[1], no: "00", class: "GOD MODE" }; 
-    startGame();
-};
+    window.startGodMode = () => {
+        document.getElementById('admin-screen').classList.add('hidden');
+        state.player = { name: ADMIN_KEY, no: "00", class: "GOD MODE" };
+        startGame();
+    };
 
     function executeReward(key) {
         const conf = REWARD_CONFIG[key];
@@ -1299,8 +1280,8 @@ window.startGodMode = () => {
         }
         const { db, appId, collection, getDocs, deleteDoc, doc } = window.fbase;
         try {
-            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores_2K'));
-            for(let d of snap.docs) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores_2K', d.id));
+            const snap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'scores'));
+            for(let d of snap.docs) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores', d.id));
             clearConfirm = false; showAdmin();
         } catch (e) { btn.innerText = "ERROR"; }
     };
@@ -1560,7 +1541,7 @@ window.startGodMode = () => {
                     ctx.restore();
                 }
 
-                if (ADMIN_KEYS.includes(state.player.name)) {
+                if (state.player.name === ADMIN_KEY) {
                     ctx.font = `8px monospace`; ctx.fillStyle = "#0f0"; ctx.textAlign = "center";
                     ctx.fillText(`GOD MODE: ON`, 0, -size * 1.6);
                 }
@@ -1899,7 +1880,7 @@ window.startGodMode = () => {
         const shakeConf = DAMAGE_SHAKE_CONFIG[state.difficultyMode] || DAMAGE_SHAKE_CONFIG['Veteran'];
         const physics = BOSS_PHYSICS_CONFIG[state.difficultyMode] || BOSS_PHYSICS_CONFIG['Veteran'];
         
-        if (ADMIN_KEYS.includes(state.player.name)) {
+        if (state.player.name === ADMIN_KEY) {
             state.shake = 10;
             state.shakeDecay = 0.8; 
             sfx.damage(); 
@@ -2035,12 +2016,12 @@ window.startGodMode = () => {
     }
 
     async function syncData() {
-        if (ADMIN_KEYS.includes(state.player.name)) return;
+        if (state.player.name === ADMIN_KEY) return;
 
         try {
             const { db, appId, setDoc, doc, serverTimestamp } = window.fbase;
             const rid = `${state.player.class}_${state.player.no}_${Date.now()}`;
-            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores_2K', rid), {
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'scores', rid), {
                 ...state.player, score: Math.floor(state.score), difficulty: state.difficultyMode, book: selectedBook, lesson: selectedLesson, timestamp: serverTimestamp()
             });
         } catch(e){}
@@ -2055,8 +2036,8 @@ window.startGodMode = () => {
         if (currentBookData && currentBookData[`L${selectedLesson}`]) { title = currentBookData[`L${selectedLesson}`].title; }
         el.innerHTML = `
             <div class="grid grid-cols-[35%_65%] gap-1 text-[9px] uppercase tracking-wider font-bold text-left">
-                <div class="text-zinc-500">MISSION</div><div class="text-blue-400">LEVEL ${selectedBook} - ${title}</div>
-                <div class="text-zinc-500">MODE</div><div class="text-red-400">${state.difficultyMode}</div>
+                <div class="text-zinc-500">MISSION</div><div class="text-blue-400">Book ${selectedBook} - ${title}</div>
+                <div class="text-zinc-500">LEVEL</div><div class="text-red-400">${state.difficultyMode}</div>
                 <div class="text-zinc-500">UNIT</div><div class="text-white">${state.player.class}</div>
                 <div class="text-zinc-500">AGENT</div><div class="text-white">${state.player.no}. ${state.player.name}</div>
                 <div class="text-zinc-500">DATE</div><div class="text-zinc-400">${dateStr}</div>
