@@ -473,7 +473,11 @@
                 <div class="banner-box landscape:aspect-video landscape:w-full">
                     <img src="https://d4cheap16.github.io/dead2000/indexbanner.png" alt="Index Banner" onerror="this.style.display='none'">
                 </div>
-                <h1 class="text-md mb-6 landscape:mb-0 landscape:mt-4 text-red-600 tracking-tighter flicker uppercase">Dead 2000</h1>
+                <h1 class="text-md mb-2 landscape:mb-0 landscape:mt-4 text-red-600 tracking-tighter flicker uppercase">Dead 2000</h1>
+                <!-- ★ 新增的 How To Play 按鈕 -->
+                <button onclick="showHowToPlay()" class="btn mb-4 landscape:mt-3 w-8 h-8 p-0 flex items-center justify-center text-yellow-500 bg-yellow-950/60 border-yellow-600 hover:bg-yellow-900 shadow-[0_0_10px_rgba(202,138,4,0.3)]" title="How to play">
+                    <span class="text-[12px] animate-pulse">?</span>
+                </button>
             </div>
             
             <!-- Right: Controls (Menu Box) -->
@@ -536,6 +540,42 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- ★ 修改：獨立的 How To Play 彈出視窗 (加入響應式字體與排版) -->
+    <div id="how-to-play-screen" class="overlay-screen hidden z-[250]">
+        <div class="w-full max-w-sm md:max-w-2xl text-left border-l-4 border-yellow-600 pl-4 md:pl-6 mb-8 md:mb-12">
+            <h1 class="text-yellow-500 text-lg md:text-3xl font-bold tracking-widest mb-2 md:mb-4 uppercase">Survival Guide</h1>
+            <p class="text-[8px] md:text-xs text-zinc-400 uppercase tracking-widest">How to survive the outbreak</p>
+        </div>
+
+        <div class="bg-black p-5 md:p-10 border border-zinc-800 w-full max-w-sm md:max-w-2xl rounded-lg text-left mb-6 md:mb-10 space-y-4 md:space-y-8">
+            <div class="flex items-start gap-3 md:gap-5">
+                <span class="text-yellow-500 text-[10px] md:text-lg mt-1 md:mt-0.5">[!]</span>
+                <div>
+                    <p class="text-[10px] md:text-lg text-white font-bold mb-1 md:mb-2">MIC REQUIRED</p>
+                    <p class="text-[8px] md:text-base text-zinc-400 font-sans tracking-wide leading-relaxed">請務必允許瀏覽器存取您的麥克風。沒有通訊設備，您無法存活。</p>
+                </div>
+            </div>
+            
+            <div class="flex items-start gap-3 md:gap-5">
+                <span class="text-green-500 text-[10px] md:text-lg mt-1 md:mt-0.5">[!]</span>
+                <div>
+                    <p class="text-[10px] md:text-lg text-white font-bold mb-1 md:mb-2">SPEAK TO SHOOT</p>
+                    <p class="text-[8px] md:text-base text-zinc-400 font-sans tracking-wide leading-relaxed">清晰唸出目標身上的單字，系統將自動鎖定並開火。</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-3 md:gap-5">
+                <span class="text-red-500 text-[10px] md:text-lg mt-1 md:mt-0.5">[!]</span>
+                <div>
+                    <p class="text-[10px] md:text-lg text-white font-bold mb-1 md:mb-2">BOSS ENCOUNTER</p>
+                    <p class="text-[8px] md:text-base text-zinc-400 font-sans tracking-wide leading-relaxed">遭遇高威脅目標時，需依序唸出畫面上方的完整句型才能造成傷害。</p>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="hideHowToPlay()" class="btn py-5 md:py-6 bg-zinc-900 border-zinc-700 text-zinc-400 uppercase font-bold tracking-wider hover:bg-zinc-700 hover:text-white w-full max-w-sm md:max-w-2xl !text-[10px] md:!text-sm">CLOSE</button>
     </div>
 
     <!-- Admin Screen (Updated) -->
@@ -684,7 +724,11 @@
     const db = getFirestore(app);
     // Added query, where, orderBy, limit to window.fbase for optimization
     window.fbase = { db, setDoc, doc, collection, getDocs, serverTimestamp, deleteDoc, query, where, orderBy, limit, appId: 'voice-reborn-101' };
-    signInAnonymously(auth);
+    
+    // ★★★ 捕捉登入錯誤，以防止因為預覽環境網域未受 Firebase 允許而跳出全域錯誤 ★★★
+    signInAnonymously(auth).catch(err => {
+        console.warn("Firebase 登入受限，可能是預覽環境未授權。線上功能暫時關閉。", err);
+    });
 </script>
 
 <script>
@@ -1006,6 +1050,15 @@ const ADMIN_KEYS = [
         }
     }
 
+    // ★ 新增：控制說明視窗的開啟與關閉
+    window.showHowToPlay = () => {
+        document.getElementById('how-to-play-screen').classList.remove('hidden');
+    };
+
+    window.hideHowToPlay = () => {
+        document.getElementById('how-to-play-screen').classList.add('hidden');
+    };
+
     function loadSavedProfile() {
         const saved = localStorage.getItem('vofd_profile');
         if (saved) {
@@ -1048,7 +1101,8 @@ const ADMIN_KEYS = [
         selectedBook = n;
         try {
             const timestamp = new Date().getTime();
-            const res = await fetch(`level${n}.json?t=${timestamp}`);
+            // ★★★ FIX: Changed from relative URL to absolute URL to avoid parsing errors in iframe/preview environment
+            const res = await fetch(`https://d4cheap16.github.io/dead2000/level${n}.json?t=${timestamp}`);
             
             if (!res.ok) throw new Error("File not found");
             
